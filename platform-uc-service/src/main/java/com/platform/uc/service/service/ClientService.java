@@ -24,18 +24,7 @@ public class ClientService {
      * 通过登录信息获取用户信息
      */
     public ClientResponse selectClientById(String clientId){
-//        Client client = clientMapper.selectById(clientId);
-        // authorization_code implicit password client_credentials refresh_token
-        Client client = new Client();
-        client.setId("123456");
-        // 123456
-        client.setSecret("$2a$10$CILXQ8p57gChZZYeNvbieeqg8iV7G65ChNMyHq1c6tyFXhQLkuo02");
-        client.setRedirectUrls("http://www.baidu.com/");
-        client.setGrantTypes("authorization_code,implicit,password,client_credentials,refresh_token");
-        client.setAccessTokenValiditySeconds(72000);
-        client.setRefreshTokenValiditySeconds(144000);
-        client.setScope("READ");
-        client.setAuthorities("ADMIN");
+        Client client = clientMapper.selectById(clientId);
         log.info("{}", client);
         return toClientResponse(client);
     }
