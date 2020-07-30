@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.ztkj</groupId>
+        <artifactId>framework-dependencies-starter-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+
+    <groupId>org.example</groupId>
+    <artifactId>platform-uc</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>platform-auth</module>
+        <module>platform-login</module>
+        <module>platform-uc-service</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>zt-public</id>
+            <name>zt public</name>
+            <url>http://58.220.249.165:8081/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>zt-releases</id>
+            <url>http://58.220.249.165:8081/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>zt-snapshots</id>
+            <url>http://58.220.249.165:8081/repository/maven-snapshots/</url>
+        </repository>
+    </repositories>
+
+</project>
