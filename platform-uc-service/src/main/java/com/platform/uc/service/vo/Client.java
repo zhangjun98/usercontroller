@@ -31,6 +31,7 @@ public class Client implements Serializable {
     /**
      * 资源ID集合,多个资源时用逗号(,)分隔
      */
+    @TableField("resource_ids")
     private String resourceIds;
 
     /**
@@ -41,11 +42,13 @@ public class Client implements Serializable {
     /**
      * 授权类型
      */
+    @TableField("grant_types")
     private String grantTypes;
 
     /**
      * 注册回调地址
      */
+    @TableField("redirect_urls")
     private String redirectUrls;
 
     /**
@@ -56,21 +59,25 @@ public class Client implements Serializable {
     /**
      * 访问令牌有效期
      */
+    @TableField("access_token_validity_seconds")
     private Integer accessTokenValiditySeconds;
 
     /**
      * 刷新令牌有效期
      */
+    @TableField("refresh_token_validity_seconds")
     private Integer refreshTokenValiditySeconds;
 
     /**
      * 预留字段
      */
+    @TableField("additional_information")
     private String additionalInformation;
 
     /**
      * 自动开启范围
      */
+    @TableField("auto_approve_scopes")
     private String autoApproveScopes;
 
     @TableField("create_time")
