@@ -1,6 +1,6 @@
 spring:
   application:
-    name: platform-dc-service
+    name: platform-uc-adapter
   profiles:
     active: local
   main:
