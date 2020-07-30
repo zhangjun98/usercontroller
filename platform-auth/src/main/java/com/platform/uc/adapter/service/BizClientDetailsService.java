@@ -2,6 +2,7 @@ package com.platform.uc.adapter.service;
 
 import com.platform.uc.adapter.vo.OAuthClient;
 import com.platform.uc.api.RemoteClientService;
+import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
@@ -24,6 +26,10 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.stream.Collectors.toSet;
 
+/**
+ * client service
+ * @author hao.yan
+ */
 @Slf4j
 @Service
 public class BizClientDetailsService implements ClientDetailsService {
@@ -31,6 +37,9 @@ public class BizClientDetailsService implements ClientDetailsService {
     private static final String CLIENT_KEY = "uwo:clients:";
 
     private static final Long CLIENT_TIME = 30 * 60 * 1000L;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -56,7 +65,6 @@ public class BizClientDetailsService implements ClientDetailsService {
 
     private OAuthClient toOAuthClient(ClientResponse client){
         log.info("client = {}", client);
-
         OAuthClient authClient = new OAuthClient();
         authClient.setClientId(client.getId());
         authClient.setClientSecret(client.getSecret());
@@ -80,5 +88,16 @@ public class BizClientDetailsService implements ClientDetailsService {
         authClient.setScope(scope);
         return authClient;
     }
+
+    /**
+     * 保存client信息
+     */
+    public void saveClientDetails(){
+        ClientRequest client = new ClientRequest();
+        client.setId("");
+        client.setSecret(passwordEncoder.encode(""));
+        remoteClientService.save(client);
+    }
+
 
 }

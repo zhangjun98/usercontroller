@@ -1,5 +1,6 @@
 package com.platform.uc.service.service;
 
+import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.platform.uc.service.mapper.ClientMapper;
 import com.platform.uc.service.vo.Client;
@@ -19,6 +20,15 @@ public class ClientService {
 
     @Resource
     private ClientMapper clientMapper;
+
+    /**
+     * 保存
+     */
+    public void save(ClientRequest request){
+        Client client = new Client();
+        BeanUtils.copyProperties(request, client);
+        clientMapper.insert(client);
+    }
 
     /**
      * 通过登录信息获取用户信息
