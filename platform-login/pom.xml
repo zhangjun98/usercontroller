@@ -85,6 +85,7 @@
                                     <!--因为vue-cli打包的目录在项目的根目录，所以从这里复制-->
                                     <directory>${basedir}/dist</directory>
                                     <includes>
+                                        <include>fonts/</include>
                                         <include>css/</include>
                                         <include>img/</include>
                                         <include>js/</include>
