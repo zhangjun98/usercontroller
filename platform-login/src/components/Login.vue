@@ -54,7 +54,6 @@
                             <el-form-item>
                                 <el-button class="login-btn" type="primary" @click="submitLogin">立即登录</el-button>
                                 <span class="err-msg">{{ errorMessage }}</span>
-                                <span class="err-msg">{{ successMessage }}</span>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -65,9 +64,8 @@
 </template>
 
 <script>
-import { getEncryptCode, getQueryVariable, addUrlParam } from '../utils/login'
+import { getEncryptCode } from '../utils/login'
 import api from '../api/login'
-import Cookies from 'js-cookie'
 
 const publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCEbxUXjnRh2m1k0M1XHfNEj3WaNnhHTxit1VTW0fbGbX3MfuNPwRr86Slo7tE4RLwM5tuMVXG9QFQVzTYj6xG2hZbx3rSniGF5IXAfp/VoPH5W//XFepXdU2HVxX1tyyE1BsABEg2J15x5uAuNv4jqX11PINdStRwmV2AHMo3CewIDAQAB'
 
@@ -123,17 +121,7 @@ export default {
                         username: this.model.username,
                         password: this.model.password
                     }).then(res => {
-                        const rsp = res.data
-                        if (rsp.code === '000000') {
-                            const token = rsp.data.accessToken
-                            Cookies.set('ztt', token, { path: '/' })
-                            const redirectUrl = getQueryVariable('redirect')
-                            if (redirectUrl) {
-                                location.href = addUrlParam(redirectUrl, 'token', token)
-                            } else {
-                                location.href = addUrlParam(this.$conf.defaultRedirectUrl, 'token', token)
-                            }
-                        } else {
+                        if (res.status !== 200) {
                             this.errorMessage = '登录失败！用户名或密码错误'
                         }
                     }).catch(err => {
