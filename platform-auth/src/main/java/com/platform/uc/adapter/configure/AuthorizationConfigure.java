@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import javax.annotation.Resource;
 
 /**
+ * OAuth2.0授权配置
  * @author hao.yan
  */
 @Configuration
@@ -92,7 +93,10 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()");
-        security.checkTokenAccess("permitAll()");
+        security.checkTokenAccess("permitAll()")
+                // 设置密码加密
+                // .passwordEncoder()
+        ;
         // 支持client_id以及client_secret作登录认证
         security.allowFormAuthenticationForClients();
         security.authenticationEntryPoint(customOAuth2AuthenticationEntryPoint);

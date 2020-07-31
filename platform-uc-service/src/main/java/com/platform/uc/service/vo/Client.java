@@ -29,6 +29,12 @@ public class Client implements Serializable {
     private String secret;
 
     /**
+     * 开发者编号
+     */
+    @TableField("developer_id")
+    private String developerId;
+
+    /**
      * 资源ID集合,多个资源时用逗号(,)分隔
      */
     @TableField("resource_ids")

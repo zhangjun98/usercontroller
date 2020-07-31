@@ -74,13 +74,14 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 //                .and()
                 .authorizeRequests()
-//                .antMatchers("/","/index.html","/static/**").permitAll()
+                .antMatchers("/","/index.html","/fonts/**","/css/**","/js/**", "/img/**").permitAll()
 //                // 监控端点内部放行
 //                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .loginPage("/").loginProcessingUrl("/login")
+                .loginPage("/")
+//                .loginProcessingUrl("/login")
                 .successHandler(authenticationHandler)
                 .failureHandler(authenticationHandler)
 //                .successForwardUrl("/")
@@ -110,7 +111,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/assets/**");
+        web.ignoring().antMatchers("/static/**");
     }
 
 }
