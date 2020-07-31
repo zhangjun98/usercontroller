@@ -28,13 +28,15 @@
                         <img src="../assets/logo.png" />智慧广陵统一登录平台
                     </div>
                     <div class="content">
-                        <el-form ref="myForm" :model="model" :rules="rules">
+                        <el-form ref="myForm" :model="model" :rules="rules" method="post" action="/login">
                             <el-form-item prop="username">
-                                <el-input v-model="model.username" placeholder="请输入用户名" prefix-icon="el-icon-user" />
+                                <el-input id="username" v-model="model.username" name="username" placeholder="请输入用户名" prefix-icon="el-icon-user" />
                             </el-form-item>
                             <el-form-item prop="password">
                                 <el-input
+                                    id="password"
                                     v-model="model.password"
+                                    name="password"
                                     type="password"
                                     placeholder="请输入密码"
                                     prefix-icon="el-icon-lock"
@@ -52,7 +54,7 @@
                                 </el-col>
                             </el-row>
                             <el-form-item>
-                                <el-button class="login-btn" type="primary" @click="submitLogin">立即登录</el-button>
+                                <el-button class="login-btn" type="primary" native-type="submit ">立即登录</el-button>
                                 <span class="err-msg">{{ errorMessage }}</span>
                             </el-form-item>
                         </el-form>
