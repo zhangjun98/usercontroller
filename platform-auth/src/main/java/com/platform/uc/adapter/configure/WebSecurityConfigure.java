@@ -15,8 +15,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.util.CollectionUtils;
@@ -67,39 +67,31 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                     .forEach(url -> registry.antMatchers(url).permitAll());
         }
         http
-                .httpBasic().authenticationEntryPoint(new BizAuthExceptionEntryPoint())
+                .httpBasic()
+                    .authenticationEntryPoint(new BizAuthExceptionEntryPoint())
                 .and()
-                // 设置成为无状态
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                .and()
-                .authorizeRequests()
-                .antMatchers("/","/index.html","/fonts/**","/css/**","/js/**", "/img/**").permitAll()
-//                // 监控端点内部放行
-//                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                .anyRequest().authenticated()
+                    // 设置成为无状态
+    //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
-                .formLogin()
-                .loginPage("/").loginProcessingUrl("/login")
-                .successHandler(authenticationHandler)
-                .failureHandler(authenticationHandler)
-//                .successForwardUrl("/")
-//                .formLogin().loginPage("/").failureUrl("/?error").permitAll()
+                    .authorizeRequests()
+    //                // 监控端点内部放行
+    //                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .logout().permitAll()
-                // /logout退出清除cookie
-                .addLogoutHandler(new CookieClearingLogoutHandler("token", "remember-me"))
-                .logoutSuccessHandler(logoutSuccessHandler)
+                    .formLogin()
+                    .loginPage("/").loginProcessingUrl("/login")
+                    .successHandler(authenticationHandler)
+                    .failureHandler(authenticationHandler)
                 .and()
-                // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。
-                .exceptionHandling()
-                .accessDeniedHandler(new BizAccessDeniedHandler())
-//                .authenticationEntryPoint(new UwoAuthenticationEntryPoint())
+                    .logout().permitAll()
+                    // /logout退出清除cookie
+                    .addLogoutHandler(new CookieClearingLogoutHandler("token", "remember-me"))
+                    .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
-                .cors().disable()
-                .csrf().disable();
-        // 禁用httpBasic
-//                .httpBasic().disable();
+                    // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。
+                    .exceptionHandling().accessDeniedHandler(new BizAccessDeniedHandler())
+                .and().cors().disable().csrf().disable();
     }
 
 

@@ -69,6 +69,7 @@ public class BizUserDetailsService implements UserDetailsService {
     private UserDetails toUserDetails(UserResponse user){
         OAuthUser auth = new OAuthUser();
         auth.setId(user.getId());
+        auth.setMid(user.getMember().getId());
         auth.setUsername(user.getUsername());
         auth.setPassword(user.getPassword());
         List<GrantedAuthority> authorities = new ArrayList<>();

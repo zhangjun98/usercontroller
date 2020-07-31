@@ -18,10 +18,15 @@ public class User implements Serializable {
     private static final long serialVersionUID = 8802724222925902827L;
 
     /**
-     * 用户编号
+     * 账户编号
      */
     @TableId
     private String id;
+
+    /**
+     * 用户编号
+     */
+    private String mid;
 
     /**
      * 账户名

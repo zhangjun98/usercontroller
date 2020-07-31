@@ -3,6 +3,8 @@ package com.platform.uc.api;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,5 +20,11 @@ public interface RemoteUserService {
      */
     @PostMapping("/account")
     BizResponse<UserResponse> selectUserByLogin(@RequestParam("accountName") String accountName);
+
+    /**
+     * 通过用户信息编号查询用户信息
+     */
+    @GetMapping("/{mid}")
+    BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid);
 
 }

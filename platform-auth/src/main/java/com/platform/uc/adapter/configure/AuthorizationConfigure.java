@@ -5,6 +5,7 @@ import com.platform.uc.adapter.handler.CustomWebResponseExceptionTranslator;
 import com.platform.uc.adapter.service.AuthorizationCodeService;
 import com.platform.uc.adapter.service.BizClientDetailsService;
 import com.platform.uc.adapter.store.BizTokenStore;
+import com.ztkj.framework.common.authorization.handler.BizAccessDeniedHandler;
 import com.ztkj.framework.common.authorization.handler.FrameworkAccessTokenConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,10 +62,14 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore).allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+        endpoints.tokenStore(tokenStore)
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                // 认证管理器
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(accessTokenConverter())
+                // 令牌管理服务
                 .tokenServices(createDefaultTokenServices())
+                // 授权码服务
                 .authorizationCodeServices(authorizationCodeService);
         // 自定义异常转换类
         endpoints.exceptionTranslator(new CustomWebResponseExceptionTranslator());
@@ -94,6 +99,7 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()");
         security.checkTokenAccess("permitAll()")
+//                .accessDeniedHandler(new BizAccessDeniedHandler())
                 // 设置密码加密
                 // .passwordEncoder()
         ;

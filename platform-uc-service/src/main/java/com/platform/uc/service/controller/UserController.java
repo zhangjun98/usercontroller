@@ -40,4 +40,12 @@ public class UserController {
         return BizResponseUtils.success();
     }
 
+    /**
+     * 通过mid获取用户信息与账户信息
+     */
+    @GetMapping("/{mid}")
+    public BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid){
+        return BizResponseUtils.success(userService.selectByMid(mid));
+    }
+
 }

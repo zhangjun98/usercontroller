@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * 用户信息返回
@@ -19,7 +20,10 @@ public class UserResponse implements Serializable {
      */
     private String id;
 
-    private Long mid;
+    /**
+     * 用户编号
+     */
+    private MemberResponse member;
 
     /**
      * 显示名称
@@ -60,5 +64,9 @@ public class UserResponse implements Serializable {
      * 账户是否启动
      */
     private boolean enabled;
+
+    private Date createTime;
+
+    private Date updateTime;
 
 }
