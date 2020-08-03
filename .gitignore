@@ -4,3 +4,5 @@
 .mvn
 target
 *.iml
+*/node_modules
+*/lib
