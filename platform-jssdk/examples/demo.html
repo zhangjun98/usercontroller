@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.js"></script>-->
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+<!--    <script src="https://cdn.bootcss.com/js-cookie/2.2.0/js.cookie.js"></script>-->
+    <script src="../lib/jssdk.umd.js"></script>
+</head>
+<body>
+
+</body>
+<button onclick="test()">test</button>
+<button onclick="test2()">test2</button>
+<button onclick="test3()">test2</button>
+<div id="result"></div>
+<script>
+    console.log(location)
+    function test() {
+        JsSdk.config({
+            appId:"123456",
+            appSecret: "123456"
+        }).oauth.authorize();
+    }
+
+    function test2() {
+
+    }
+
+    function test3(){
+
+    }
+</script>
+</html>

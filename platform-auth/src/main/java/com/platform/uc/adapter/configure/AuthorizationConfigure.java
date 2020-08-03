@@ -1,5 +1,6 @@
 package com.platform.uc.adapter.configure;
 
+import com.platform.uc.adapter.handler.BizRedirectResolver;
 import com.platform.uc.adapter.handler.CustomOAuth2AuthenticationEntryPoint;
 import com.platform.uc.adapter.handler.CustomWebResponseExceptionTranslator;
 import com.platform.uc.adapter.service.AuthorizationCodeService;
@@ -12,11 +13,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.endpoint.RedirectResolver;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 
 import javax.annotation.Resource;
@@ -70,7 +74,9 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
                 // 令牌管理服务
                 .tokenServices(createDefaultTokenServices())
                 // 授权码服务
-                .authorizationCodeServices(authorizationCodeService);
+                .authorizationCodeServices(authorizationCodeService)
+                // 匹配跳转路由是否安全
+                .redirectResolver(new BizRedirectResolver());
         // 自定义异常转换类
         endpoints.exceptionTranslator(new CustomWebResponseExceptionTranslator());
     }

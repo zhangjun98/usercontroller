@@ -1,8 +1,7 @@
 {
   "name": "platform-jssdk",
   "version": "0.0.1",
-  "description": "jssdk",
-  "main": "lib/index.js",
+  "main": "lib/jssdk.js",
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint src/**/*.js --fix"
@@ -10,8 +9,10 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "axios": "^0.19.0",
-    "js-cookie": "^2.2.0",
-    "qs": "^6.7.0"
+    "js-base64": "^3.4.3",
+    "js-cookie": "^2.2.1",
+    "qs": "^6.7.0",
+    "rollup": "^2.23.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
