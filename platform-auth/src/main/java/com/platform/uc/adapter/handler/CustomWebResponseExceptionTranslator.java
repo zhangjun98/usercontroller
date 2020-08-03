@@ -24,6 +24,16 @@ public class CustomWebResponseExceptionTranslator implements WebResponseExceptio
 
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) {
+//
+//        ResponseEntity<OAuth2Exception> responseEntity = super.translate(e);
+//        OAuth2Exception body = responseEntity.getBody();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setAll(responseEntity.getHeaders().toSingleValueMap());
+//        headers.set("Access-Control-Allow-Origin", "*");
+//        headers.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
+//        headers.set("Access-Control-Max-Age", "3600");
+//        headers.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//        return new ResponseEntity<>(body, headers, responseEntity.getStatusCode());
 
 //        // Try to extract a SpringSecurityException from the stacktrace
 //        Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);

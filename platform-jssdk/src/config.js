@@ -15,9 +15,9 @@ export const config = {
 
     oauth: {
 
-        baseURL: 'http://2.151.251.111:4000/oauth',
+        baseURL: 'http://localhost:4000/oauth',
 
-        authorizeUrl: 'http://2.151.251.111:4000/oauth/authorize',
+        authorizeUrl: 'http://localhost:4000/oauth/authorize',
 
         accessTokenUrl: '/token',
 

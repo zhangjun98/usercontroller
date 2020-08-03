@@ -12,7 +12,8 @@ export default class OAuth {
         this.options = options;
         const ajaxOptions = Object.assign({}, {
             baseURL: config.oauth.baseURL,
-            withCredentials: true
+            crossDomain: true,
+            // withCredentials: true
             // transformRequest:[(data)=>{
             //
             // }]
@@ -25,14 +26,17 @@ export default class OAuth {
      * 授权
      */
     authorize(scope){
+        console.log(scope)
         // 获取token
         const token = Cookies.get('ztt');
+        console.log(token)
         if (token){
             return;
         }
         const queryStr = location.search.substring(1);
         const params = Qs.parse(queryStr);
         if (params.code){
+            console.log(params)
             this.generateToken(params.code);
             return;
         }
@@ -62,18 +66,37 @@ export default class OAuth {
         const basic = Base64.encode(str);
         console.log(basic)
         const headers = {
-            'Authorization': 'Basic ' + basic,
-            'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime()
+            // 'Authorization': 'Basic ' + basic,
+            'Content-Type': 'application/x-www-form-urlencoded'
+            // 'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime()
         };
         let formData = new FormData();
         formData.append("code", code);
         formData.append("grant_type", 'authorization_code');
         formData.append("redirect_uri", 'http://www.baidu.com/');
-       this.ajax.axios.post(
-           config.oauth.accessTokenUrl,
-           formData ,
-           {headers: headers}
-       ).then(res=>{
+        this.ajax.axios({
+            url: config.oauth.accessTokenUrl,
+            method: 'post',
+            data: {
+                code: code,
+                redirect_uri: 'http://www.baidu.com/',
+                grant_type: 'authorization_code',
+                client_id: this.options.appId,
+                client_secret: this.options.appSecret
+            },
+            headers: headers,
+            transformRequest: [(data) => Qs.stringify(data)]
+        })
+       // this.ajax.axios.post(
+       //     config.oauth.accessTokenUrl,
+       //     formData ,
+       //     {
+       //         headers: headers,
+       //         'xhrFields' : {withCredentials: true},
+       //         crossDomain: true
+       //     }
+       // )
+           .then(res=>{
            console.log(res)
        }).catch(err=>{
            console.log(err)

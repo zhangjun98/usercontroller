@@ -9,6 +9,7 @@ import com.ztkj.framework.common.authorization.handler.BizAuthExceptionEntryPoin
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.cors.CorsUtils;
 
 import javax.annotation.Resource;
 
@@ -74,7 +76,14 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
+                .cors().and()
+                .csrf().disable()
+                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")
+                .and()
+
                     .authorizeRequests()
+                    // 放开option请求
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
     //                // 监控端点内部放行
     //                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                     .anyRequest().authenticated()
@@ -91,7 +100,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .and()
                     // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。
                     .exceptionHandling().accessDeniedHandler(new BizAccessDeniedHandler())
-                .and().cors().disable().csrf().disable();
+                ;
     }
 
 
