@@ -21,7 +21,15 @@
         JsSdk.config({
             appId:"123456",
             appSecret: "123456"
-        }).oauth.authorize();
+        }).oauth.authorize({
+            scope:'openid',
+            success:function (data) {
+                console.log(data)
+            },
+            error:function (err) {
+                console.log(err)
+            }
+        });
     }
 
     function test2() {

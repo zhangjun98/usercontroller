@@ -32,6 +32,10 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//
+//        super.onAuthenticationSuccess(request, response, authentication);
+//        return;
+
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         HttpSession session = request.getSession(false);
         if (session != null) {

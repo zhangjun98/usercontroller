@@ -22,10 +22,19 @@ export default class Ajax {
          * 响应拦截器
          */
         this.axios.interceptors.response.use((response) => {
-                return response;
+                const res = response.data;
+                if (res.code === '000000'){
+                    return res;
+                }else{
+                    // 对响应错误做点什么
+                    return Promise.reject(res);
+                }
             },(err) => {
+                if (err.status === 401 || err.status === 403){
+                    return Promise.reject(err.data);
+                }
                 // 对响应错误做点什么
-                return Promise.reject(err);
+                return Promise.reject({code:'101001', message:'请求失败'});
             }
         );
     }

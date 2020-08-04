@@ -13,34 +13,26 @@ export default class OAuth {
         const ajaxOptions = Object.assign({}, {
             baseURL: config.oauth.baseURL,
             crossDomain: true,
-            // withCredentials: true
-            // transformRequest:[(data)=>{
-            //
-            // }]
         });
-        console.log(ajaxOptions)
         this.ajax = new Ajax(ajaxOptions);
     }
 
     /**
      * 授权
      */
-    authorize(scope){
-        console.log(scope)
+    authorize(options){
         // 获取token
         const token = Cookies.get('ztt');
-        console.log(token)
         if (token){
             return;
         }
         const queryStr = location.search.substring(1);
         const params = Qs.parse(queryStr);
         if (params.code){
-            console.log(params)
-            this.generateToken(params.code);
+            this.generateToken(params.code, options);
             return;
         }
-        this.generateAuthorize(scope);
+        this.generateAuthorize(options.scope);
     }
 
     /**
@@ -60,47 +52,46 @@ export default class OAuth {
     /**
      * 获取token
      */
-    generateToken(code){
+    generateToken(code, options){
         const str =  this.options.appId + ":" + this.options.appSecret;
-        console.log(str)
         const basic = Base64.encode(str);
-        console.log(basic)
         const headers = {
-            // 'Authorization': 'Basic ' + basic,
+            'Authorization': 'Basic ' + basic,
             'Content-Type': 'application/x-www-form-urlencoded'
-            // 'Content-Type': 'multipart/form-data;boundary = ' + new Date().getTime()
         };
-        let formData = new FormData();
-        formData.append("code", code);
-        formData.append("grant_type", 'authorization_code');
-        formData.append("redirect_uri", 'http://www.baidu.com/');
+
+        const url = location.href;
+        const uri = url.substring(0, url.lastIndexOf('&'))
         this.ajax.axios({
             url: config.oauth.accessTokenUrl,
-            method: 'post',
+            method: 'POST',
             data: {
                 code: code,
-                redirect_uri: 'http://www.baidu.com/',
+                redirect_uri: uri,
                 grant_type: 'authorization_code',
-                client_id: this.options.appId,
-                client_secret: this.options.appSecret
             },
             headers: headers,
             transformRequest: [(data) => Qs.stringify(data)]
+        }).then(res=>{
+            this.userInfo(res.data.accessToken, options);
+        }).catch(err=>{
+            options.error(err);
         })
-       // this.ajax.axios.post(
-       //     config.oauth.accessTokenUrl,
-       //     formData ,
-       //     {
-       //         headers: headers,
-       //         'xhrFields' : {withCredentials: true},
-       //         crossDomain: true
-       //     }
-       // )
-           .then(res=>{
-           console.log(res)
-       }).catch(err=>{
-           console.log(err)
-       })
+    }
+
+    userInfo(token, options) {
+        const headers = {
+            'Authorization': 'Bearer ' + token,
+        };
+        this.ajax.axios({
+            url: config.oauth.userInfoUrl,
+            method: 'GET',
+            headers: headers
+        }).then(res=>{
+            options.success(res.data);
+        }).catch(err=>{
+            options.error(err);
+        })
     }
 
 }

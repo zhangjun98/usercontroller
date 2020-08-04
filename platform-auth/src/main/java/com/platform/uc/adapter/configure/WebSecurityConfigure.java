@@ -76,20 +76,21 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
-                .cors().and()
+                .cors().disable()
                 .csrf().disable()
-                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")
-                .and()
+//                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")
+//                .and()
 
                     .authorizeRequests()
-                    // 放开option请求
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                    // 放开option请求
+//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
     //                // 监控端点内部放行
     //                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/").loginProcessingUrl("/login")
+                    .failureUrl("/?code=")
                     .successHandler(authenticationHandler)
                     .failureHandler(authenticationHandler)
                 .and()
@@ -101,6 +102,10 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                     // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。
                     .exceptionHandling().accessDeniedHandler(new BizAccessDeniedHandler())
                 ;
+
+        // 解决不允许显示在iframe的问题
+        http.headers().frameOptions().disable();
+        http.headers().cacheControl();
     }
 
 

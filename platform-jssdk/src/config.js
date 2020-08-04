@@ -15,11 +15,13 @@ export const config = {
 
     oauth: {
 
-        baseURL: 'http://localhost:4000/oauth',
+        baseURL: 'http://localhost:8080',
 
-        authorizeUrl: 'http://localhost:4000/oauth/authorize',
+        authorizeUrl: 'http://localhost:4000/sso/oauth/authorize',
 
-        accessTokenUrl: '/token',
+        accessTokenUrl: '/sso/oauth/token',
+
+        userInfoUrl: '/api/user/info'
 
     }
 

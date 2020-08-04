@@ -28,7 +28,7 @@
                         <img src="../assets/logo.png" />智慧广陵统一登录平台
                     </div>
                     <div class="content">
-                        <el-form ref="myForm" :model="model" :rules="rules" method="post" action="/login">
+                        <el-form ref="myForm" :model="model" :rules="rules" method="post" action="login">
                             <el-form-item prop="username">
                                 <el-input id="username" v-model="model.username" name="username" placeholder="请输入用户名" prefix-icon="el-icon-user" />
                             </el-form-item>
