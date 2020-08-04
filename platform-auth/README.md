@@ -45,3 +45,6 @@ http://**.**.**/api/user/info
 | header|value|
 |--|--|
 |Authorization| Bearer {{accessToken}}|
+
+
+http://localhost:4000/sso/oauth/authorize?response_type=code&client_id=123456&redirect_uri=http://localhost:63342/platform-uc/platform-jssdk/examples/demo.html
