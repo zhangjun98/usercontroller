@@ -33,32 +33,32 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 //
-//        super.onAuthenticationSuccess(request, response, authentication);
-//        return;
+        super.onAuthenticationSuccess(request, response, authentication);
+        return;
 
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            Object attribute = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-            log.info("跳转到登录页的地址为: {}", attribute);
-        }
-        if (ResponseUtils.isAjaxRequest(request)) {
-            BizResponse<String> data = new BizResponse<>();
-            data.setMessage("请通过授权码模式跳转到该页面");
-            if (savedRequest == null) {
-                ResponseUtils.makeFailureResponse(response, data);
-                return;
-            }
-            data.setData(savedRequest.getRedirectUrl());
-            ResponseUtils.makeSuccessResponse(response, data);
-        } else {
-            if (savedRequest == null) {
-                super.onAuthenticationSuccess(request, response, authentication);
-                return;
-            }
-            clearAuthenticationAttributes(request);
-            getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
-        }
+//        SavedRequest savedRequest = requestCache.getRequest(request, response);
+//        HttpSession session = request.getSession(false);
+//        if (session != null) {
+//            Object attribute = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+//            log.info("跳转到登录页的地址为: {}", attribute);
+//        }
+//        if (ResponseUtils.isAjaxRequest(request)) {
+//            BizResponse<String> data = new BizResponse<>();
+//            data.setMessage("请通过授权码模式跳转到该页面");
+//            if (savedRequest == null) {
+//                ResponseUtils.makeFailureResponse(response, data);
+//                return;
+//            }
+//            data.setData(savedRequest.getRedirectUrl());
+//            ResponseUtils.makeSuccessResponse(response, data);
+//        } else {
+//            if (savedRequest == null) {
+//                super.onAuthenticationSuccess(request, response, authentication);
+//                return;
+//            }
+//            clearAuthenticationAttributes(request);
+//            getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
+//        }
     }
 
     @Override
