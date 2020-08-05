@@ -1,6 +1,7 @@
 package com.platform.uc.adapter.handler;
 
-import com.platform.uc.adapter.utils.CookieUtils;
+import com.platform.uc.adapter.contants.AuthorizationContacts;
+import com.ztkj.framework.response.utils.CookieUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,8 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class BizRequestCache implements RequestCache {
 
-    private final static String TICKET = "ticket";
-
     private final RequestMatcher requestMatcher = AnyRequestMatcher.INSTANCE;
 
     private final PortResolver portResolver = new PortResolverImpl();
@@ -46,7 +45,7 @@ public class BizRequestCache implements RequestCache {
             String ticket = String.valueOf(System.currentTimeMillis());
 
             // 把卷放入cookie中
-            CookieUtils.set(response, TICKET, ticket, 2 * 60 * 1000);
+            CookieUtils.set(response, AuthorizationContacts.TICKET, ticket, AuthorizationContacts.TICKET_EXPIRE.intValue());
 
             // 保存到redis中
             BoundValueOperations<String, Object> operations = redisTemplate.boundValueOps(ticket);
@@ -61,7 +60,7 @@ public class BizRequestCache implements RequestCache {
      */
     @Override
     public SavedRequest getRequest(HttpServletRequest request, HttpServletResponse response) {
-        String ticket = CookieUtils.get(request, TICKET);
+        String ticket = CookieUtils.get(request, AuthorizationContacts.TICKET);
         if (StringUtils.isEmpty(ticket)){
             return null;
         }
@@ -105,11 +104,11 @@ public class BizRequestCache implements RequestCache {
      */
     @Override
     public void removeRequest(HttpServletRequest request, HttpServletResponse response) {
-        String ticket = CookieUtils.get(request, TICKET);
+        String ticket = CookieUtils.get(request, AuthorizationContacts.TICKET);
         if (StringUtils.isEmpty(ticket)){
             return;
         }
-        CookieUtils.set(response, TICKET, null, 0);
+        CookieUtils.set(response, AuthorizationContacts.TICKET, null, 0);
         redisTemplate.delete(ticket);
     }
 

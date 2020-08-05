@@ -1,7 +1,7 @@
 package com.platform.uc.adapter.filter;
 
 import com.platform.uc.adapter.handler.BizUserCache;
-import com.platform.uc.adapter.utils.CookieUtils;
+import com.ztkj.framework.response.utils.CookieUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,9 +25,9 @@ public class BizAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         // 获取token
-        String token = CookieUtils.get(request, "token");
+        String token = CookieUtils.get(request, "lt");
         if (!StringUtils.isEmpty(token)){
-            UserDetails userDetails = userCache.getUserFromCache(token);
+            UserDetails userDetails = userCache.selectUserDetails(token);
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities()));
         }
         chain.doFilter(request, response);
