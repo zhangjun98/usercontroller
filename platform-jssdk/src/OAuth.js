@@ -35,9 +35,12 @@ export default class OAuth {
             return;
         }
         const queryStr = location.search.substring(1);
+        console.log(queryStr)
         const params = Qs.parse(queryStr);
+        console.log(params)
         if (params.code){
             this.generateToken(params.code, options);
+            return;
         }
         this.generateAuthorize(options.scope);
     }
@@ -80,7 +83,7 @@ export default class OAuth {
             headers: headers,
             transformRequest: [(data) => Qs.stringify(data)]
         }).then(res=>{
-            this._setCookies(res);
+            this._setCookies(res, options);
         }).catch(err=>{
             options.error(err);
         })
@@ -125,13 +128,13 @@ export default class OAuth {
             headers: headers,
             transformRequest: [(data) => Qs.stringify(data)]
         }).then(res => {
-            this._setCookies(res);
+            this._setCookies(res, options);
         }).catch(err => {
             options.error(err);
         })
     }
 
-    _setCookies(res){
+    _setCookies(res, options){
         if (!res.data){
             options.error({code:'200106', message:'授权失败'});
             return;
