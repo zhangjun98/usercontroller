@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author hao.yan
  */
 @Slf4j
-@Component
+//@Component
 public class BizRequestCache implements RequestCache {
 
     static final String SAVED_REQUEST = "SPRING_SECURITY_SAVED_REQUEST";

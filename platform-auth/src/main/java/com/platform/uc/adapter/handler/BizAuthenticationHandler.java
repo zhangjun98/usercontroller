@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -16,10 +18,16 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 授权处理
@@ -29,16 +37,18 @@ import java.io.IOException;
 @Component
 public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationFailureHandler {
 
-    @Resource
-    private BizRequestCache requestCache;
+//    @Resource
+//    private BizRequestCache requestCache;
 
-//    private final RequestCache requestCache = new HttpSessionRequestCache();
+//    private CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+
+    private final RequestCache requestCache = new HttpSessionRequestCache();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//
-//        super.onAuthenticationSuccess(request, response, authentication);
-//        return;
+
+//        CsrfToken token = cookieCsrfTokenRepository.generateToken(request);
+//        cookieCsrfTokenRepository.saveToken(token, request, response);
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         HttpSession session = request.getSession(false);

@@ -1,9 +1,6 @@
 package com.platform.uc.adapter.configure;
 
-import com.platform.uc.adapter.handler.BizAuthenticationHandler;
-import com.platform.uc.adapter.handler.BizLogoutSuccessHandler;
-import com.platform.uc.adapter.handler.BizSecurityProperties;
-import com.platform.uc.adapter.handler.SecurityAuthenticationProvider;
+import com.platform.uc.adapter.handler.*;
 import com.ztkj.framework.common.authorization.handler.BizAccessDeniedHandler;
 import com.ztkj.framework.common.authorization.handler.BizAuthExceptionEntryPoint;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -20,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsUtils;
 
@@ -45,6 +44,9 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Resource
     private SecurityAuthenticationProvider authenticationProvider;
 
+//    @Resource
+//    private BizRequestCache requestCache;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -68,14 +70,14 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
             ignoreProperties.getAnonUris()
                     .forEach(url -> registry.antMatchers(url).permitAll());
         }
+//        http.setSharedObject(RequestCache.class, requestCache);
         http
                 .httpBasic()
                     .authenticationEntryPoint(new BizAuthExceptionEntryPoint())
                 .and()
                     // 设置成为无状态
-    //                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .and()
+//                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 .cors().disable()
                 .csrf().disable()
 //                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")

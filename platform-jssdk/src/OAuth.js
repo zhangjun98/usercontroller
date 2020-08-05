@@ -24,13 +24,20 @@ export default class OAuth {
         // 获取token
         const token = Cookies.get('ztt');
         if (token){
+            options.token = token;
+            this.userInfo(options);
+            return;
+        }
+        const refreshToken = Cookies.get('ztr');
+        if (refreshToken){
+            options.refreshToken = refreshToken;
+            this.refreshToken(options);
             return;
         }
         const queryStr = location.search.substring(1);
         const params = Qs.parse(queryStr);
         if (params.code){
             this.generateToken(params.code, options);
-            return;
         }
         this.generateAuthorize(options.scope);
     }
@@ -73,13 +80,19 @@ export default class OAuth {
             headers: headers,
             transformRequest: [(data) => Qs.stringify(data)]
         }).then(res=>{
-            this.userInfo(res.data.accessToken, options);
+            this._setCookies(res);
         }).catch(err=>{
             options.error(err);
         })
+        return this;
     }
 
-    userInfo(token, options) {
+    userInfo(options) {
+        const token = (options.token) ? options.token : config.token.accessToken;
+        if (!token){
+            options.error({code:'200101', message:'未授权'});
+            return;
+        }
         const headers = {
             'Authorization': 'Bearer ' + token,
         };
@@ -92,6 +105,41 @@ export default class OAuth {
         }).catch(err=>{
             options.error(err);
         })
+    }
+
+    refreshToken(options){
+        const refreshToken = (options.refreshToken) ? options.refreshToken : config.token.refreshToken;
+        const str =  this.options.appId + ":" + this.options.appSecret;
+        const basic = Base64.encode(str);
+        const headers = {
+            'Authorization': 'Basic ' + basic,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        };
+        this.ajax.axios({
+            url: config.oauth.accessTokenUrl,
+            method: 'POST',
+            data: {
+                grant_type: 'refresh_token',
+                refresh_token: refreshToken
+            },
+            headers: headers,
+            transformRequest: [(data) => Qs.stringify(data)]
+        }).then(res => {
+            this._setCookies(res);
+        }).catch(err => {
+            options.error(err);
+        })
+    }
+
+    _setCookies(res){
+        if (!res.data){
+            options.error({code:'200106', message:'授权失败'});
+            return;
+        }
+        config.token = res.data;
+        Cookies.set('ztt', res.data.accessToken, { expires: res.data.accessExpire, path: '' });
+        Cookies.set('ztr', res.data.refreshToken, { expires: res.data.refreshExpire, path: '' });
+        this.userInfo(options)
     }
 
 }

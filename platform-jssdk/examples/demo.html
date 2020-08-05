@@ -16,13 +16,19 @@
 <button onclick="test3()">test2</button>
 <div id="result"></div>
 <script>
-    console.log(location)
     function test() {
         JsSdk.config({
             appId:"123456",
             appSecret: "123456"
         }).oauth.authorize({
             scope:'openid',
+            success:function (data) {
+                console.log(data)
+            },
+            error:function (err) {
+                console.log(err)
+            }
+        }).userInfo({
             success:function (data) {
                 console.log(data)
             },

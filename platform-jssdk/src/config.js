@@ -23,6 +23,11 @@ export const config = {
 
         userInfoUrl: '/api/user/info'
 
-    }
+    },
+
+    /**
+     * 授权或的token
+     */
+    token: {}
 
 };
