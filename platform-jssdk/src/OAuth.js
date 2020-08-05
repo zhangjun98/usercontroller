@@ -52,7 +52,7 @@ export default class OAuth {
         const tempObj = {
             client_id: this.options.appId,
             response_type: 'code',
-            redirect_uri: location.href,
+            'redirect_uri': location.href,
             scope: scope
         };
         const params = Qs.stringify(tempObj);
@@ -63,21 +63,20 @@ export default class OAuth {
      * 获取token
      */
     generateToken(code, options){
-        const str =  this.options.appId + ":" + this.options.appSecret;
-        const basic = Base64.encode(str);
+        const url = location.href;
+        const uri = url.substring(0, (url.lastIndexOf("code") - 1))
+        const basic = Base64.encode(this.options.appId + ":" + this.options.appSecret);
         const headers = {
             'Authorization': 'Basic ' + basic,
             'Content-Type': 'application/x-www-form-urlencoded'
         };
 
-        const url = location.href;
-        const uri = url.substring(0, url.lastIndexOf('&'))
         this.ajax.axios({
             url: config.oauth.accessTokenUrl,
             method: 'POST',
             data: {
                 code: code,
-                redirect_uri: uri,
+                'redirect_uri': uri,
                 grant_type: 'authorization_code',
             },
             headers: headers,
@@ -87,7 +86,6 @@ export default class OAuth {
         }).catch(err=>{
             options.error(err);
         })
-        return this;
     }
 
     userInfo(options) {

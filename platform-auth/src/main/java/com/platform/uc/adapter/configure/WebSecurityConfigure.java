@@ -1,5 +1,6 @@
 package com.platform.uc.adapter.configure;
 
+import com.platform.uc.adapter.filter.BizAuthenticationFilter;
 import com.platform.uc.adapter.handler.*;
 import com.ztkj.framework.common.authorization.handler.BizAccessDeniedHandler;
 import com.ztkj.framework.common.authorization.handler.BizAuthExceptionEntryPoint;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -44,8 +46,11 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Resource
     private SecurityAuthenticationProvider authenticationProvider;
 
-//    @Resource
-//    private BizRequestCache requestCache;
+    @Resource
+    private BizRequestCache requestCache;
+
+    @Resource
+    private BizUserCache userCache;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -70,44 +75,53 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
             ignoreProperties.getAnonUris()
                     .forEach(url -> registry.antMatchers(url).permitAll());
         }
-//        http.setSharedObject(RequestCache.class, requestCache);
-        http
-                .httpBasic()
-                    .authenticationEntryPoint(new BizAuthExceptionEntryPoint())
-                .and()
-                    // 设置成为无状态
-//                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
-                .cors().disable()
-                .csrf().disable()
-//                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")
-//                .and()
-
-                    .authorizeRequests()
-//                    // 放开option请求
-//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-    //                // 监控端点内部放行
-    //                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                    .formLogin()
-                    .loginPage("/").loginProcessingUrl("/login")
-                    .failureUrl("/?code=")
-                    .successHandler(authenticationHandler)
-                    .failureHandler(authenticationHandler)
-                .and()
-                    .logout().permitAll()
-                    // /logout退出清除cookie
-                    .addLogoutHandler(new CookieClearingLogoutHandler("token", "remember-me"))
-                    .logoutSuccessHandler(logoutSuccessHandler)
-                .and()
-                    // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。
-                    .exceptionHandling().accessDeniedHandler(new BizAccessDeniedHandler())
-                ;
 
         // 解决不允许显示在iframe的问题
         http.headers().frameOptions().disable();
         http.headers().cacheControl();
+
+        http.setSharedObject(RequestCache.class, requestCache);
+        http
+            // 开启跨域共享
+            .cors().disable()
+            // 跨域伪造请求限制=无效
+            .csrf().disable()
+
+            .httpBasic()
+                .authenticationEntryPoint(new BizAuthExceptionEntryPoint())
+            .and()
+                // 设置成为无状态
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
+
+//                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")
+//                .and()
+
+                .authorizeRequests()
+//                    // 放开option请求
+//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                // 监控端点内部放行
+//                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                .anyRequest().authenticated()
+            .and()
+                .formLogin()
+                .loginPage("/").loginProcessingUrl("/login")
+                .failureUrl("/?code=")
+                .successHandler(authenticationHandler)
+                .failureHandler(authenticationHandler)
+            .and()
+                .logout().permitAll()
+                // /logout退出清除cookie
+                .addLogoutHandler(new CookieClearingLogoutHandler("token", "remember-me"))
+                .logoutSuccessHandler(logoutSuccessHandler)
+            .and()
+                // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。
+                .exceptionHandling().accessDeniedHandler(new BizAccessDeniedHandler())
+            ;
+
+        // 配置token验证过滤器
+        http.addFilterBefore(new BizAuthenticationFilter(userCache), UsernamePasswordAuthenticationFilter.class);
+
     }
 
 

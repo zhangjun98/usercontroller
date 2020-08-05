@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -37,12 +38,15 @@ import java.util.stream.Collectors;
 @Component
 public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationFailureHandler {
 
-//    @Resource
-//    private BizRequestCache requestCache;
+    @Resource
+    private BizUserCache userCache;
+
+    @Resource
+    private BizRequestCache requestCache;
 
 //    private CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
 
-    private final RequestCache requestCache = new HttpSessionRequestCache();
+//    private final RequestCache requestCache = new HttpSessionRequestCache();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -51,28 +55,23 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
 //        cookieCsrfTokenRepository.saveToken(token, request, response);
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            Object attribute = session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-            log.info("跳转到登录页的地址为: {}", attribute);
+        if (savedRequest == null) {
+            super.onAuthenticationSuccess(request, response, authentication);
+            return;
         }
-        if (ResponseUtils.isAjaxRequest(request)) {
-            BizResponse<String> data = new BizResponse<>();
-            data.setMessage("请通过授权码模式跳转到该页面");
-            if (savedRequest == null) {
-                ResponseUtils.makeFailureResponse(response, data);
-                return;
-            }
-            data.setData(savedRequest.getRedirectUrl());
-            ResponseUtils.makeSuccessResponse(response, data);
-        } else {
-            if (savedRequest == null) {
-                super.onAuthenticationSuccess(request, response, authentication);
-                return;
-            }
-            clearAuthenticationAttributes(request);
-            getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
-        }
+        clearAuthenticationAttributes(request);
+
+        log.info("{}", authentication);
+
+        String token = userCache.saveUserInCache((UserDetails) authentication.getPrincipal());
+        response.setHeader("Authorization", "Bearer " + token);
+        Cookie cookie = new Cookie("token", token);
+        cookie.setPath("/");
+        cookie.setMaxAge(6000000);
+//            cookie.setDomain(".jsoft.me"); // cookie作用域
+        response.addCookie(cookie);
+
+        getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
     }
 
     @Override
