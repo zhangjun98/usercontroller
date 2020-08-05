@@ -1,5 +1,6 @@
 package com.platform.uc.adapter.handler;
 
+import com.platform.uc.adapter.utils.CookieUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +13,7 @@ import org.springframework.security.web.util.UrlUtils;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class BizRequestCache implements RequestCache {
 
-    static final String SAVED_REQUEST = "SPRING_SECURITY_SAVED_REQUEST";
+    private final static String TICKET = "ticket";
 
     private final RequestMatcher requestMatcher = AnyRequestMatcher.INSTANCE;
 
@@ -40,10 +42,14 @@ public class BizRequestCache implements RequestCache {
     @Override
     public void saveRequest(HttpServletRequest request, HttpServletResponse response) {
         if (requestMatcher.matches(request)) {
-            DefaultSavedRequest savedRequest = new DefaultSavedRequest(request,
-                    portResolver);
+            DefaultSavedRequest savedRequest = new DefaultSavedRequest(request, portResolver);
+            String ticket = String.valueOf(System.currentTimeMillis());
 
-            BoundValueOperations<String, Object> operations = redisTemplate.boundValueOps(SAVED_REQUEST);
+            // 把卷放入cookie中
+            CookieUtils.set(response, TICKET, ticket, 2 * 60 * 1000);
+
+            // 保存到redis中
+            BoundValueOperations<String, Object> operations = redisTemplate.boundValueOps(ticket);
             operations.set(savedRequest);
         }else {
             log.debug("Request not saved as configured RequestMatcher did not match");
@@ -55,7 +61,11 @@ public class BizRequestCache implements RequestCache {
      */
     @Override
     public SavedRequest getRequest(HttpServletRequest request, HttpServletResponse response) {
-        BoundValueOperations<String, Object> operations = redisTemplate.boundValueOps(SAVED_REQUEST);
+        String ticket = CookieUtils.get(request, TICKET);
+        if (StringUtils.isEmpty(ticket)){
+            return null;
+        }
+        BoundValueOperations<String, Object> operations = redisTemplate.boundValueOps(ticket);
         return (SavedRequest) operations.get();
     }
 
@@ -95,7 +105,13 @@ public class BizRequestCache implements RequestCache {
      */
     @Override
     public void removeRequest(HttpServletRequest request, HttpServletResponse response) {
-        redisTemplate.delete(SAVED_REQUEST);
+        String ticket = CookieUtils.get(request, TICKET);
+        if (StringUtils.isEmpty(ticket)){
+            return;
+        }
+        CookieUtils.set(response, TICKET, null, 0);
+        redisTemplate.delete(ticket);
     }
+
 
 }

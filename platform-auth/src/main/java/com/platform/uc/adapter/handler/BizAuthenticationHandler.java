@@ -1,5 +1,6 @@
 package com.platform.uc.adapter.handler;
 
+import com.platform.uc.adapter.utils.CookieUtils;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +51,6 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
-//        CsrfToken token = cookieCsrfTokenRepository.generateToken(request);
-//        cookieCsrfTokenRepository.saveToken(token, request, response);
-
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest == null) {
             super.onAuthenticationSuccess(request, response, authentication);
@@ -64,12 +61,9 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
         log.info("{}", authentication);
 
         String token = userCache.saveUserInCache((UserDetails) authentication.getPrincipal());
-        response.setHeader("Authorization", "Bearer " + token);
-        Cookie cookie = new Cookie("token", token);
-        cookie.setPath("/");
-        cookie.setMaxAge(6000000);
-//            cookie.setDomain(".jsoft.me"); // cookie作用域
-        response.addCookie(cookie);
+
+        // 把token放入cookie中
+        CookieUtils.set(response, "token", token, 30 * 60 * 1000);
 
         getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
     }

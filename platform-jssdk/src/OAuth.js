@@ -56,7 +56,7 @@ export default class OAuth {
             scope: scope
         };
         const params = Qs.stringify(tempObj);
-        location.href = config.oauth.authorizeUrl + "?" + params;
+        location.href = config.oauth.baseURL + config.oauth.authorizeUrl + "?" + params;
     }
 
     /**

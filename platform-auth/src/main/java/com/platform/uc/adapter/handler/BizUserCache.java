@@ -42,4 +42,5 @@ public class BizUserCache {
     public void removeUserFromCache(String token) {
         redisTemplate.delete(token);
     }
+
 }
