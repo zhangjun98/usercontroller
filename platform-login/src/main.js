@@ -12,6 +12,7 @@ Vue.use(FormItem)
 Vue.use(Checkbox)
 Vue.use(Row)
 Vue.use(Col)
+
 Vue.prototype.$conf = conf
 
 new Vue({
