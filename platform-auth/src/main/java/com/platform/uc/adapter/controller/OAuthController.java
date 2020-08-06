@@ -7,11 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.ExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Date;
 import java.util.Map;
@@ -21,8 +26,8 @@ import java.util.Map;
  * @author hao.yan
  */
 @Slf4j
+@Controller
 @RequestMapping("/oauth")
-@RestController
 public class OAuthController {
 
     @Resource
@@ -32,6 +37,7 @@ public class OAuthController {
      * 授权请求
      */
     @GetMapping("/token")
+    @ResponseBody
     public BizResponse<TokenResponse> getAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         return postAccessToken(principal, parameters);
     }
@@ -40,6 +46,7 @@ public class OAuthController {
      * 授权请求
      */
     @PostMapping("/token")
+    @ResponseBody
     public BizResponse<TokenResponse> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         return custom(tokenEndpoint.postAccessToken(principal, parameters).getBody());
     }
@@ -66,33 +73,22 @@ public class OAuthController {
         return BizResponseUtils.success(response);
     }
 
-//    /**
-//     * 确认授权页 只有authorization_code授权才有
-//     * @param request
-//     * @param session
-//     * @param model
-//     * @return
-//     */
-//    @RequestMapping("/confirm_access")
-//    public String confirm_access(HttpServletRequest request, HttpSession session, Map model) {
-//        Map<String, String> scopes = (Map<String, String>) (model.containsKey("scopes") ? model.get("scopes") : request.getAttribute("scopes"));
-//        List<String> scopeList = new ArrayList<String>();
-//        for (String scope : scopes.keySet()) {
-//            scopeList.add(scope);
-//        }
-//        model.put("scopeList", scopeList);
-//        Object auth = session.getAttribute("authorizationRequest");
-//        if (auth != null) {
-//            // TODO 获取应用信息
-////            try {
-////                AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
-////                ClientDetails clientDetails = baseAppRemoteService.getAppClientInfo(authorizationRequest.getClientId()).getData();
-////                model.put("app", clientDetails.getAdditionalInformation());
-////            } catch (Exception e) {
-////
-////            }
-//        }
-//        return "confirm_access";
-//    }
+    /**
+     * 确认授权页
+     * 只有authorization_code授权才有
+     */
+    @RequestMapping("/confirm/access")
+    public String confirm_access(
+        Map<String, Object> model,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) {
+        AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
+        Map<String, String> scopes = (Map<String, String>) (model.containsKey("scopes") ?
+                model.get("scopes") : request.getAttribute("scopes"));
+        log.info("{}", scopes);
+
+        return "grant";
+    }
 
 }

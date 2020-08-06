@@ -54,7 +54,7 @@
                                 </el-col>
                             </el-row>
                             <el-form-item>
-                                <el-button class="login-btn" type="primary" native-type="submit ">立即登录</el-button>
+                                <el-button class="login-btn" type="primary" @click="submitLogin">立即登录</el-button>
                                 <span class="err-msg">{{ errorMessage }}</span>
                             </el-form-item>
                         </el-form>
@@ -115,6 +115,7 @@ export default {
     },
     methods: {
         submitLogin() {
+            // native-type="submit "
             this.$refs.myForm.validate((valid) => {
                 if (valid) {
                     const decrypt = getEncryptCode(publicKey, this.model.password)
@@ -123,12 +124,15 @@ export default {
                         username: this.model.username,
                         password: this.model.password
                     }).then(res => {
-                        if (res.status !== 200) {
-                            this.errorMessage = '登录失败！用户名或密码错误'
+                        const rsp = res.data
+                        if (rsp.code === '000000') {
+                            // 添加弹出框 与 延迟
+                            location.href = rsp.data.redirectUri
+                        } else {
+                            this.errorMessage = rsp.message
                         }
                     }).catch(err => {
-                        console.trace(err)
-                        this.errorMessage = '服务异常！请稍后重试'
+                        this.errorMessage = err.response.data.message
                     })
                 } else {
                     return false

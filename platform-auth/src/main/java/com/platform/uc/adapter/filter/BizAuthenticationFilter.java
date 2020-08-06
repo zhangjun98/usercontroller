@@ -28,7 +28,9 @@ public class BizAuthenticationFilter extends OncePerRequestFilter {
         String token = CookieUtils.get(request, "lt");
         if (!StringUtils.isEmpty(token)){
             UserDetails userDetails = userCache.selectUserDetails(token);
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities()));
+            if (userDetails != null) {
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
+            }
         }
         chain.doFilter(request, response);
     }

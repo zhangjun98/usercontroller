@@ -1,7 +1,10 @@
 package com.platform.uc.adapter.handler;
 
 import com.platform.uc.adapter.contants.AuthorizationContacts;
+import com.platform.uc.adapter.vo.LoginResponse;
 import com.ztkj.framework.response.core.BizResponse;
+import com.ztkj.framework.response.exception.BizExceptionUtils;
+import com.ztkj.framework.response.utils.BizResponseUtils;
 import com.ztkj.framework.response.utils.CookieUtils;
 import com.ztkj.framework.response.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -51,21 +54,21 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
         // 把登录的token放入cookie中
         CookieUtils.set(response, AuthorizationContacts.LOGIN_TOKEN, token, AuthorizationContacts.LOGIN_EXPIRE.intValue());
 
-        getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
+//        getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
+
+        LoginResponse login = new LoginResponse();
+        login.setToken(token);
+        login.setExpire(AuthorizationContacts.LOGIN_EXPIRE);
+        login.setRedirectUri(savedRequest.getRedirectUrl());
+
+        BizResponse<LoginResponse> bizResponse = BizResponseUtils.success(login);
+        ResponseUtils.makeSuccessResponse(response, bizResponse);
+
     }
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
-        String message;
-        if (e instanceof BadCredentialsException) {
-            message = "用户名或密码错误！";
-        } else if (e instanceof LockedException) {
-            message = "用户已被锁定！";
-        } else {
-            message = "认证失败，请联系网站管理员！";
-        }
-        BizResponse<Void> febsResponse = new BizResponse<>();
-        febsResponse.setMessage(message);
-        ResponseUtils.makeFailureResponse(response, febsResponse);
+        BizResponse<Void> bizResponse = BizExceptionUtils.resolveException(e);
+        ResponseUtils.makeFailureResponse(response, bizResponse);
     }
 }
