@@ -8,6 +8,7 @@ import com.ztkj.framework.response.utils.BizResponseUtils;
 import com.ztkj.framework.response.utils.CookieUtils;
 import com.ztkj.framework.response.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 授权处理
@@ -31,6 +33,9 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationFailureHandler {
+
+    @Value("${zt.default.redirect.url:/}")
+    private String redirectUrl;
 
     @Resource
     private BizUserCache userCache;
@@ -41,9 +46,8 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         SavedRequest savedRequest = requestCache.getRequest(request, response);
-        if (savedRequest == null) {
-            super.onAuthenticationSuccess(request, response, authentication);
-            return;
+        if (Objects.nonNull(savedRequest)) {
+            redirectUrl = savedRequest.getRedirectUrl();
         }
         clearAuthenticationAttributes(request);
 
@@ -54,16 +58,14 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
         // 把登录的token放入cookie中
         CookieUtils.set(response, AuthorizationContacts.LOGIN_TOKEN, token, AuthorizationContacts.LOGIN_EXPIRE.intValue());
 
-//        getRedirectStrategy().sendRedirect(request, response, savedRequest.getRedirectUrl());
-
+        // 返回登录信息
         LoginResponse login = new LoginResponse();
         login.setToken(token);
         login.setExpire(AuthorizationContacts.LOGIN_EXPIRE);
-        login.setRedirectUri(savedRequest.getRedirectUrl());
+        login.setRedirectUri(redirectUrl);
 
         BizResponse<LoginResponse> bizResponse = BizResponseUtils.success(login);
         ResponseUtils.makeSuccessResponse(response, bizResponse);
-
     }
 
     @Override
