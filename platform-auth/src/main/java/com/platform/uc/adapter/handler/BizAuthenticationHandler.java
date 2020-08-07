@@ -34,7 +34,7 @@ import java.util.Objects;
 @Component
 public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler implements AuthenticationFailureHandler {
 
-    @Value("${zt.default.redirect.url:/}")
+    @Value("${zt.default.redirect.url:http://www.baidu.com/}")
     private String redirectUrl;
 
     @Resource

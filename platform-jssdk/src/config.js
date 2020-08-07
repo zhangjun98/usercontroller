@@ -13,6 +13,8 @@ export const config = {
      */
     appSecret: '',
 
+    scopes: [],
+
     oauth: {
 
         baseURL: 'http://localhost:8080',

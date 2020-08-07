@@ -1,13 +1,18 @@
 import {config, Scope} from "./config";
-
-import OAuth from './OAuth';
+import Cookies from 'js-cookie';
+import JsSdk from './JsSdk';
 
 export default {
 
     config: (options)=>{
-        return {
-            oauth: new OAuth(options)
+        config.appId = options.appId
+        config.appSecret = options.appSecret
+        config.token = {
+            accessToken: Cookies.get('ztr'),
+            refreshToken: Cookies.get('ztr')
         }
+        config.scopes = options.scopes
+        return new JsSdk();
     },
 
     scope: Scope

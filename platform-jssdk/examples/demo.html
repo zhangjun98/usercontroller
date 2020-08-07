@@ -3,27 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-<!--    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.js"></script>-->
+    <link rel="stylesheet" href="css/frozen.css"/>
     <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
-<!--    <script src="https://cdn.bootcss.com/js-cookie/2.2.0/js.cookie.js"></script>-->
     <script src="../lib/jssdk.umd.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .block{
+            position: relative;
+            height: 100%;
+        }
+        .ui-notice{
+            position: relative;
+            padding:20px 15px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+        .ui-notice p{
+            color:#333;
+            font-weight: 600;
+        }
+        .ui-title {
+            padding-left: 20px;
+        }
+        .ui-title > h4{
+            text-align: left;
+            font-weight: bold;
+            height: 40px;
+            line-height: 40px;
+        }
+        .ui-title > span{
+            font-size: 14px;
+            color: #40485b;
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+        }
+        .block > .ui-flex{
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
-
+    <div class="block">
+        <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
+            <section class="ui-notice"  style="width:300px;">
+                <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
+                    <div>
+                            <span class="ui-avatar-lg">
+                                <span style="background-image:url(https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1088952605,1183594545&fm=115&gp=0.jpg)"></span>
+                            </span>
+                    </div>
+                    <div class="ui-title">
+                        <h4>智慧广陵JsSdk测试授权</span></h4>
+                        <span>此第三方应用测试demo</span>
+                    </div>
+                </div>
+                <div class="ui-flex ui-flex-align-center ui-flex-pack-center authorize" style="margin-top: 15px;">
+                    <div class="ui-btn-group">
+                        <input class="ui-btn-primary ui-btn-lg" name='authorize' value='授权' onclick="authorize()"/>
+                    </div>
+                </div>
+                <div class="ui-flex ui-flex-align-center ui-flex-pack-center scopes" style="margin-top: 15px; display: none;">
+                    <div class="ui-btn-group">
+                        <input class="ui-btn ui-btn" name='authorize' value='获取用户信息' onclick="userInfo()"/>
+                        <input class="ui-btn ui-btn" name='message' value='获取用户手机号' onclick="mobile()"/>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 </body>
-<button onclick="test()">test</button>
-<button onclick="test2()">test2</button>
-<button onclick="test3()">test2</button>
-<div id="result"></div>
+
 <script>
-    function test() {
-        JsSdk.config({
-            appId:"123456",
-            appSecret: "123456"
-        }).oauth.authorize({
-            scopes: [JsSdk.scope.USER_INFO, JsSdk.scope.MOBILE],
+    const jsSdk = JsSdk.config({
+        appId:"123456",
+        appSecret: "123456",
+        scopes: [JsSdk.scope.USER_INFO, JsSdk.scope.MOBILE],
+    });
+
+    checkDiv();
+
+    function checkDiv() {
+        if(jsSdk.oauth.isAuthorize()){
+            document.getElementsByClassName("authorize")[0].style.display = 'none';
+            document.getElementsByClassName("scopes")[0].style.display = 'block';
+        }
+    }
+
+    function authorize() {
+        jsSdk.oauth.authorize({
             success:function (data) {
                 console.log(data)
+                checkDiv()
             },
             error:function (err) {
                 console.log(err)
@@ -31,12 +107,26 @@
         });
     }
 
-    function test2() {
-
+    function userInfo() {
+        jsSdk.call(JsSdk.scope.USER_INFO, {
+            success:function (data) {
+                console.log(data)
+            },
+            error:function (err) {
+                console.log(err)
+            }
+        })
     }
 
-    function test3(){
-
+    function mobile(){
+        jsSdk.call(JsSdk.scope.MOBILE, {
+            success:function (data) {
+                console.log(data)
+            },
+            error:function (err) {
+                console.log(err)
+            }
+        })
     }
 </script>
 </html>
