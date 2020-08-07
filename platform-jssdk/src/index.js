@@ -1,4 +1,5 @@
-import {config} from "./config";
+import {config, Scope} from "./config";
+
 import OAuth from './OAuth';
 
 export default {
@@ -7,6 +8,8 @@ export default {
         return {
             oauth: new OAuth(options)
         }
-    }
+    },
+
+    scope: Scope
 
 }

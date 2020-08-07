@@ -21,14 +21,7 @@
             appId:"123456",
             appSecret: "123456"
         }).oauth.authorize({
-            scope:'userInfo',
-            success:function (data) {
-                console.log(data)
-            },
-            error:function (err) {
-                console.log(err)
-            }
-        }).userInfo({
+            scopes: [JsSdk.scope.USER_INFO, JsSdk.scope.MOBILE],
             success:function (data) {
                 console.log(data)
             },

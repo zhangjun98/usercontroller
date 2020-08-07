@@ -35,26 +35,28 @@ export default class OAuth {
             return;
         }
         const queryStr = location.search.substring(1);
-        console.log(queryStr)
         const params = Qs.parse(queryStr);
-        console.log(params)
         if (params.code){
             this.generateToken(params.code, options);
             return;
         }
-        this.generateAuthorize(options.scope);
+        this.generateAuthorize(options.scopes);
     }
 
     /**
      * 跳转授权页面
      */
-    generateAuthorize(scope) {
+    generateAuthorize(scopes) {
         const tempObj = {
             client_id: this.options.appId,
             response_type: 'code',
-            'redirect_uri': location.href,
-            scope: scope
+            'redirect_uri': location.href
         };
+
+        if (scopes){
+            tempObj.scope = scopes.join('+')
+        }
+
         const params = Qs.stringify(tempObj);
         location.href = config.oauth.baseURL + config.oauth.authorizeUrl + "?" + params;
     }
@@ -108,6 +110,10 @@ export default class OAuth {
         })
     }
 
+    /**
+     * 刷新token
+     * @param options
+     */
     refreshToken(options){
         const refreshToken = (options.refreshToken) ? options.refreshToken : config.token.refreshToken;
         const str =  this.options.appId + ":" + this.options.appSecret;

@@ -31,3 +31,15 @@ export const config = {
     token: {}
 
 };
+
+
+/**
+ * 申请权限范围
+ */
+export const Scope = {
+
+    USER_INFO: 'userInfo',
+
+    MOBILE: 'mobile'
+
+};
