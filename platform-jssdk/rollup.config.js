@@ -14,9 +14,7 @@ const pathResolve = (p) => path.resolve(__dirname, p);
 const config = {
     input: './src/index.js',
     external: [                       // 告诉rollup，不内联打包指定的依赖, 例如:对应import qs from 'qs'语句from后面的值
-        // 'qs',
         'axios'
-        // 'js-cookie'
     ],
     output: [
         {
@@ -35,9 +33,7 @@ const config = {
             sourcemap: true,              // 生成.map.js文件，方便chrome调试
             name: 'JsSdk',            // 当format为iife和umd时必须提供，将作为全局变量挂在window(浏览器环境)下：window.ztemap_sso=...
             globals: {                    // 用于umd/iife打包时才需要配置, 这跟external 是配套使用的，指明global.Qs即是外部依赖的qs
-                // qs: 'qs',
                 axios: 'axios'
-            //     // Cookies: 'js-cookie'
             }
         }
     ],
