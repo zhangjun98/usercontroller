@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>确认授权页面</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" th:href="@{../css/frozen.css}"/>
+
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .block{
+            position: relative;
+            height: 100%;
+        }
+        .ui-notice{
+            position: relative;
+            padding:20px 15px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+        .ui-notice p{
+            color:#333;
+            font-weight: 600;
+        }
+        .ui-btn-primary{
+            background-color: #02cd93;
+            border-color:#02cd93;;
+        }
+        .ui-notice-btn{
+            padding:0px;
+        }
+        .ui-title {
+            padding-left: 20px;
+        }
+        .ui-title > h4{
+            text-align: left;
+            font-weight: bold;
+            height: 40px;
+            line-height: 40px;
+        }
+        .ui-title > span{
+            font-size: 14px;
+            color: #40485b;
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+        }
+        .ui-checkbox-v{
+            height: 44px;
+            line-height: 44px;
+        }
+        .block > .ui-flex{
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="block">
+        <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
+            <section class="ui-notice">
+                <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
+                    <div>
+                        <span class="ui-avatar-lg">
+                            <span style="background-image:url(http://placeholder.qiniudn.com/140x140)"></span>
+                        </span>
+                    </div>
+                    <div class="ui-title">
+                        <h4>广陵智慧水利 客户端</span></h4>
+                        <span>此第三方应用请求获取权限</span>
+                    </div>
+                </div>
+                <div class="ui-flex  ui-flex-align-center ui-flex-pack-center">
+                    <div  style="margin:20px 0; color:#b7440e; font-size: 30px;">授权失败</div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

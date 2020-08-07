@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -82,10 +83,12 @@ public class BizClientDetailsService implements ClientDetailsService {
         Set<String> authorizedGrantTypes = Arrays.stream(client.getGrantTypes().split(",")).collect(toSet());
         authClient.setAuthorizedGrantTypes(authorizedGrantTypes);
 
+        authClient.setAdditionalInformation(client.getAdditionalInformation());
+
         // scope
-        Set<String> scope = Arrays.stream(client.getScope().split(",")).collect(toSet());
-        scope.add("openid");
-        authClient.setScope(scope);
+        if (!StringUtils.isEmpty(client.getScope())) {
+            authClient.setScope(Arrays.stream(client.getScope().split(",")).collect(toSet()));
+        }
         return authClient;
     }
 

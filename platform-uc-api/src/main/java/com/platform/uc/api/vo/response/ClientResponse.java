@@ -3,6 +3,7 @@ package com.platform.uc.api.vo.response;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Map;
 
 @Data
 public class ClientResponse implements Serializable {
@@ -57,7 +58,7 @@ public class ClientResponse implements Serializable {
     /**
      * 预留字段
      */
-    private String additionalInformation;
+    private Map<String, Object> additionalInformation;
 
     /**
      * 自动开启范围
