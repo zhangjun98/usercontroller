@@ -11,18 +11,21 @@
         <relativePath/>
     </parent>
 
-
     <groupId>com.ztkj</groupId>
     <artifactId>platform-uc</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>platform-auth</module>
+        <module>platform-uc-auth</module>
         <module>platform-login</module>
         <module>platform-uc-service</module>
         <module>platform-uc-api</module>
         <module>platform-jssdk</module>
     </modules>
+
+    <properties>
+        <docker.registry.name>zt</docker.registry.name>
+    </properties>
 
     <repositories>
         <repository>
