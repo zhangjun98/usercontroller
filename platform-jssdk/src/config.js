@@ -17,7 +17,7 @@ export const config = {
 
     oauth: {
 
-        baseURL: 'http://2.151.251.111:8080',
+        baseURL: 'http://58.220.249.165:21501',
 
         authorizeUrl: '/sso/oauth/authorize',
 
