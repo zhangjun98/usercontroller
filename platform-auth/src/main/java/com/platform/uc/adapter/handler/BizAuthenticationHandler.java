@@ -49,7 +49,6 @@ public class BizAuthenticationHandler extends SavedRequestAwareAuthenticationSuc
         if (Objects.nonNull(savedRequest)) {
             redirectUrl = savedRequest.getRedirectUrl();
         }
-        clearAuthenticationAttributes(request);
 
         log.info("{}", authentication);
         // 保存用户信息 并 获取token

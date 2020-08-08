@@ -26,6 +26,11 @@ public class MemberResponse implements Serializable {
     private String nickname;
 
     /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
      * 性别
      */
     private Integer sex;

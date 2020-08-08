@@ -21,7 +21,6 @@
         <module>platform-login</module>
         <module>platform-uc-service</module>
         <module>platform-uc-api</module>
-        <module>platform-uc-adapter</module>
         <module>platform-jssdk</module>
     </modules>
 

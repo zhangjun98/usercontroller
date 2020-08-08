@@ -2,7 +2,9 @@ package com.platform.uc.adapter.handler;
 
 import com.platform.uc.adapter.service.BizUserDetailsService;
 import com.ztkj.framework.common.authorization.vo.OAuthUser;
+import com.ztkj.framework.response.utils.RSAUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +26,9 @@ import javax.annotation.Resource;
 @Component
 public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
+    @Value("${zt.sso.private-key:}")
+    private String privateKey;
+
     @Resource
     private BizUserDetailsService userDetailsService;
 
@@ -40,14 +45,17 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
         OAuthUser user = (OAuthUser) userDetails;
         String password = (String) authentication.getCredentials();
-        log.info("password = {}, db password = {}", password, user.getPassword());
+        log.info("登录加密的密码 = {}", password);
+        // 密码 解密
+        password = RSAUtils.decrypt(password, privateKey);
+        log.info("登录密码解码后 = {}", password);
 
-        log.info("password = {}", passwordEncoder.encode(password));
-
+        // 比对密码
+        log.info("password = {}, db password = {}", passwordEncoder.encode(password), user.getPassword());
         if (!passwordEncoder.matches(password, user.getPassword())){
             throw new BadCredentialsException("Bad credentials");
         }
-        log.info("user == {}", user);
+        log.info("获取登录用户 == {}", user);
         return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
     }
 

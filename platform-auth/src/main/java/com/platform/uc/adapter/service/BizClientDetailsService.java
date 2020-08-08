@@ -5,6 +5,7 @@ import com.platform.uc.api.RemoteClientService;
 import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.ztkj.framework.response.core.BizResponse;
+import com.ztkj.framework.response.core.CommonErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,15 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.stream.Collectors.toSet;
@@ -39,6 +36,8 @@ public class BizClientDetailsService implements ClientDetailsService {
 
     private static final Long CLIENT_TIME = 30 * 60 * 1000L;
 
+    private static final Long NOTFOUND_CLIENT_TIME = 5 * 60 * 1000L;
+
     @Resource
     private PasswordEncoder passwordEncoder;
 
@@ -54,8 +53,15 @@ public class BizClientDetailsService implements ClientDetailsService {
         Boolean hasKey = redisTemplate.hasKey(CLIENT_KEY + clientId);
         if (hasKey == null || !hasKey){
             // 把clientDetails添加缓存
-            BizResponse<ClientResponse> client = remoteClientService.selectClientById(clientId);
-            boundValueOps.set(client.getData(), CLIENT_TIME, TimeUnit.MILLISECONDS);
+            BizResponse<ClientResponse> response = remoteClientService.selectClientById(clientId);
+            if (Objects.nonNull(response) && response.getCode().equals(CommonErrorCode.SUCCESS_CODE)){
+                long time = CLIENT_TIME;
+                if (Objects.isNull(response.getData())){
+                    time = NOTFOUND_CLIENT_TIME;
+                }
+                boundValueOps.set(response.getData(), time, TimeUnit.MILLISECONDS);
+            }
+
         }
         ClientResponse client =  (ClientResponse)boundValueOps.get();
         if (null == client){
@@ -84,6 +90,12 @@ public class BizClientDetailsService implements ClientDetailsService {
         authClient.setAuthorizedGrantTypes(authorizedGrantTypes);
 
         authClient.setAdditionalInformation(client.getAdditionalInformation());
+
+        // 设置是否开启自动授权
+        if (!StringUtils.isEmpty(client.getAutoApproveScopes())){
+            Set<String> autoApproveScopes = Arrays.stream(client.getAutoApproveScopes().split(",")).collect(toSet());
+            authClient.setAutoApproveScopes(autoApproveScopes);
+        }
 
         // scope
         if (!StringUtils.isEmpty(client.getScope())) {

@@ -115,14 +115,12 @@ export default {
     },
     methods: {
         submitLogin() {
-            // native-type="submit "
             this.$refs.myForm.validate((valid) => {
                 if (valid) {
                     const decrypt = getEncryptCode(publicKey, this.model.password)
-                    console.log(decrypt)
                     api.submitLogin({
                         username: this.model.username,
-                        password: this.model.password
+                        password: decrypt
                     }).then(res => {
                         const rsp = res.data
                         if (rsp.code === '000000') {

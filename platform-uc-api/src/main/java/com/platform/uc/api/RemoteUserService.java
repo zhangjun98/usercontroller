@@ -27,4 +27,5 @@ public interface RemoteUserService {
     @GetMapping("/{mid}")
     BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid);
 
+
 }

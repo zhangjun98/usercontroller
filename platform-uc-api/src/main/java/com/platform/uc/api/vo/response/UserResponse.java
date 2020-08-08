@@ -36,6 +36,16 @@ public class UserResponse implements Serializable {
     private String username;
 
     /**
+     * 手机号
+     */
+    private String mobile;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
      * 密码
      */
     private String password;
