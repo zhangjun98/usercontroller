@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>确认授权页面</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" th:href="@{../css/frozen.css}"/>
+
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        .block{
+            position: relative;
+            height: 100%;
+        }
+        .ui-notice{
+            position: relative;
+            padding:20px 15px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+        .ui-notice p{
+            color:#333;
+            font-weight: 600;
+        }
+        .ui-btn-primary{
+            background-color: #02cd93;
+            border-color:#02cd93;;
+        }
+        .ui-notice-btn{
+            padding:0px;
+        }
+        .ui-title {
+            padding-left: 20px;
+        }
+        .ui-title > h4{
+            text-align: left;
+            font-weight: bold;
+            height: 40px;
+            line-height: 40px;
+        }
+        .ui-title > span{
+            font-size: 14px;
+            color: #40485b;
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+        }
+        .ui-checkbox-v{
+            height: 44px;
+            line-height: 44px;
+        }
+        .block > .ui-flex{
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="block">
+    <div class="ui-flex ui-flex-pack-center">
+        <div class="ui-flex  ui-flex-align-center ui-flex-pack-center">
+            <section class="ui-notice">
+                <form id='confirmationForm' name='confirmationForm' action="authorize" method='post'>
+                    <input name='user_oauth_approval' th:value='${userOauthApproval}' type='hidden'/>
+                    <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
+                        <div>
+                             <span class="ui-avatar-lg">
+                                <span th:style="${'background-image:url(' + client.avatar + ')'}"></span>
+                            </span>
+                        </div>
+                        <div class="ui-title">
+                            <h4 th:utext="${client.name + ' 客户端'}"></span></h4>
+                            <span>此第三方应用请求获得以下权限</span>
+                        </div>
+                    </div>
+
+                    <div class="ui-flex ui-flex-ver ui-flex-pack-center ui-flex-align-start" style="margin: 10px 0;">
+                        <!--写好授权访问领域-->
+                        <div class="ui-checkbox-v" th:if="${not #lists.isEmpty(userScopes)}" th:each="scope:${userScopes}">
+                            <label class="ui-checkbox-s">
+                                <input type="checkbox" th:name="${'scope.' + scope.name}" th:value="${scope.checked}" th:checked="${scope.checked}" onclick="selectCheck(this)"/>
+                            </label>
+                            <span th:utext="${scope.describe}"></span>
+                        </div>
+                        <div class="ui-checkbox-v" th:if="${#lists.isEmpty(userScopes)}">
+                            <label class="ui-checkbox-s" style="width:33px;">
+                                <icon class="ui-icon-warn" style="color:#18b4ed; font-size: 25px;width: 30px;text-align: left;position: relative;"/>
+                            </label>
+                            <span th:utext="您没有可以授权的权限"></span>
+                        </div>
+                    </div>
+
+                    <div class="ui-btn-group">
+                        <input class="ui-btn-primary ui-btn-lg" th:if="${not #lists.isEmpty(userScopes)}" name='authorize' value='授权' type='submit'/>
+                        <input class="ui-btn ui-btn-lg" name='deny' th:if="${#lists.isEmpty(userScopes)}" value='拒绝' type='submit'/>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function selectCheck(el) {
+        el.value = el.checked;
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+server:
+  servlet:
+    context-path: /sso
+spring:
+  application:
+    name: platform-uc-auth
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 58.220.249.165:8848
+        group: ${spring.profiles.active}
+      config:
+        server-addr: 58.220.249.165:8848
+        refresh-enabled: true
+        shared-configs:
+          - data-id: ${spring.application.name}-${spring.profiles.active}.yml
+            refresh: true
+          - data-id: use-config-${spring.profiles.active}.yml
+            refresh: true
+          - data-id: mybatis-config.yml
+            refresh: true
+          - data-id: mysql-config.yml
+            refresh: true
+          - data-id: redis-config.yml
+            refresh: true
