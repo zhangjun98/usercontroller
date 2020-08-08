@@ -78,7 +78,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/../platform-auth/src/main/resources/static</outputDirectory>
+                            <outputDirectory>${basedir}/../platform-uc-auth/src/main/resources/static</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
@@ -102,7 +102,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/../platform-auth/src/main/resources/templates</outputDirectory>
+                            <outputDirectory>${basedir}/../platform-uc-auth/src/main/resources/templates</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
