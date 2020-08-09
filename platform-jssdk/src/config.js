@@ -23,8 +23,17 @@ export const config = {
 
         accessTokenUrl: '/sso/oauth/token',
 
-        userInfoUrl: '/api/user/info'
 
+
+    },
+
+    open: {
+
+        baseURL: 'http://58.220.249.165:21500',
+
+        userInfoUrl: '/api/user/info',
+
+        userMobile: '/api/user/mobile'
     },
 
     /**

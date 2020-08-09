@@ -7,7 +7,7 @@ export default class OpenApi {
 
     constructor() {
         const ajaxOptions = Object.assign({}, {
-            baseURL: config.oauth.baseURL,
+            baseURL: config.open.baseURL,
             crossDomain: true,
         });
         this.ajax = new Ajax(ajaxOptions);
@@ -16,7 +16,7 @@ export default class OpenApi {
     [Scope.USER_INFO](options){
         if (this[headers]()){
             this.ajax.axios({
-                url: config.oauth.userInfoUrl,
+                url: config.open.userInfoUrl,
                 method: 'GET',
                 headers: headers
             }).then(res=>{
@@ -29,8 +29,17 @@ export default class OpenApi {
 
     [Scope.MOBILE](options){
         if (this[headers]()) {
-            options.error({code: '900002', message: '此功能正在开发中，敬请期待'});
+            this.ajax.axios({
+                url: config.open.userMobile,
+                method: 'GET',
+                headers: headers
+            }).then(res=>{
+                options.success(res.data);
+            }).catch(err=>{
+                options.error(err);
+            })
         }
+        // options.error({code: '900002', message: '此功能正在开发中，敬请期待'});
     }
 
     [headers](options){
