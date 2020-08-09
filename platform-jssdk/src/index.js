@@ -8,7 +8,7 @@ export default {
         config.appId = options.appId
         config.appSecret = options.appSecret
         config.token = {
-            accessToken: Cookies.get('ztr'),
+            accessToken: Cookies.get('ztt'),
             refreshToken: Cookies.get('ztr')
         }
         config.scopes = options.scopes
