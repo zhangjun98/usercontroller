@@ -14,11 +14,12 @@ export default class OpenApi {
     }
 
     [Scope.USER_INFO](options){
-        if (this[headers]()){
+        const _headers = this[headers](options)
+        if (_headers) {
             this.ajax.axios({
                 url: config.open.userInfoUrl,
                 method: 'GET',
-                headers: headers
+                headers: _headers
             }).then(res=>{
                 options.success(res.data);
             }).catch(err=>{
@@ -28,11 +29,12 @@ export default class OpenApi {
     }
 
     [Scope.MOBILE](options){
-        if (this[headers]()) {
+        const _headers = this[headers](options)
+        if (_headers) {
             this.ajax.axios({
                 url: config.open.userMobile,
                 method: 'GET',
-                headers: headers
+                headers: _headers
             }).then(res=>{
                 options.success(res.data);
             }).catch(err=>{
@@ -43,12 +45,15 @@ export default class OpenApi {
     }
 
     [headers](options){
-        if (!config.token.accessToken){
+        const token = config.token.accessToken
+        if (!token){
+            // 为空
             options.error({code:'200101', message:'未授权'});
             return undefined;
+
         }
         return {
-            'Authorization': 'Bearer ' + config.token.accessToken,
+            'Authorization': 'Bearer ' + token,
         };
     }
 
