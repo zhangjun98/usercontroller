@@ -79,8 +79,14 @@ public class Menu implements Serializable{
     private Long updaterId;
 
     /**
-     * 保存子菜单
+     * 保存子级菜单
      */
     @TableField(exist = false)
     private List<Menu> list;
+
+    /**
+     * 保存子菜单
+     */
+    @TableField(exist = false)
+    private List<Submenu> submenuList;
 }
