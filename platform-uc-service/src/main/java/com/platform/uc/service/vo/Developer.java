@@ -41,5 +41,4 @@ public class Developer implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
-
 }
