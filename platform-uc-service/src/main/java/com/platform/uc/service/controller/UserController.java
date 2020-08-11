@@ -160,4 +160,24 @@ public class UserController {
         return ResultBean.success("设置成功！");
     }
 
+    /**
+     * 设置角色
+     *
+     * @param id 用户id
+     * @param ids 角色ID
+     * @return
+     */
+    @PutMapping("/configureRoles/{id}")
+    public BizResponse configureRoles(@PathVariable String id , @RequestBody List<String> ids)
+    {
+        if(ids==null || ids.size()<=0)
+        {
+            return BizResponseUtils.error("999999", "角色配置不能为空");
+        }
+        userService.configureRoles(id, ids);
+        return  BizResponseUtils.success("操作成功");
+    }
+
+
+
 }

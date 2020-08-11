@@ -4,11 +4,13 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.vo.MemberRole;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class MemberClientService {
 
 

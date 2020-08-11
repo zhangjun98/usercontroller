@@ -41,4 +41,7 @@ public class MemberRole implements Serializable {
 
     private Member member;
 
+    @TableField(exist = false)
+    private String userName;
+
 }

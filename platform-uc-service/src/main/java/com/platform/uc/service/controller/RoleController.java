@@ -1,8 +1,8 @@
 package com.platform.uc.service.controller;
 
 import com.platform.uc.service.service.RoleService;
-import com.platform.uc.service.vo.Menu;
-import com.platform.uc.service.vo.UcMemberRole;
+import com.platform.uc.service.vo.MemberRole;
+import com.platform.uc.service.vo.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
@@ -21,7 +21,7 @@ import java.util.List;
 	{
 		if (StringUtils.isEmpty(ucRole.getName()))
 		{
-			
+
 			return BizResponseUtils.error("999999", "角色名不能为空");
 
 		}
@@ -71,7 +71,6 @@ import java.util.List;
 		return BizResponseUtils.success(ucRole);
 	}
 
-
 	//角色列表
 	@GetMapping("/selectRoleList/{name}") @ResponseBody public BizResponse<List<UcRole>> selectRoleList(@PathVariable String name)
 	{
@@ -95,14 +94,32 @@ import java.util.List;
 	}
 
 	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}") @ResponseBody public BizResponse<List<UcMemberRole>> selectRoleUsers(@PathVariable Long roleId)
+	@GetMapping("/selectRoleUsers/{roleId}") @ResponseBody public BizResponse<List<MemberRole>> selectRoleUsers(@PathVariable Long roleId)
 	{
 		if (roleId == null)
 		{
 			return BizResponseUtils.error("999999", "角色不能为空");
 		}
-		List<UcMemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId);
+		List<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId);
 		return BizResponseUtils.success(ucMemberRoles);
 	}
 
+	//权限配置
+	@PostMapping("/configurePermissions") @ResponseBody public BizResponse<List<MemberRole>> configurePermissions(@RequestBody List<MeunPermissionVo> meunPermissionVos)
+	{
+		if (meunPermissionVos == null || meunPermissionVos.size() <= 0)
+		{
+			return BizResponseUtils.error("999999", "所配置的权限不能为空");
+		}
+		try
+		{
+			roleService.configurePermissions(meunPermissionVos);
+		}
+		catch (Exception e)
+		{
+			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
+		}
+
+		return null;
+	}
 }
