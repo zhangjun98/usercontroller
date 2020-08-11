@@ -2,6 +2,7 @@ package com.platform.uc.service.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.uc.service.mapper.UcRoleMapper;
+import com.platform.uc.service.vo.UcMemberRole;
 import com.platform.uc.service.vo.UcRole;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ import java.util.List;
 			queryWrapper.like("name", name);
 		}
 		return ucRoleMapper.selectList(queryWrapper);
+	}
+
+	public List<UcMemberRole> selectRoleUsers(Long roleId)
+	{
+		return ucRoleMapper.selectList(roleId);
 	}
 }

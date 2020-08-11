@@ -2,6 +2,7 @@ package com.platform.uc.service.controller;
 
 import com.platform.uc.service.service.RoleService;
 import com.platform.uc.service.vo.Menu;
+import com.platform.uc.service.vo.UcMemberRole;
 import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
@@ -60,7 +61,7 @@ import java.util.List;
 	}
 
 	//角色查看回显
-	@GetMapping("/selectRole") @ResponseBody public BizResponse<UcRole> selectRole(@PathVariable Long id)
+	@GetMapping("/selectRole/{id}") @ResponseBody public BizResponse<UcRole> selectRole(@PathVariable Long id)
 	{
 		if (id == null)
 		{
@@ -72,7 +73,7 @@ import java.util.List;
 
 
 	//角色列表
-	@GetMapping("/selectRoleList") @ResponseBody public BizResponse<List<UcRole>> selectRoleList(@PathVariable String name)
+	@GetMapping("/selectRoleList/{name}") @ResponseBody public BizResponse<List<UcRole>> selectRoleList(@PathVariable String name)
 	{
 
 		List<UcRole> ucRoles = roleService.selectList(name);
@@ -80,7 +81,7 @@ import java.util.List;
 	}
 
 	//角色删除
-	@DeleteMapping("/deleteRole") @ResponseBody public BizResponse<String> deleteRole(@PathVariable Long id)
+	@DeleteMapping("/deleteRole/{id}") @ResponseBody public BizResponse<String> deleteRole(@PathVariable Long id)
 	{
 		if (id == null)
 		{
@@ -92,4 +93,16 @@ import java.util.List;
 		roleService.update(ucRole);
 		return BizResponseUtils.success("操作成功");
 	}
+
+	//查看角色下的成员
+	@GetMapping("/selectRoleUsers/{roleId}") @ResponseBody public BizResponse<List<UcMemberRole>> selectRoleUsers(@PathVariable Long roleId)
+	{
+		if (roleId == null)
+		{
+			return BizResponseUtils.error("999999", "角色不能为空");
+		}
+		List<UcMemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId);
+		return BizResponseUtils.success(ucMemberRoles);
+	}
+
 }
