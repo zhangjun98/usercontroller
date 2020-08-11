@@ -14,12 +14,12 @@ import java.util.Date;
  */
 
 @Data
-@TableName("uc_submenu")
-public class Submenu implements Serializable{
+@TableName("uc_permission")
+public class Permission implements Serializable{
 
     private static final long serialVersionUID = 32L;
 
-  private String id;
+  private Long id;
 	/**
 	 * 子菜单名称
 	 */
