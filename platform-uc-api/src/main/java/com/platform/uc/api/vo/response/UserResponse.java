@@ -3,6 +3,7 @@ package com.platform.uc.api.vo.response;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.lang.reflect.Member;
 import java.util.Collection;
 import java.util.Date;
 
@@ -78,5 +79,7 @@ public class UserResponse implements Serializable {
     private Date createTime;
 
     private Date updateTime;
+
+    private int isDelete;
 
 }

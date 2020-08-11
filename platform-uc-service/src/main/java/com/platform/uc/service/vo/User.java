@@ -18,7 +18,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 8802724222925902827L;
 
     /**
-     * 账户编号
+     * 账户ID
      */
     @TableId
     private String id;
@@ -26,26 +26,31 @@ public class User implements Serializable {
     /**
      * 用户编号
      */
+    @TableField("mid")
     private String mid;
 
     /**
      * 账户名
      */
+    @TableField("username")
     private String username;
 
     /**
      * 邮箱
      */
+    @TableField("email")
     private String email;
 
     /**
      * 手机号
      */
+    @TableField("mobile")
     private String mobile;
 
     /**
      * 密码
      */
+    @TableField("password")
     private String password;
 
     /**
@@ -69,6 +74,7 @@ public class User implements Serializable {
     /**
      * 账户是否启动
      */
+    @TableField("enabled")
     private boolean enabled;
 
     @TableField("create_time")
@@ -77,5 +83,11 @@ public class User implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
+    /**
+     * 账户删除
+     */
+    @TableField("is_delete")
+    private int isDelete;
 
+    private Member member;
 }

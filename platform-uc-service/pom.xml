@@ -39,6 +39,10 @@
             <artifactId>lombok</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ztkj</groupId>
+            <artifactId>framework-common-core</artifactId>
+        </dependency>
 
     </dependencies>
 
