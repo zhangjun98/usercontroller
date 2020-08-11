@@ -12,8 +12,8 @@ import java.util.Date;
  * 用户角色关系
  */
 @Data
-@TableName("uc_user_role")
-public class UserRole implements Serializable {
+@TableName("uc_member_role")
+public class MemberRole implements Serializable {
 
     /**
      * 关系ID
@@ -24,8 +24,8 @@ public class UserRole implements Serializable {
     /**
      * 用户ID
      */
-    @TableField("user_id")
-    private String userId;
+    @TableField("mid")
+    private String mid;
 
     /**
      * 角色ID
@@ -38,4 +38,7 @@ public class UserRole implements Serializable {
 
     @TableField("update_date")
     private Date updateDate;
+
+    private Member member;
+
 }
