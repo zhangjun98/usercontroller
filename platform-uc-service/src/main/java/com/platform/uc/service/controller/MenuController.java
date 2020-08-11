@@ -3,7 +3,7 @@ package com.platform.uc.service.controller;
 
 import com.platform.uc.service.service.MenuService;
 import com.platform.uc.service.vo.Menu;
-import com.platform.uc.service.vo.Submenu;
+import com.platform.uc.service.vo.Permission;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,7 @@ public class MenuController {
      */
     @PostMapping("/saveSubMenu")
     @ResponseBody
-    public BizResponse<Integer> saveSubMenu(@RequestBody Submenu submenu){
+    public BizResponse<Integer> saveSubMenu(@RequestBody Permission submenu){
         try {
             Integer count= menuService.saveSubMenu(submenu);
             return BizResponseUtils.success(count);
@@ -81,7 +81,7 @@ public class MenuController {
      */
     @PostMapping("/updateSubMenu")
     @ResponseBody
-    public BizResponse<Integer> updateSubMenu(@RequestBody Submenu submenu){
+    public BizResponse<Integer> updateSubMenu(@RequestBody Permission submenu){
         try {
             Integer count= menuService.updateSubMenu(submenu);
             return BizResponseUtils.success(count);
@@ -114,9 +114,9 @@ public class MenuController {
      */
     @GetMapping("/findSubMenu")
     @ResponseBody
-    public BizResponse<List<Submenu>> findSubMenu(@RequestParam Long id){
+    public BizResponse<List<Permission>> findSubMenu(@RequestParam Long id){
         try {
-            List<Submenu> list= menuService.findSubMenu(id);
+            List<Permission> list= menuService.findSubMenu(id);
             return BizResponseUtils.success(list);
         } catch (Exception e) {
             e.printStackTrace();

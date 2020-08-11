@@ -1,14 +1,12 @@
 package com.platform.uc.service.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.uc.service.mapper.MenuMapper;
 import com.platform.uc.service.mapper.SubMenuMapper;
 import com.platform.uc.service.vo.Menu;
-import com.platform.uc.service.vo.Submenu;
+import com.platform.uc.service.vo.Permission;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -102,7 +100,7 @@ public class MenuService {
      * @param submenu
      * @return
      */
-    public Integer saveSubMenu(Submenu submenu) {
+    public Integer saveSubMenu(Permission submenu) {
         if (submenu==null || submenu.getMenuId()==null ||menuMapper.selectById(submenu.getMenuId())==null){
             throw new RuntimeException("保存子菜单时参数错误");
         }
@@ -117,7 +115,7 @@ public class MenuService {
      * @param submenu
      * @return
      */
-    public Integer updateSubMenu(Submenu submenu) {
+    public Integer updateSubMenu(Permission submenu) {
         if (submenu==null || submenu.getId()==null || submenu.getMenuId()==null ||menuMapper.selectById(submenu.getMenuId())==null){
             throw new RuntimeException("修改子菜单时参数错误");
         }
@@ -136,7 +134,7 @@ public class MenuService {
         if (id==null){
             throw new RuntimeException("删除子菜单时id为空");
         }
-        Submenu submenu = subMenuMapper.selectById(id);
+        Permission submenu = subMenuMapper.selectById(id);
         if (submenu==null){
             throw new RuntimeException("删除子菜单时没有对应id的子菜单");
         }
@@ -151,13 +149,13 @@ public class MenuService {
      * @param id 菜单的id
      * @return
      */
-    public List<Submenu> findSubMenu(Long id) {
+    public List<Permission> findSubMenu(Long id) {
         if (id==null){
             throw new RuntimeException("根据菜单id查询所有的子菜单时菜单id为空");
         }
-        QueryWrapper<Submenu> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<Permission> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("menu_id",id).eq("state",0);
-        List<Submenu> submenus = subMenuMapper.selectList(queryWrapper);
+        List<Permission> submenus = subMenuMapper.selectList(queryWrapper);
         return submenus;
     }
 
