@@ -88,5 +88,5 @@ public class Menu implements Serializable{
      * 保存子菜单
      */
     @TableField(exist = false)
-    private List<Submenu> submenuList;
+    private List<Permission> submenuList;
 }

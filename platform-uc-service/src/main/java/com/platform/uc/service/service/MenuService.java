@@ -3,7 +3,7 @@ package com.platform.uc.service.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.uc.service.mapper.MenuMapper;
-import com.platform.uc.service.mapper.SubMenuMapper;
+import com.platform.uc.service.mapper.PermissionMapper;
 import com.platform.uc.service.vo.Menu;
 import com.platform.uc.service.vo.Permission;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class MenuService {
     private MenuMapper menuMapper;
 
     @Resource
-    private SubMenuMapper subMenuMapper;
+    private PermissionMapper permissionMapper;
 
     /**
      * 保存菜单
@@ -106,7 +106,7 @@ public class MenuService {
         }
         submenu.setState(0);
         submenu.setCreateDate(new Date());
-        int insert = subMenuMapper.insert(submenu);
+        int insert = permissionMapper.insert(submenu);
         return insert;
     }
 
@@ -120,7 +120,7 @@ public class MenuService {
             throw new RuntimeException("修改子菜单时参数错误");
         }
         submenu.setUpdateDate(new Date());
-        int count = subMenuMapper.updateById(submenu);
+        int count = permissionMapper.updateById(submenu);
         return count;
     }
 
@@ -134,13 +134,13 @@ public class MenuService {
         if (id==null){
             throw new RuntimeException("删除子菜单时id为空");
         }
-        Permission submenu = subMenuMapper.selectById(id);
+        Permission submenu = permissionMapper.selectById(id);
         if (submenu==null){
             throw new RuntimeException("删除子菜单时没有对应id的子菜单");
         }
 
         submenu.setState(9);
-        int count = subMenuMapper.updateById(submenu);
+        int count = permissionMapper.updateById(submenu);
         return count;
     }
 
@@ -155,7 +155,7 @@ public class MenuService {
         }
         QueryWrapper<Permission> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("menu_id",id).eq("state",0);
-        List<Permission> submenus = subMenuMapper.selectList(queryWrapper);
+        List<Permission> submenus = permissionMapper.selectList(queryWrapper);
         return submenus;
     }
 
