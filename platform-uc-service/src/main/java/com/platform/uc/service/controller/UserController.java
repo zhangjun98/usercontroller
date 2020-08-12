@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.UserRequest;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.UserService;
-import com.platform.uc.service.vo.PasswordVo;
+import com.platform.uc.api.vo.request.PasswordVo;
 import com.platform.uc.service.vo.User;
 import com.ztkj.framework.common.domain.ResultBean;
 import com.ztkj.framework.response.core.BizResponse;

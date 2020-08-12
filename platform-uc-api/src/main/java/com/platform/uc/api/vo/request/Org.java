@@ -1,13 +1,10 @@
-package com.platform.uc.service.vo;
+package com.platform.uc.api.vo.request;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
 
 /**
  * @author CDN
@@ -15,7 +12,6 @@ import java.util.List;
  * Date: 2020-08-11
  */
 @Data
-@TableName("uc_org")
 public class Org implements Serializable{
 
 
@@ -79,7 +75,6 @@ public class Org implements Serializable{
     /**
      * 装子级的机构
      */
-  @TableField(exist = false)
   private List<Org> list;
 
 }

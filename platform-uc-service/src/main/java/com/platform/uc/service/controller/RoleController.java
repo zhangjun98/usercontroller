@@ -1,8 +1,9 @@
 package com.platform.uc.service.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.service.service.RoleService;
 import com.platform.uc.service.vo.MemberRole;
-import com.platform.uc.service.vo.MeunPermissionVo;
+import com.platform.uc.api.vo.request.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
@@ -72,10 +73,11 @@ import java.util.List;
 	}
 
 	//角色列表
-	@GetMapping("/selectRoleList/{name}") @ResponseBody public BizResponse<List<UcRole>> selectRoleList(@PathVariable String name)
+	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}") @ResponseBody public BizResponse<IPage<UcRole>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
+			@PathVariable Integer pageSize)
 	{
 
-		List<UcRole> ucRoles = roleService.selectList(name);
+		IPage<UcRole> ucRoles = roleService.selectList(name, pageNum, pageSize);
 		return BizResponseUtils.success(ucRoles);
 	}
 
@@ -94,13 +96,14 @@ import java.util.List;
 	}
 
 	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}") @ResponseBody public BizResponse<List<MemberRole>> selectRoleUsers(@PathVariable Long roleId)
+	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize") @ResponseBody public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
+			@PathVariable Integer pageSize)
 	{
 		if (roleId == null)
 		{
 			return BizResponseUtils.error("999999", "角色不能为空");
 		}
-		List<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId);
+		IPage<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId, pageNum, pageSize);
 		return BizResponseUtils.success(ucMemberRoles);
 	}
 
