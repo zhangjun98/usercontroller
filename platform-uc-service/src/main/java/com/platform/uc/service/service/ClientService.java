@@ -27,9 +27,11 @@ import java.util.Map;
 @Service
 public class ClientService {
 
-    @Resource private ClientMapper clientMapper;
+    @Resource
+    private ClientMapper clientMapper;
 
-    @Resource private MemberClientMapper memberClientMapper;
+    @Resource
+    private MemberClientMapper memberClientMapper;
     /**
      * 保存
      */
