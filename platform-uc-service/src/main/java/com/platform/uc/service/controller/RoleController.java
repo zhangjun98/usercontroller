@@ -20,7 +20,7 @@ import java.util.List;
 	{
 		if (StringUtils.isEmpty(ucRole.getName()))
 		{
-			
+
 			return BizResponseUtils.error("999999", "角色名不能为空");
 
 		}
