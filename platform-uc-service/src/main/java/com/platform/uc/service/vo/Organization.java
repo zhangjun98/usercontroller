@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Data
 @TableName("uc_org")
-public class Org implements Serializable{
+public class Organization implements Serializable{
 
 
     private static final long serialVersionUID = 5272723848480230740L;
@@ -80,6 +80,6 @@ public class Org implements Serializable{
      * 装子级的机构
      */
   @TableField(exist = false)
-  private List<Org> list;
+  private List<Organization> list;
 
 }

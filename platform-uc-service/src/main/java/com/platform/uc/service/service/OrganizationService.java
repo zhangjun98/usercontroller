@@ -1,34 +1,31 @@
 package com.platform.uc.service.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.platform.uc.service.mapper.OrgMapper;
-import com.platform.uc.service.vo.Org;
+import com.platform.uc.service.mapper.OrganizationMapper;
+import com.platform.uc.service.vo.Organization;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * 机构管理的service
  */
-@Service public class OrgService
+@Service public class OrganizationService
 {
 
-	@Resource private OrgMapper orgMapper;
+	@Resource private OrganizationMapper organizationMapper;
 
 	/**
 	 * 保存机构信息
 	 *
-	 * @param org
+	 * @param organization
 	 * @return
 	 */
-	public void save(Org org)
+	public void save(Organization organization)
 	{
-		orgMapper.insert(org);
+		organizationMapper.insert(organization);
 	}
 
 	/**
@@ -37,16 +34,16 @@ import java.util.List;
 	 * @param orgName
 	 * @return
 	 */
-	public List<Org> selectList(String orgName)
+	public List<Organization> selectList(String orgName)
 	{
 		//查询所有的机构
-		QueryWrapper<Org> queryWrapper = new QueryWrapper<>();
+		QueryWrapper<Organization> queryWrapper = new QueryWrapper<>();
 		if (StringUtils.isNotEmpty(orgName))
 		{
 			queryWrapper.like("org_name", orgName).or().like("short_name", orgName).or().like("org_code", orgName);
 		}
 		queryWrapper.eq("state", 0);
-		return  orgMapper.selectList(queryWrapper);
+		return  organizationMapper.selectList(queryWrapper);
 	}
 
 	/**
@@ -54,23 +51,23 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	public List<Org> findAllOrg()
+	public List<Organization> findAllOrg()
 	{
-		QueryWrapper<Org> queryWrapper = new QueryWrapper<>();
+		QueryWrapper<Organization> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("state", 0);
-		List<Org> orgs = orgMapper.selectList(queryWrapper);
-		return orgs;
+		List<Organization> organizations = organizationMapper.selectList(queryWrapper);
+		return organizations;
 	}
 
 	/**
 	 * 更新机构信息
 	 *
-	 * @param org
+	 * @param organization
 	 * @return
 	 */
-	public void update(Org org)
+	public void update(Organization organization)
 	{
-		orgMapper.updateById(org);
+		organizationMapper.updateById(organization);
 	}
 
 	/**
@@ -79,10 +76,10 @@ import java.util.List;
 	 * @param id 机构的id
 	 * @return org 机构对象
 	 */
-	public Org search(Long id)
+	public Organization search(Long id)
 	{
 
-		return orgMapper.selectById(id);
+		return organizationMapper.selectById(id);
 
 	}
 

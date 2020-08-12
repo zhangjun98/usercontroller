@@ -5,10 +5,9 @@ import com.platform.uc.service.vo.MemberRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,8 +18,7 @@ import java.util.List;
 @RestController
 public class MemberRoleController {
 
-    @Autowired
-    @Qualifier("memberRoleService")
+    @Resource
     private MemberRoleService memberRoleService;
 
     @PostMapping

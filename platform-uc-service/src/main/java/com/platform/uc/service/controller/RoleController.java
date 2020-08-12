@@ -7,65 +7,66 @@ import com.platform.uc.api.vo.request.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-@RequestMapping("/uc/role") @RestController public class RoleController
-{
-	@Autowired RoleService roleService;
+/**
+ * 使用RestController注解不需要ResponseBody注解
+ * RestController注解中包含了ResponseBody注解
+ *
+ * try{}catch{} 不要用e.printStackTrace(); 打出堆栈信息
+ *
+ * 错误代码在UserErrorCode中定义
+ */
+@Slf4j
+@RestController
+@RequestMapping("/uc/role")
+public class RoleController {
+
+	@Resource
+	private RoleService roleService;
 
 	//角色新增
-	@PostMapping("/addRole") @ResponseBody public BizResponse<String> addRole(@RequestBody UcRole ucRole)
-	{
-		if (StringUtils.isEmpty(ucRole.getName()))
-		{
-
+	@PostMapping("/addRole")
+	public BizResponse<String> addRole(@RequestBody UcRole ucRole){
+		if (StringUtils.isEmpty(ucRole.getName())){
 			return BizResponseUtils.error("999999", "角色名不能为空");
-
 		}
-		try
-		{
+		try {
 			roleService.insert(ucRole);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error("", e);
 			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
 		}
 		return BizResponseUtils.success("操作成功");
 	}
 
 	//角色修改
-	@PutMapping("/updateRole") @ResponseBody public BizResponse<String> updateRole(@RequestBody UcRole ucRole)
-	{
-		if (StringUtils.isEmpty(ucRole.getName()))
-		{
+	@PutMapping("/updateRole")
+	public BizResponse<String> updateRole(@RequestBody UcRole ucRole){
+		if (StringUtils.isEmpty(ucRole.getName())) {
 			return BizResponseUtils.error("999999", "角色名不能为空");
 		}
-		if (ucRole.getId() == null)
-		{
+		if (ucRole.getId() == null) {
 			return BizResponseUtils.error("999999", "主键不能为空");
 		}
-		try
-		{
+		try {
 			roleService.update(ucRole);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+		} catch (Exception e){
+			log.error("", e);
 			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
 		}
 		return BizResponseUtils.success("操作成功");
 	}
 
 	//角色查看回显
-	@GetMapping("/selectRole/{id}") @ResponseBody public BizResponse<UcRole> selectRole(@PathVariable Long id)
-	{
-		if (id == null)
-		{
+	@GetMapping("/selectRole/{id}")
+	public BizResponse<UcRole> selectRole(@PathVariable Long id){
+		if (id == null){
 			return BizResponseUtils.error("999999", "主键不能为空");
 		}
 		UcRole ucRole = roleService.selectBean(id);
@@ -73,19 +74,17 @@ import java.util.List;
 	}
 
 	//角色列表
-	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}") @ResponseBody public BizResponse<IPage<UcRole>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
-			@PathVariable Integer pageSize)
-	{
-
+	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}")
+	public BizResponse<IPage<UcRole>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
+			@PathVariable Integer pageSize){
 		IPage<UcRole> ucRoles = roleService.selectList(name, pageNum, pageSize);
 		return BizResponseUtils.success(ucRoles);
 	}
 
 	//角色删除
-	@DeleteMapping("/deleteRole/{id}") @ResponseBody public BizResponse<String> deleteRole(@PathVariable Long id)
-	{
-		if (id == null)
-		{
+	@DeleteMapping("/deleteRole/{id}")
+	public BizResponse<String> deleteRole(@PathVariable Long id) {
+		if (id == null){
 			return BizResponseUtils.error("999999", "主键不能为空");
 		}
 		UcRole ucRole = new UcRole();
@@ -96,9 +95,9 @@ import java.util.List;
 	}
 
 	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize") @ResponseBody public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
-			@PathVariable Integer pageSize)
-	{
+	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize")
+	public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
+			@PathVariable Integer pageSize) {
 		if (roleId == null)
 		{
 			return BizResponseUtils.error("999999", "角色不能为空");
@@ -108,21 +107,19 @@ import java.util.List;
 	}
 
 	//权限配置
-	@PostMapping("/configurePermissions") @ResponseBody public BizResponse<List<MemberRole>> configurePermissions(@RequestBody List<MeunPermissionVo> meunPermissionVos)
-	{
-		if (meunPermissionVos == null || meunPermissionVos.size() <= 0)
-		{
+	@PostMapping("/configurePermissions")
+	public BizResponse<List<MemberRole>> configurePermissions(@RequestBody List<MeunPermissionVo> meunPermissionVos){
+		if (meunPermissionVos == null || meunPermissionVos.size() <= 0){
 			return BizResponseUtils.error("999999", "所配置的权限不能为空");
 		}
-		try
-		{
+		try{
 			roleService.configurePermissions(meunPermissionVos);
-		}
-		catch (Exception e)
-		{
+		}catch (Exception e){
+
 			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
 		}
 
 		return null;
 	}
+
 }
