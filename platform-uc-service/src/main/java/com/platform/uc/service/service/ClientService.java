@@ -2,16 +2,21 @@ package com.platform.uc.service.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.platform.uc.service.mapper.ClientMapper;
-import com.platform.uc.service.vo.Client;
+import com.platform.uc.service.mapper.MemberClientMapper;
+import com.platform.uc.service.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,9 +27,9 @@ import java.util.Map;
 @Service
 public class ClientService {
 
-    @Resource
-    private ClientMapper clientMapper;
+    @Resource private ClientMapper clientMapper;
 
+    @Resource private MemberClientMapper memberClientMapper;
     /**
      * 保存
      */
@@ -51,5 +56,34 @@ public class ClientService {
         }
         return response;
     }
+
+
+
+    public void update(Client client)
+    {
+        clientMapper.updateById(client);
+    }
+
+    public Client selectBean(Long id)
+    {
+        return clientMapper.selectById(id);
+    }
+
+    public List<Client> selectList(String name)
+    {
+        QueryWrapper<Client> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("state",0);
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(name))
+        {
+            queryWrapper.like("name", name);
+        }
+        return clientMapper.selectList(queryWrapper);
+    }
+
+    public List<MemberClient> selectClientUsers(Long clientId)
+    {
+        return memberClientMapper.selectList(clientId);
+    }
+
 
 }

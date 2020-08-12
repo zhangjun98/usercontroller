@@ -2,8 +2,8 @@ package com.platform.uc.service.service;
 
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.platform.uc.service.mapper.MemberRoleMapper;
-import com.platform.uc.service.vo.MemberRole;
+import com.platform.uc.service.mapper.MemberClientMapper;
+import com.platform.uc.service.vo.MemberClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,21 +13,19 @@ import java.util.List;
 @Service
 public class MemberClientService {
 
-
-    @Resource
-    private MemberRoleMapper memberRoleMapper;
+    @Resource private MemberClientMapper memberClientMapper;
 
     /**
      * 保存用户平台
-     * @param memberRole
+     * @param memberClient
      */
-    public int saveUserRole(MemberRole memberRole) {
-        if (memberRole ==null){
+    public int saveUserRole(MemberClient memberClient) {
+        if (memberClient ==null){
             throw new RuntimeException("菜单对象为空");
         }
-        memberRole.setCreateDate(new Date());
+        memberClient.setCreateDate(new Date());
 
-        int insert = memberRoleMapper.insert(memberRole);
+        int insert = memberClientMapper.insert(memberClient);
         return insert;
     }
 
@@ -36,12 +34,12 @@ public class MemberClientService {
      * @param mid
      * @return
      */
-    public List<MemberRole> selectByUserId(String mid){
-        QueryWrapper<MemberRole> wrapper = new QueryWrapper<>();
+    public List<MemberClient> selectByUserId(String mid){
+        QueryWrapper<MemberClient> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(mid)) {
             wrapper.eq("mid", mid);
         }
-        List<MemberRole> listRole=  memberRoleMapper.selectList(wrapper);
+        List<MemberClient> listRole=  memberClientMapper.selectList(wrapper);
         return listRole;
     }
 
@@ -50,27 +48,27 @@ public class MemberClientService {
      * @param id
      * @return
      */
-    public MemberRole selectById(String id){
-        QueryWrapper<MemberRole> wrapper = new QueryWrapper<>();
+    public MemberClient selectById(String id){
+        QueryWrapper<MemberClient> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(id)) {
             wrapper.eq("id", id);
         }
-        return memberRoleMapper.selectById(wrapper);
+        return memberClientMapper.selectById(wrapper);
     }
 
     /**
      * 更新平台
      *
-     * @param memberRole
+     * @param memberClient
      */
-    public int updateUserRole(MemberRole memberRole) {
+    public int updateUserRole(MemberClient memberClient) {
 
-        QueryWrapper<MemberRole> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(memberRole.getRoleId())) {
-            wrapper.eq("client_id", memberRole.getRoleId());
+        QueryWrapper<MemberClient> wrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(memberClient.getClientId())) {
+            wrapper.eq("client_id", memberClient.getClientId());
         }
 
-        return memberRoleMapper.update(memberRole, wrapper);
+        return memberClientMapper.update(memberClient, wrapper);
     }
 
     /**
@@ -78,7 +76,7 @@ public class MemberClientService {
      * @param id
      */
     public int deleteById(String id) {
-        return memberRoleMapper.deleteById(id);
+        return memberClientMapper.deleteById(id);
     }
 
     /**
@@ -87,7 +85,7 @@ public class MemberClientService {
      */
     public int batchDelete(List<String> idList) {
         for (String id: idList) {
-            memberRoleMapper.deleteById(id);
+            memberClientMapper.deleteById(id);
         }
         return 1;
     }

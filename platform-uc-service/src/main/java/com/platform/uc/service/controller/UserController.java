@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.UserRequest;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.UserService;
-import com.platform.uc.service.vo.PasswordVo;
+import com.platform.uc.api.vo.request.PasswordVo;
 import com.platform.uc.service.vo.User;
 import com.ztkj.framework.common.domain.ResultBean;
 import com.ztkj.framework.response.core.BizResponse;
@@ -13,10 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -183,30 +179,20 @@ public class UserController {
     }
 
     /**
-     * 设置角色
-     *
+     * 设置平台
+     * @param id
+     * @param ids
      * @return
      */
-    @PutMapping("/configureRolesT")
-    public BizResponse configureRoles(HttpServletRequest request) throws IOException
+    @PutMapping("/configureClients/{id}")
+    public BizResponse configureClients(@PathVariable String id , @RequestBody List<String> ids)
     {
-        String str  = request.getParameter("str");
-        String password  = request.getParameter("password");
-
-        return  BizResponseUtils.success(password);
-    }
-
-    public String splitString(String str,String temp){
-        String result = null;
-        if (str.indexOf(temp) != -1) {
-            if (str.substring(str.indexOf(temp)).indexOf("&") != -1) {
-                result = str.substring(str.indexOf(temp)).substring(str.substring(str.indexOf(temp)).indexOf("=")+1, str.substring(str.indexOf(temp)).indexOf("&"));
-            } else {
-                result = str.substring(str.indexOf(temp)).substring(str.substring(str.indexOf(temp)).indexOf("=")+1);
-            }
+        if(ids==null || ids.size()<=0)
+        {
+            return BizResponseUtils.error("999999", "平台配置不能为空");
         }
-        return result;
-
+        userService.configureClients(id, ids);
+        return  BizResponseUtils.success("操作成功");
     }
 
 }

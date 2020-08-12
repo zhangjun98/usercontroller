@@ -92,5 +92,9 @@ public class Client implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
+    @TableField("state")
+    private int state;
 
+    @TableField("name")
+    private String name;
 }

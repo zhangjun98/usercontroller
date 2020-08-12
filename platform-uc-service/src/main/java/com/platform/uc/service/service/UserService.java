@@ -3,17 +3,16 @@ package com.platform.uc.service.service;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.uc.api.vo.request.PasswordVo;
 import com.platform.uc.api.vo.request.UserRequest;
 import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
+import com.platform.uc.service.mapper.MemberClientMapper;
 import com.platform.uc.service.mapper.MemberMapper;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.mapper.UserMapper;
 import com.platform.uc.service.utils.BeanCloneUtils;
-import com.platform.uc.service.vo.Member;
-import com.platform.uc.service.vo.MemberRole;
-import com.platform.uc.service.vo.PasswordVo;
-import com.platform.uc.service.vo.User;
+import com.platform.uc.service.vo.*;
 import com.ztkj.framework.common.domain.CodeMessage;
 import com.ztkj.framework.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +38,8 @@ import java.util.*;
 	@Resource private MemberMapper memberMapper;
 
 	@Resource private MemberRoleMapper memberRoleMapper;
+
+	@Resource private MemberClientMapper memberClientMapper;
 
 	/**
 	 * 通过登录信息获取用户信息
@@ -368,6 +369,21 @@ import java.util.*;
 			{
 				memberRole.setRoleId(temp);
 				memberRoleMapper.insert(memberRole);
+			}
+		}
+	}
+
+	public void configureClients(String id, List<String> ids)
+	{
+		for (String temp : ids)
+		{
+			MemberClient memberClient = new MemberClient();
+			memberClient.setCreateDate(new Date());
+			memberClient.setMid(id);
+			if(StringUtils.isNotEmpty(temp))
+			{
+				memberClient.setClientId(temp);
+				memberClientMapper.insert(memberClient);
 			}
 		}
 	}

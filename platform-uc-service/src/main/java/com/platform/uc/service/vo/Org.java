@@ -1,5 +1,12 @@
-package com.jx.eat.domain;
+package com.platform.uc.service.vo;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -7,12 +14,14 @@ import java.io.Serializable;
  * @desc 组织机构表
  * Date: 2020-08-11
  */
-
+@Data
+@TableName("uc_org")
 public class Org implements Serializable{
 
-    private static final long serialVersionUID = 22L;
 
-  private Long id;
+    private static final long serialVersionUID = 5272723848480230740L;
+
+    private Long id;
 	/**
 	 * 父机构
 	 */
@@ -61,162 +70,16 @@ public class Org implements Serializable{
 	 * 管理员图片
 	 */
   private String adminImage;
-  private java.util.Date createDate;
+
+  private Date createDate;
   private Long creatorId;
-  private java.util.Date updateDate;
+  private Date updateDate;
   private Long updaterId;
 
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-
-  public Long getParentId() {
-    return parentId;
-  }
-
-  public void setParentId(Long parentId) {
-    this.parentId = parentId;
-  }
-
-
-  public String getOrgCode() {
-    return orgCode;
-  }
-
-  public void setOrgCode(String orgCode) {
-    this.orgCode = orgCode;
-  }
-
-
-  public String getOrgName() {
-    return orgName;
-  }
-
-  public void setOrgName(String orgName) {
-    this.orgName = orgName;
-  }
-
-
-  public String getShortName() {
-    return shortName;
-  }
-
-  public void setShortName(String shortName) {
-    this.shortName = shortName;
-  }
-
-
-  public Long getOrgType() {
-    return orgType;
-  }
-
-  public void setOrgType(Long orgType) {
-    this.orgType = orgType;
-  }
-
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-
-  public String getLinkMan() {
-    return linkMan;
-  }
-
-  public void setLinkMan(String linkMan) {
-    this.linkMan = linkMan;
-  }
-
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-
-  public String getAddress() {
-    return address;
-  }
-
-  public void setAddress(String address) {
-    this.address = address;
-  }
-
-
-  public Long getState() {
-    return state;
-  }
-
-  public void setState(Long state) {
-    this.state = state;
-  }
-
-
-  public String getAdminImage() {
-    return adminImage;
-  }
-
-  public void setAdminImage(String adminImage) {
-    this.adminImage = adminImage;
-  }
-
-
-  public java.util.Date getCreateDate() {
-    return createDate;
-  }
-
-  public void setCreateDate(java.util.Date createDate) {
-    this.createDate = createDate;
-  }
-
-
-  public Long getCreatorId() {
-    return creatorId;
-  }
-
-  public void setCreatorId(Long creatorId) {
-    this.creatorId = creatorId;
-  }
-
-
-  public java.util.Date getUpdateDate() {
-    return updateDate;
-  }
-
-  public void setUpdateDate(java.util.Date updateDate) {
-    this.updateDate = updateDate;
-  }
-
-
-  public Long getUpdaterId() {
-    return updaterId;
-  }
-
-  public void setUpdaterId(Long updaterId) {
-    this.updaterId = updaterId;
-  }
+    /**
+     * 装子级的机构
+     */
+  @TableField(exist = false)
+  private List<Org> list;
 
 }

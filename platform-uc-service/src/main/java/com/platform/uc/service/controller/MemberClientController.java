@@ -1,7 +1,7 @@
 package com.platform.uc.service.controller;
 
 import com.platform.uc.service.service.MemberClientService;
-import com.platform.uc.service.vo.MemberRole;
+import com.platform.uc.service.vo.MemberClient;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import io.swagger.annotations.ApiOperation;
@@ -23,20 +23,20 @@ public class MemberClientController {
 
     @PostMapping
     @ApiOperation(value = "保存实体信息")
-    public BizResponse<Integer> saveUserRole(@RequestBody MemberRole memberRole) {
-        return BizResponseUtils.success(memberClientService.saveUserRole(memberRole));
+    public BizResponse<Integer> saveUserRole(@RequestBody MemberClient memberClient) {
+        return BizResponseUtils.success(memberClientService.saveUserRole(memberClient));
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询信息")
-    public BizResponse<MemberRole> findById(@PathVariable String id) {
+    public BizResponse<MemberClient> findById(@PathVariable String id) {
         return BizResponseUtils.success(memberClientService.selectById(id));
     }
 
     @PutMapping
     @ApiOperation(value = "修改实体信息")
-    public BizResponse<Integer> modify(@RequestBody MemberRole memberRole) {
-        return BizResponseUtils.success(memberClientService.updateUserRole(memberRole));
+    public BizResponse<Integer> modify(@RequestBody MemberClient memberClient) {
+        return BizResponseUtils.success(memberClientService.updateUserRole(memberClient));
     }
 
     @DeleteMapping("/{id}")
