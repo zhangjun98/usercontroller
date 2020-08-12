@@ -79,7 +79,6 @@ public class ClientController {
     //应用列表
     @GetMapping("/selectClientList/{name}") @ResponseBody public BizResponse<List<Client>> selectClientList(@PathVariable String name)
     {
-
         List<Client> clients = clientService.selectList(name);
         return BizResponseUtils.success(clients);
     }
