@@ -19,18 +19,6 @@ import java.util.List;
 
 	@Autowired private OrgService orgService;
 
-	//    @PostMapping("/save")
-	//    @ResponseBody
-	//    public BizResponse<Integer> save(@RequestBody Org org){
-	//        try {
-	//            Integer count= orgService.save(org);
-	//            return BizResponseUtils.success(count);
-	//        } catch (Exception e) {
-	//            e.printStackTrace();
-	//        }
-	//
-	//        return BizResponseUtils.error("999999","系统繁忙请稍后重试");
-	//    }
 
 	/**
 	 * 保存机构
@@ -57,11 +45,11 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	@GetMapping("/findTree") @ResponseBody public BizResponse<List<Org>> findTree(String orgName)
+	@GetMapping("/selectList") @ResponseBody public BizResponse<List<Org>> selectList(String orgName)
 	{
 		try
 		{
-			List<Org> tree = orgService.findTree(orgName);
+			List<Org> tree = orgService.selectList(orgName);
 			return BizResponseUtils.success(tree);
 		}
 		catch (Exception e)
@@ -97,12 +85,12 @@ import java.util.List;
 	 *
 	 * @return 修改成功返回1
 	 */
-	@PostMapping("/update") @ResponseBody public BizResponse<Integer> update(@RequestBody Org org)
+	@PostMapping("/update") @ResponseBody public BizResponse<String> update(@RequestBody Org org)
 	{
 		try
 		{
-			Integer count = orgService.update(org);
-			return BizResponseUtils.success(count);
+			orgService.update(org);
+			return BizResponseUtils.success("操作成功");
 		}
 		catch (Exception e)
 		{
@@ -117,7 +105,7 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	@GetMapping("/search") @ResponseBody public BizResponse<Org> search(@RequestParam Long id)
+	@GetMapping("/search/{id}") @ResponseBody public BizResponse<Org> search(@PathVariable Long id)
 	{
 		try
 		{
@@ -132,24 +120,5 @@ import java.util.List;
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
 	}
 
-	/**
-	 * 逻辑删除机构信息
-	 *
-	 * @param id 机构的主键id
-	 * @return
-	 */
-	@GetMapping("/delete") @ResponseBody public BizResponse<Integer> delete(@RequestParam Long id)
-	{
-		try
-		{
-			Integer count = orgService.delete(id);
-			return BizResponseUtils.success(count);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
 
-		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
-	}
 }
