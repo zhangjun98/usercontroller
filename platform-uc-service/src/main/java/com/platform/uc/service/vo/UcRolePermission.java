@@ -3,8 +3,8 @@ package com.platform.uc.service.vo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
-@Data public class UcRolePermission
-{
+@Data
+public class UcRolePermission {
 
 	private Long id;
 

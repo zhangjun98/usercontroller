@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MeunPermissionVo
-{
+public class MeunPermissionVo {
 
 	//菜单ID
 	private Long meunId;
@@ -16,7 +15,5 @@ public class MeunPermissionVo
 
 	//角色ID
 	private Long roleId;
-
-
 
 }
