@@ -26,19 +26,6 @@ import java.util.List;
 	 * @param org
 	 * @return
 	 */
-	//    public Integer save(Org org) {
-	//
-	//        if (org!=null) {
-	//            if (org.getParentId()==null){
-	//                org.setParentId(0l);
-	//            }
-	//            org.setState(0l);
-	//            org.setCreateDate(new Date());
-	//            int insert = orgMapper.insert(org);
-	//            return insert;
-	//        }
-	//        return null;
-	//    }
 	public void save(Org org)
 	{
 		orgMapper.insert(org);
@@ -50,7 +37,7 @@ import java.util.List;
 	 * @param orgName
 	 * @return
 	 */
-	public List<Org> findTree(String orgName)
+	public List<Org> selectList(String orgName)
 	{
 		//查询所有的机构
 		QueryWrapper<Org> queryWrapper = new QueryWrapper<>();
@@ -59,47 +46,7 @@ import java.util.List;
 			queryWrapper.like("org_name", orgName).or().like("short_name", orgName).or().like("org_code", orgName);
 		}
 		queryWrapper.eq("state", 0);
-		List<Org> orgs = orgMapper.selectList(queryWrapper);
-		if (orgs != null && orgs.size() > 0)
-		{
-
-			//所有滴结果放在map中
-			HashMap<Long, Object> map = new HashMap<>(orgs.size());
-			for (Org org : orgs)
-			{
-				map.put(org.getId(), org);
-			}
-
-			//继续遍历总list,每个元素的父级找出来,添加
-			for (int i = 0; i < orgs.size(); i++)
-			{
-				Org o = (Org) map.get(orgs.get(i).getParentId());
-				if (o != null)
-				{
-					//添加子集前,给一个list地址
-					if (o.getList() == null)
-					{
-						o.setList(new ArrayList<Org>());
-					}
-
-					o.getList().add(orgs.get(i));
-					map.put(orgs.get(i).getParentId(), o);
-				}
-			}
-
-			//拿到一级机构,返回
-			ArrayList<Org> orgsResult = new ArrayList<>();
-			for (int i = 0; i < orgs.size(); i++)
-			{
-				if (orgs.get(i).getParentId() == 0)
-				{
-					orgsResult.add(orgs.get(i));
-				}
-			}
-
-			return orgsResult;
-		}
-		return null;
+		return  orgMapper.selectList(queryWrapper);
 	}
 
 	/**
@@ -121,15 +68,9 @@ import java.util.List;
 	 * @param org
 	 * @return
 	 */
-	public Integer update(Org org)
+	public void update(Org org)
 	{
-		if (org == null || org.getId() == null)
-		{
-			throw new RuntimeException("更新机构信息时参数信息错误!");
-		}
-		org.setUpdateDate(new Date());
-		int count = orgMapper.updateById(org);
-		return count;
+		orgMapper.updateById(org);
 	}
 
 	/**
@@ -140,39 +81,9 @@ import java.util.List;
 	 */
 	public Org search(Long id)
 	{
-		if (id != null)
-		{
 
-			Org org = orgMapper.selectById(id);
-			if (org.getState() == 1l)
-			{
-				org = null;
-			}
+		return orgMapper.selectById(id);
 
-			return org;
-		}
-
-		return null;
 	}
 
-	/**
-	 * 逻辑删除
-	 *
-	 * @param id
-	 * @return
-	 */
-	public Integer delete(Long id)
-	{
-		Integer i = null;
-		if (id != null)
-		{
-			Org org = orgMapper.selectById(id);
-			if (org != null)
-			{
-				org.setState(9l);
-				i = orgMapper.updateById(org);
-			}
-		}
-		return i;
-	}
 }
