@@ -2,8 +2,8 @@ package com.platform.uc.service.vo;
 
 import lombok.Data;
 
-@Data public class UcRolePermission
-{
+@Data
+public class UcRolePermission {
 
 	private Long id;
 
