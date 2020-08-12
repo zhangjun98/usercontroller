@@ -73,7 +73,8 @@ import java.util.List;
 	}
 
 	//角色列表
-	@GetMapping("/selectRoleList/{name}") @ResponseBody public BizResponse<IPage<UcRole>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum, @PathVariable Integer pageSize)
+	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}") @ResponseBody public BizResponse<IPage<UcRole>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
+			@PathVariable Integer pageSize)
 	{
 
 		IPage<UcRole> ucRoles = roleService.selectList(name, pageNum, pageSize);
@@ -95,13 +96,14 @@ import java.util.List;
 	}
 
 	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}") @ResponseBody public BizResponse<List<MemberRole>> selectRoleUsers(@PathVariable Long roleId)
+	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize") @ResponseBody public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
+			@PathVariable Integer pageSize)
 	{
 		if (roleId == null)
 		{
 			return BizResponseUtils.error("999999", "角色不能为空");
 		}
-		List<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId);
+		IPage<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId, pageNum, pageSize);
 		return BizResponseUtils.success(ucMemberRoles);
 	}
 

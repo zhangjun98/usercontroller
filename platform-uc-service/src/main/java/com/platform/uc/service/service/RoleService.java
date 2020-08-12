@@ -47,19 +47,39 @@ import java.util.List;
 		{
 			queryWrapper.like("name", name);
 		}
-		return ucRoleMapper.selectPage(dataElementPage,queryWrapper);
+		return ucRoleMapper.selectPage(dataElementPage, queryWrapper);
 	}
 
-	public List<MemberRole> selectRoleUsers(Long roleId)
+	public IPage<MemberRole> selectRoleUsers(Long roleId, Integer pageNum, Integer pageSize)
 	{
-		return memberRoleMapper.selectList(roleId);
+		Page<MemberRole> dataElementPage = new Page<>(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
+		QueryWrapper<MemberRole> queryWrapper = new QueryWrapper<>();
+		if (roleId != null)
+		{
+			queryWrapper.like("role_id", roleId);
+		}
+		return memberRoleMapper.selectPage(dataElementPage, queryWrapper);
 	}
 
 	@Transactional public List<MemberRole> configurePermissions(List<MeunPermissionVo> meunPermissionVos)
 	{
 		//入库列表
 		List<UcRolePermission> ucRolePermissions = new ArrayList<>();
-		//for (MeunPermissionVo)
+		for (MeunPermissionVo meunPermissionVo : meunPermissionVos)
+		{
+			if (meunPermissionVo.getPermissionId() == null || meunPermissionVo.getPermissionId().size() <= 0)
+			{
+				continue;
+			}
+			for (Long temp : meunPermissionVo.getPermissionId())
+			{
+				UcRolePermission ucRolePermission = new UcRolePermission();
+				ucRolePermission.setMenuId(meunPermissionVo.getMeunId());
+				ucRolePermission.setRoleId(meunPermissionVo.getRoleId());
+				ucRolePermission.setPermissionId(temp);
+			}
+
+		}
 		return null;
 	}
 }

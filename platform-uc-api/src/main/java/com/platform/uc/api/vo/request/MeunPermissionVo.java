@@ -9,13 +9,13 @@ public class MeunPermissionVo
 {
 
 	//菜单ID
-	private String meunId;
+	private Long meunId;
 
 	//权限ID
-	private List<String> permissionId;
+	private List<Long> permissionId;
 
 	//角色ID
-	private String roleId;
+	private Long roleId;
 
 
 
