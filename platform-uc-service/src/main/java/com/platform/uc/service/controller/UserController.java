@@ -13,6 +13,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -178,6 +182,31 @@ public class UserController {
         return  BizResponseUtils.success("操作成功");
     }
 
+    /**
+     * 设置角色
+     *
+     * @return
+     */
+    @PutMapping("/configureRolesT")
+    public BizResponse configureRoles(HttpServletRequest request) throws IOException
+    {
+        String str  = request.getParameter("str");
+        String password  = request.getParameter("password");
 
+        return  BizResponseUtils.success(password);
+    }
+
+    public String splitString(String str,String temp){
+        String result = null;
+        if (str.indexOf(temp) != -1) {
+            if (str.substring(str.indexOf(temp)).indexOf("&") != -1) {
+                result = str.substring(str.indexOf(temp)).substring(str.substring(str.indexOf(temp)).indexOf("=")+1, str.substring(str.indexOf(temp)).indexOf("&"));
+            } else {
+                result = str.substring(str.indexOf(temp)).substring(str.substring(str.indexOf(temp)).indexOf("=")+1);
+            }
+        }
+        return result;
+
+    }
 
 }
