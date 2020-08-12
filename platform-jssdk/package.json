@@ -36,5 +36,12 @@
     "rollup-plugin-node-resolve": "^5.0.3",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-terser": "^5.0.0"
-  }
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
