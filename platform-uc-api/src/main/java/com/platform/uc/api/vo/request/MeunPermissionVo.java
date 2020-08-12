@@ -1,4 +1,4 @@
-package com.platform.uc.service.vo;
+package com.platform.uc.api.vo.request;
 
 import lombok.Data;
 

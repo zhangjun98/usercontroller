@@ -1,5 +1,6 @@
 package com.platform.uc.service.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 @Data
@@ -7,12 +8,16 @@ public class UcRolePermission {
 
 	private Long id;
 
-	private Long role_id;
+	@TableField("role_id")
+	private Long roleId;
 
-	private Long module_id;
+	@TableField("module_id")
+	private Long moduleId;
 
-	private Long menu_id;
+	@TableField("menu_id")
+	private Long menuId;
 
-	private Long permission_id;
+	@TableField("permission_id")
+	private Long permissionId;
 
 }

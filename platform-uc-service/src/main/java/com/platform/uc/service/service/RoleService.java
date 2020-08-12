@@ -1,10 +1,12 @@
 package com.platform.uc.service.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.mapper.UcRoleMapper;
 import com.platform.uc.service.vo.MemberRole;
-import com.platform.uc.service.vo.MeunPermissionVo;
+import com.platform.uc.api.vo.request.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.platform.uc.service.vo.UcRolePermission;
 import org.apache.commons.lang3.StringUtils;
@@ -36,15 +38,16 @@ import java.util.List;
 		return ucRoleMapper.selectById(id);
 	}
 
-	public List<UcRole> selectList(String name)
+	public IPage<UcRole> selectList(String name, Integer pageNum, Integer pageSize)
 	{
+		Page<UcRole> dataElementPage = new Page<>(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
 		QueryWrapper<UcRole> queryWrapper = new QueryWrapper<>();
-		queryWrapper.eq("state",0);
+		queryWrapper.eq("state", 0);
 		if (StringUtils.isNotEmpty(name))
 		{
 			queryWrapper.like("name", name);
 		}
-		return ucRoleMapper.selectList(queryWrapper);
+		return ucRoleMapper.selectPage(dataElementPage,queryWrapper);
 	}
 
 	public List<MemberRole> selectRoleUsers(Long roleId)
@@ -52,8 +55,7 @@ import java.util.List;
 		return memberRoleMapper.selectList(roleId);
 	}
 
-	@Transactional
-	public List<MemberRole> configurePermissions(List<MeunPermissionVo> meunPermissionVos)
+	@Transactional public List<MemberRole> configurePermissions(List<MeunPermissionVo> meunPermissionVos)
 	{
 		//入库列表
 		List<UcRolePermission> ucRolePermissions = new ArrayList<>();

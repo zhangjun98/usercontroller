@@ -3,6 +3,7 @@ package com.platform.uc.service.service;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.uc.api.vo.request.PasswordVo;
 import com.platform.uc.api.vo.request.UserRequest;
 import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
