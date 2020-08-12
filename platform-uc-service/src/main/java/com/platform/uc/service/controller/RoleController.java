@@ -1,7 +1,8 @@
 package com.platform.uc.service.controller;
 
 import com.platform.uc.service.service.RoleService;
-import com.platform.uc.service.vo.Menu;
+import com.platform.uc.service.vo.MemberRole;
+import com.platform.uc.service.vo.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
@@ -60,7 +61,7 @@ import java.util.List;
 	}
 
 	//角色查看回显
-	@GetMapping("/selectRole") @ResponseBody public BizResponse<UcRole> selectRole(@PathVariable Long id)
+	@GetMapping("/selectRole/{id}") @ResponseBody public BizResponse<UcRole> selectRole(@PathVariable Long id)
 	{
 		if (id == null)
 		{
@@ -70,9 +71,8 @@ import java.util.List;
 		return BizResponseUtils.success(ucRole);
 	}
 
-
 	//角色列表
-	@GetMapping("/selectRoleList") @ResponseBody public BizResponse<List<UcRole>> selectRoleList(@PathVariable String name)
+	@GetMapping("/selectRoleList/{name}") @ResponseBody public BizResponse<List<UcRole>> selectRoleList(@PathVariable String name)
 	{
 
 		List<UcRole> ucRoles = roleService.selectList(name);
@@ -80,7 +80,7 @@ import java.util.List;
 	}
 
 	//角色删除
-	@DeleteMapping("/deleteRole") @ResponseBody public BizResponse<String> deleteRole(@PathVariable Long id)
+	@DeleteMapping("/deleteRole/{id}") @ResponseBody public BizResponse<String> deleteRole(@PathVariable Long id)
 	{
 		if (id == null)
 		{
@@ -91,5 +91,35 @@ import java.util.List;
 		ucRole.setState(9);
 		roleService.update(ucRole);
 		return BizResponseUtils.success("操作成功");
+	}
+
+	//查看角色下的成员
+	@GetMapping("/selectRoleUsers/{roleId}") @ResponseBody public BizResponse<List<MemberRole>> selectRoleUsers(@PathVariable Long roleId)
+	{
+		if (roleId == null)
+		{
+			return BizResponseUtils.error("999999", "角色不能为空");
+		}
+		List<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId);
+		return BizResponseUtils.success(ucMemberRoles);
+	}
+
+	//权限配置
+	@PostMapping("/configurePermissions") @ResponseBody public BizResponse<List<MemberRole>> configurePermissions(@RequestBody List<MeunPermissionVo> meunPermissionVos)
+	{
+		if (meunPermissionVos == null || meunPermissionVos.size() <= 0)
+		{
+			return BizResponseUtils.error("999999", "所配置的权限不能为空");
+		}
+		try
+		{
+			roleService.configurePermissions(meunPermissionVos);
+		}
+		catch (Exception e)
+		{
+			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
+		}
+
+		return null;
 	}
 }
