@@ -178,12 +178,18 @@ public class UserController {
         return  BizResponseUtils.success("操作成功");
     }
 
-    @PutMapping("/configureRoles/{id}")
+    /**
+     * 设置平台
+     * @param id
+     * @param ids
+     * @return
+     */
+    @PutMapping("/configureClients/{id}")
     public BizResponse configureClients(@PathVariable String id , @RequestBody List<String> ids)
     {
         if(ids==null || ids.size()<=0)
         {
-            return BizResponseUtils.error("999999", "角色配置不能为空");
+            return BizResponseUtils.error("999999", "平台配置不能为空");
         }
         userService.configureClients(id, ids);
         return  BizResponseUtils.success("操作成功");
