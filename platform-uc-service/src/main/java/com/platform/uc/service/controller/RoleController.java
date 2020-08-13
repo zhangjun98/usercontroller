@@ -1,20 +1,18 @@
 package com.platform.uc.service.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.platform.uc.api.vo.request.BatchRequest;
+import com.platform.uc.api.vo.request.QueryRoleRequest;
+import com.platform.uc.api.vo.request.RoleRequest;
+import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.service.service.RoleService;
-import com.platform.uc.service.vo.MemberRole;
-import com.platform.uc.api.vo.request.MeunPermissionVo;
-import com.platform.uc.service.vo.UcRole;
 import com.platform.uc.service.vo.UcRolePermission;
+import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 使用RestController注解不需要ResponseBody注解
@@ -24,80 +22,65 @@ import java.util.List;
  * <p>
  * 错误代码在UserErrorCode中定义
  */
-@Slf4j @Controller @RequestMapping("/uc/role") public class RoleController
-{
+@Slf4j
+@RestController
+@RequestMapping("/uc/role") public class RoleController {
 
 	@Resource private RoleService roleService;
 
-	//角色新增
-	@PostMapping("/addRole") public BizResponse<String> addRole(@RequestBody UcRole ucRole)
-	{
-
-		try
-		{
-			roleService.insert(ucRole);
-		}
-		catch (Exception e)
-		{
-			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
-		}
-		return BizResponseUtils.success("操作成功");
+	/**
+	 * 查询角色列表
+	 */
+	@PostMapping("/query")
+	public BizPageResponse<RoleResponse> selectByConditions(@RequestBody QueryRoleRequest request){
+		return roleService.selectByConditions(request);
 	}
 
-	//角色修改
-	@PutMapping("/updateRole") public BizResponse<String> updateRole(@RequestBody UcRole ucRole)
-	{
-		try
-		{
-			roleService.update(ucRole);
-		}
-		catch (Exception e)
-		{
-			return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
-		}
-		return BizResponseUtils.success("操作成功");
+	/**
+	 * 角色新增
+	 */
+	@PostMapping("/")
+	public BizResponse<Void> save(@RequestBody RoleRequest request) {
+		roleService.insert(request);
+		return BizResponseUtils.success();
 	}
 
-	//角色查看回显
-	@GetMapping("/selectRole/{id}") public BizResponse<UcRole> selectRole(@PathVariable Long id)
-	{
-		UcRole ucRole = roleService.selectBean(id);
-		return BizResponseUtils.success(ucRole);
+	/**
+	 * 角色修改
+	 */
+	@PutMapping("/{id}")
+	public BizResponse<Void> modify(@PathVariable String id, @RequestBody RoleRequest request) {
+		roleService.update(id, request);
+		return BizResponseUtils.success();
 	}
 
-	//角色列表
-	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}") public BizResponse<IPage<UcRole>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
-			@PathVariable Integer pageSize)
-	{
-		IPage<UcRole> ucRoles = roleService.selectList(name, pageNum, pageSize);
-		return BizResponseUtils.success(ucRoles);
+
+	/**
+	 * 角色详情
+	 */
+	@GetMapping("/{id}")
+	public BizResponse<RoleResponse> detail(@PathVariable String id) {
+		RoleResponse role = roleService.detail(id);
+		return BizResponseUtils.success(role);
 	}
 
-	//角色删除
-	@DeleteMapping("/deleteRole/{id}") public BizResponse<String> deleteRole(@PathVariable Long id)
-	{
-
-		UcRole ucRole = new UcRole();
-		ucRole.setId(id);
-		ucRole.setState(9);
-		roleService.update(ucRole);
-		return BizResponseUtils.success("操作成功");
+	/**
+	 * 移除
+	 */
+	@PostMapping("/remove")
+	public BizResponse<Void> remove(@RequestBody BatchRequest request){
+		roleService.changeStatus(request, 1);
+		return BizResponseUtils.success();
 	}
 
-	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize") public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
-			@PathVariable Integer pageSize)
-	{
 
-		IPage<MemberRole> ucMemberRoles = roleService.selectRoleUsers(roleId, pageNum, pageSize);
-		return BizResponseUtils.success(ucMemberRoles);
-	}
+
 
 	//权限配置
-	@PostMapping("/addRolePermission") public void addRolePermission(@RequestBody UcRolePermission ucRolePermission)
-	{
+	@PostMapping("/addRolePermission")
+	public BizResponse<Void> addRolePermission(@RequestBody UcRolePermission ucRolePermission){
 		roleService.insertRolePermission(ucRolePermission);
-
+		return BizResponseUtils.success();
 	}
 
 }

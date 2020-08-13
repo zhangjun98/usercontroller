@@ -83,11 +83,4 @@ public class User implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
-    /**
-     * 账户删除
-     */
-    @TableField("is_delete")
-    private int isDelete;
-
-    private Member member;
 }
