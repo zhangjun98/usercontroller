@@ -1,13 +1,10 @@
 package com.platform.uc.api;
 
-import com.platform.uc.api.vo.request.Org;
 import com.platform.uc.api.vo.request.UcRole;
 import com.platform.uc.api.vo.request.UcRolePermission;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 远程用户信息接口
