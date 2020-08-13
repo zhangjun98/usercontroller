@@ -6,14 +6,14 @@ import lombok.Data;
 public class UcRolePermission
 {
 
-	private Long id;
+	private String id;
 
-	private Long roleId;
+	private String roleId;
 
 	private Long moduleId;
 
-	private Long menuId;
+	private String menuId;
 
-	private Long permissionId;
+	private String permissionId;
 
 }

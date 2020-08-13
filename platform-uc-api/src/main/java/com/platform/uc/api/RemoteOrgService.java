@@ -1,5 +1,6 @@
 package com.platform.uc.api;
 
+
 import com.platform.uc.api.vo.request.Organization;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -16,11 +17,13 @@ import java.util.List;
 {
 
 
+
 	@PostMapping("save") public BizResponse<String> save(@RequestBody Organization organization);
 
-	@GetMapping("/selectList/{orgName}") public List<Organization> selectList(@PathVariable String orgName);
+	@GetMapping("/selectList") @ResponseBody public BizResponse<List<Organization>> selectList(@RequestParam String orgName);
 
 	@GetMapping("/findAllOrg") public BizResponse<List<Organization>> findAllOrg();
+
 
 	@PostMapping("/update")  public BizResponse<String> update(@RequestBody Organization organization);
 
