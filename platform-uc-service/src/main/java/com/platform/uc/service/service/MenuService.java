@@ -35,10 +35,10 @@ public class MenuService {
             throw new RuntimeException("菜单对象为空");
         }
         menu.setCreateDate(new Date());
-        menu.setState(0L);//状态 0表示正常
+        menu.setState(0);//状态 0表示正常
         //添加排序
         if (menu.getParentId()==null){
-            menu.setParentId(0L);//一级菜单 父id为0
+            menu.setParentId("0");//一级菜单 父id为0
         }
             //不是一级菜单
             QueryWrapper<Menu> queryWapper=new QueryWrapper<Menu>();
@@ -60,7 +60,7 @@ public class MenuService {
         if (list!=null && list.size()>0){
 
             //所有结果放在map中
-            HashMap<Long, Object> allMap = new HashMap<>(list.size());
+            HashMap<String, Object> allMap = new HashMap<>(list.size());
             for (Menu menu : list) {
                 allMap.put(menu.getId(),menu);
             }
@@ -82,7 +82,7 @@ public class MenuService {
             //得到一级分类
             ArrayList<Menu> menus = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getParentId()==0L){
+                if (list.get(i).getParentId().equals("0")){
                     menus.add(list.get(i));
                 }
             }
@@ -149,7 +149,7 @@ public class MenuService {
      * @param id 菜单的id
      * @return
      */
-    public List<Permission> findSubMenu(Long id) {
+    public List<Permission> findSubMenu(String id) {
         if (id==null){
             throw new RuntimeException("根据菜单id查询所有的子菜单时菜单id为空");
         }
@@ -171,7 +171,7 @@ public class MenuService {
         if (list!=null && list.size()>0){
 
             //所有结果放在map中
-            HashMap<Long, Object> allMap = new HashMap<>(list.size());
+            HashMap<String, Object> allMap = new HashMap<>(list.size());
             for (Menu menu : list) {
                 allMap.put(menu.getId(),menu);
             }
@@ -193,7 +193,7 @@ public class MenuService {
             //得到一级分类
             ArrayList<Menu> menus = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getParentId()==0L){
+                if (list.get(i).getParentId().equals("0")){
                     menus.add(list.get(i));
                 }
             }

@@ -24,11 +24,11 @@ public class Menu implements Serializable{
     private static final long serialVersionUID = 24L;
 
      @TableId(type = IdType.ID_WORKER)
-      private Long id;
+      private String id;
         /**
          * 父菜单
          */
-      private Long parentId;
+      private String parentId;
         /**
          * 系统模块
          */
@@ -56,7 +56,7 @@ public class Menu implements Serializable{
         /**
          * 状态(0--正常 9--删除)
          */
-      private Long state;
+      private Integer state;
 
     /**
      * 菜单添加时间

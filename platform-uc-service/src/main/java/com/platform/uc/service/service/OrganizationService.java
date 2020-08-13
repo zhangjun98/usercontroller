@@ -76,7 +76,7 @@ import java.util.List;
 	 * @param id 机构的id
 	 * @return org 机构对象
 	 */
-	public Organization search(Long id)
+	public Organization search(String id)
 	{
 
 		return organizationMapper.selectById(id);

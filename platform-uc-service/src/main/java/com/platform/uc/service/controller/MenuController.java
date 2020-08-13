@@ -114,7 +114,7 @@ public class MenuController {
      */
     @GetMapping("/findSubMenu")
     @ResponseBody
-    public BizResponse<List<Permission>> findSubMenu(@RequestParam Long id){
+    public BizResponse<List<Permission>> findSubMenu(@RequestParam String id){
         try {
             List<Permission> list= menuService.findSubMenu(id);
             return BizResponseUtils.success(list);

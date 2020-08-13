@@ -27,11 +27,11 @@ public class Organization implements Serializable{
 
     private static final long serialVersionUID = 5272723848480230740L;
 
-    private Long id;
+    private String id;
 	/**
 	 * 父机构
 	 */
-  private Long parentId;
+  private String parentId;
 	/**
 	 * 机构编码
 	 */
@@ -71,7 +71,7 @@ public class Organization implements Serializable{
 	/**
 	 * 状态(0--正常 9--删除)
 	 */
-  private Long state;
+  private Integer state;
 	/**
 	 * 管理员图片
 	 */

@@ -4,6 +4,8 @@ import com.platform.uc.service.service.OrganizationService;
 import com.platform.uc.service.vo.Organization;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * 机构管理
  */
-@RequestMapping("/org")
+@RequestMapping("/uc/org")
 @RestController
 public class OrganizationController {
 
@@ -94,6 +96,7 @@ public class OrganizationController {
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 		}
 
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
@@ -105,7 +108,7 @@ public class OrganizationController {
 	 * @return
 	 */
 	@GetMapping("/search/{id}")
-	public BizResponse<Organization> search(@PathVariable Long id)
+	public BizResponse<Organization> search(@PathVariable String id)
 	{
 		try
 		{
