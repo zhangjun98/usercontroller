@@ -62,13 +62,13 @@ public class UserController {
 
     @PostMapping("/page")
     @ApiOperation(value = "分页查询")
-    public BizResponse<IPage<User>> findByPage(@RequestBody Map<String, Object> map) {
+    public BizResponse<IPage<UserResponse>> findByPage(@RequestBody Map<String, Object> map) {
         return BizResponseUtils.success(userService.findByPageDataScope(map));
     }
 
     @PostMapping("/page/all")
     @ApiOperation(value = "分页查询获取所有用户")
-    public BizResponse<IPage<User>> findAllUserByPage(@RequestBody Map<String, Object> map) {
+    public BizResponse<IPage<UserResponse>> findAllUserByPage(@RequestBody Map<String, Object> map) {
         return BizResponseUtils.success(userService.findByPageDataScope(map));
     }
 
@@ -155,8 +155,8 @@ public class UserController {
      * @param userImage
      * @return
      */
-    @PutMapping("/setUserImage")
-    public BizResponse<String> setUserImage(String id, String userImage) {
+    @PutMapping("/setUserImage/{id}")
+    public BizResponse<String> setUserImage(@PathVariable String id,@RequestBody String userImage) {
         userService.setUserImage(id, userImage);
         return BizResponseUtils.success("设置成功！");
     }

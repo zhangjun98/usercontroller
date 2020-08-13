@@ -72,7 +72,7 @@ public interface RemoteUserService {
     @PutMapping("/updateUser")
     @ApiOperation("更新用户信息") BizResponse<Boolean> updateUser(UserRequest user);
 
-    @PutMapping("/setUserImage") BizResponse<String> setUserImage(String id, String userImage);
+    @PutMapping("/setUserImage/{id}") BizResponse<String> setUserImage(@PathVariable String id, @RequestBody String userImage);
 
     @PutMapping("/configureRoles/{id}") BizResponse configureRoles(@PathVariable String id , @RequestBody List<String> ids);
 
