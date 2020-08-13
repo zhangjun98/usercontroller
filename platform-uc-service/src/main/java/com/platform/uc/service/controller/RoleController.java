@@ -74,8 +74,6 @@ import javax.annotation.Resource;
 	}
 
 
-
-
 	//权限配置
 	@PostMapping("/addRolePermission")
 	public BizResponse<Void> addRolePermission(@RequestBody UcRolePermission ucRolePermission){

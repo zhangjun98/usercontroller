@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 菜单管理
  */
-@RequestMapping("/uc/menu")
+@RequestMapping("/menu")
 @Controller
 public class MenuController {
 

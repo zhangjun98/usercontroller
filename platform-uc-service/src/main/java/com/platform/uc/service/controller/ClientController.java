@@ -5,20 +5,18 @@ import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.platform.uc.service.service.ClientService;
 import com.platform.uc.service.vo.Client;
-import com.platform.uc.service.vo.MemberClient;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 客户端控制器
  * @author hao.yan
  */
-@RequestMapping("/uc/client")
+@RequestMapping("/client")
 @RestController
 public class ClientController {
 
@@ -98,14 +96,4 @@ public class ClientController {
         return BizResponseUtils.success("操作成功");
     }
 
-    //查看应用下的成员
-    @GetMapping("/selectClientUsers/{clientId}") @ResponseBody public BizResponse<List<MemberClient>> selectClientUsers(@PathVariable Long clientId)
-    {
-        if (clientId == null)
-        {
-            return BizResponseUtils.error("999999", "应用不能为空");
-        }
-        List<MemberClient> ucMemberClients = clientService.selectClientUsers(clientId);
-        return BizResponseUtils.success(ucMemberClients);
-    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * 远程用户信息接口
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/user")
+@FeignClient(value = "platform-uc-service", path = "/user")
 public interface RemoteUserService {
 
     /**
