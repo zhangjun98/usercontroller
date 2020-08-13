@@ -118,7 +118,7 @@ public class RoleService {
 			{
 				continue;
 			}
-			for (Long temp : meunPermissionVo.getPermissionId())
+			for (String temp : meunPermissionVo.getPermissionId())
 			{
 				UcRolePermission ucRolePermission = new UcRolePermission();
 				ucRolePermission.setMenuId(meunPermissionVo.getMeunId());

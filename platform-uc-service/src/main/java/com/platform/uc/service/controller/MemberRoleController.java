@@ -1,6 +1,7 @@
 package com.platform.uc.service.controller;
 
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.MemberRoleService;
 import com.platform.uc.service.vo.RoleMember;
@@ -28,7 +29,7 @@ public class MemberRoleController {
      * 查询角色下的用户
      */
     @PostMapping("/users")
-    public BizPageResponse<UserResponse> selectByConditions(@RequestBody QueryRoleUserRequest request){
+    public BizPageResponse<RoleMemberResponse> selectByConditions(@RequestBody QueryRoleUserRequest request){
         return memberRoleService.selectUsersByConditions(request);
     }
 

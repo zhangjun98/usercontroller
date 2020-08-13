@@ -1,4 +1,4 @@
-package com.platform.uc.service.vo;
+package com.platform.uc.api.vo.response;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.Date;
  * 用户角色关系
  */
 @Data
-public class RoleMemberVo implements Serializable {
+public class RoleMemberResponse implements Serializable {
 
     private static final long serialVersionUID = -2435463587454988013L;
 
