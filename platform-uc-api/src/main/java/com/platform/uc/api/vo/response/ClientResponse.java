@@ -69,4 +69,14 @@ public class ClientResponse implements Serializable {
 
     private Long updateTime;
 
+    /**
+     * 状态
+     */
+    private int state;
+
+    /**
+     * 名称
+     */
+    private String name;
+
 }

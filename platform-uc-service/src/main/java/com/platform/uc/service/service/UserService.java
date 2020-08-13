@@ -1,9 +1,11 @@
 package com.platform.uc.service.service;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.platform.uc.api.vo.request.PasswordVo;
+import com.platform.uc.api.error.UserErrorCode;
+import com.platform.uc.api.vo.request.ForgotPasswordRequest;
+import com.platform.uc.api.vo.request.ResetPasswordRequest;
 import com.platform.uc.api.vo.request.UserRequest;
 import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
@@ -13,8 +15,8 @@ import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.mapper.UserMapper;
 import com.platform.uc.service.utils.BeanCloneUtils;
 import com.platform.uc.service.vo.*;
-import com.ztkj.framework.common.domain.CodeMessage;
-import com.ztkj.framework.common.exception.ServiceException;
+import com.ztkj.framework.response.core.CommonErrorCode;
+import com.ztkj.framework.response.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -30,26 +32,34 @@ import java.util.*;
  *
  * @author hao.yan
  */
-@Slf4j @Service public class UserService
-{
+@Slf4j
+@Service
+public class UserService {
 
-	@Resource private UserMapper userMapper;
+	@Resource
+	private UserMapper userMapper;
 
-	@Resource private MemberMapper memberMapper;
+	@Resource
+	private MemberMapper memberMapper;
 
-	@Resource private MemberRoleMapper memberRoleMapper;
+	@Resource
+	private MemberRoleMapper memberRoleMapper;
 
-	@Resource private MemberClientMapper memberClientMapper;
+	@Resource
+	private MemberClientMapper memberClientMapper;
 
 	/**
 	 * 通过登录信息获取用户信息
 	 */
-	public UserResponse selectUserByLogin(String accountName)
-	{
+	public UserResponse selectUserByLogin(String accountName){
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(accountName))
-		{
-			wrapper.eq("username", accountName).or().eq("email", accountName).or().eq("mobile", accountName);
+		if (!StringUtils.isEmpty(accountName)){
+			wrapper
+					.eq("username", accountName)
+				.or()
+					.eq("email", accountName)
+				.or()
+					.eq("mobile", accountName);
 		}
 		User user = userMapper.selectOne(wrapper);
 		return toUserResponse(user);
@@ -61,22 +71,18 @@ import java.util.*;
 	 * @param mid
 	 * @return
 	 */
-	public UserResponse selectByMid(String mid)
-	{
+	public UserResponse selectByMid(String mid) {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(mid))
-		{
+		if (!StringUtils.isEmpty(mid)) {
 			wrapper.eq("mid", mid);
 		}
 		User user = userMapper.selectOne(wrapper);
 		return toUserResponse(user);
 	}
 
-	public UserResponse selectById(String id)
-	{
+	public UserResponse selectById(String id) {
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(id))
-		{
+		if (!StringUtils.isEmpty(id)) {
 			wrapper.eq("id", id);
 		}
 		User user = userMapper.selectOne(wrapper);
@@ -84,16 +90,14 @@ import java.util.*;
 		return toUserResponse(user);
 	}
 
-	private Member selectByMemberId(String id)
-	{
+	private Member selectByMemberId(String id) {
 		return memberMapper.selectById(id);
 	}
 
 	/**
 	 * 注册用户
 	 */
-	public void register(UserRequest request)
-	{
+	public void register(UserRequest request) {
 		User user = new User();
 		BeanUtils.copyProperties(request, user);
 		user.setCreateTime(new Date());
@@ -101,24 +105,20 @@ import java.util.*;
 		userMapper.insert(user);
 	}
 
-	private UserResponse toUserResponse(User user)
-	{
+	private UserResponse toUserResponse(User user) {
 		UserResponse response = BeanCloneUtils.convert(user, UserResponse.class);
 		log.info("{}", user);
 		long currTime = System.currentTimeMillis();
 		Date accountExpired = user.getAccountExpired();
-		if (!Objects.isNull(accountExpired))
-		{
+		if (!Objects.isNull(accountExpired)) {
 			response.setAccountExpired(!(currTime > accountExpired.getTime()));
 		}
 		Date credentialsExpired = user.getCredentialsExpired();
-		if (!Objects.isNull(credentialsExpired))
-		{
+		if (!Objects.isNull(credentialsExpired)) {
 			response.setCredentialsExpired(!(currTime > credentialsExpired.getTime()));
 		}
 		Member member = selectByMemberId(user.getMid());
-		if (Objects.nonNull(member))
-		{
+		if (Objects.nonNull(member)) {
 			response.setMember(BeanCloneUtils.convert(member, MemberResponse.class));
 		}
 		return response;
@@ -126,104 +126,38 @@ import java.util.*;
 
 	/**
 	 * 重置密码
-	 *
-	 * @param id
-	 * @param paramsMap
 	 */
-	public void resetPassword(String id, Map<String, String> paramsMap)
-	{
-		String password = paramsMap.get("password");
-		String repeatPassword = paramsMap.get("repeatPassword");
-		if (!org.apache.commons.lang.StringUtils.equals(password, repeatPassword))
-		{
-			throw new ServiceException(new CodeMessage(500, "密码输入不一致！"));
+	public void resetPassword(ResetPasswordRequest request) {
+		if (!StringUtils.equals(request.getNewPassword(), request.getRepeatPassword())) {
+			throw new BizException(UserErrorCode.PASSWORD_INCONSISTENCY);
 		}
-		//加密
-		password = new BCryptPasswordEncoder().encode(password);
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(id))
-		{
-			wrapper.eq("id", id);
-		}
-		User temp = new User();
-		temp.setId(id);
-		temp.setPassword(password);
-		userMapper.update(temp, wrapper);
+		User user = new User();
+		user.setId(request.getId());
+		user.setPassword(new BCryptPasswordEncoder().encode(request.getNewPassword()));
+		userMapper.updateById(user);
 	}
 
 	/**
 	 * 修改密码
-	 *
-	 * @param passwordVo
-	 * @param passwordVo
 	 */
-	public void changePassword(PasswordVo passwordVo)
-	{
-		//校验旧密码
-		User userOfDatabase = userMapper.selectById(passwordVo.getId());
-		if (!new BCryptPasswordEncoder().matches(passwordVo.getOldPassword(), userOfDatabase.getPassword()))
-		{
-			throw new ServiceException(new CodeMessage(500, "密码错误!"));
+	public void changePassword(ForgotPasswordRequest request) {
+		// 校验旧密码
+		User user = userMapper.selectById(request.getId());
+		if (!new BCryptPasswordEncoder().matches(request.getOldPassword(), user.getPassword())) {
+			throw new BizException(CommonErrorCode.BAD_CREDENTIALS);
 		}
-		//新密码校验
-		if (!StrUtil.equals(passwordVo.getNewPassword(), passwordVo.getRepeatPassword()))
-		{
-			throw new ServiceException(new CodeMessage(500, "密码输入不一致！"));
-		}
-		//重设密码
-		userOfDatabase.setPassword(new BCryptPasswordEncoder().encode(passwordVo.getNewPassword()));
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(passwordVo.getId()))
-		{
-			wrapper.eq("id", passwordVo.getId());
-		}
-		userMapper.update(userOfDatabase, wrapper);
+		resetPassword(request);
 	}
 
 	/**
 	 * 启用用户
-	 *
-	 * @param ids
 	 */
-	public void enableUser(List<String> ids)
-	{
-		for (String id : ids)
-		{
-			QueryWrapper<User> wrapper = new QueryWrapper<>();
-			if (!StringUtils.isEmpty(id))
-			{
-				wrapper.eq("enabled", 1);
-			}
-			User userOfDatabase = userMapper.selectById(id);
-			if (userOfDatabase != null)
-			{
-				userMapper.update(userOfDatabase, wrapper);
-			}
-		}
-	}
-
-	/**
-	 * 停用用户
-	 *
-	 * @param ids
-	 */
-	public void disableUser(List<String> ids)
-	{
-		for (String id : ids)
-		{
-			QueryWrapper<User> wrapper = new QueryWrapper<>();
-			if (!StringUtils.isEmpty(id))
-			{
-				wrapper.eq("enabled", 0);
-			}
-
-			User userOfDatabase = userMapper.selectById(id);
-
-			if (userOfDatabase != null)
-			{
-				userMapper.update(userOfDatabase, wrapper);
-			}
-		}
+	public void setEnableOrDisable(boolean isEnable, Set<String> ids) {
+		User user = new User();
+		user.setEnabled(isEnable);
+		UpdateWrapper<User> wrapper = new UpdateWrapper<>();
+		wrapper.in("id", ids);
+		userMapper.update(user, wrapper);
 	}
 
 	/**
@@ -232,7 +166,7 @@ import java.util.*;
 	 * @param map
 	 * @return
 	 */
-	public Page<User> findByPageDataScope(Map<String, Object> map)
+	public Page<UserResponse> findByPageDataScope(Map<String, Object> map)
 	{
 		try
 		{
@@ -252,7 +186,20 @@ import java.util.*;
 			//模糊查询方法
 			Page<User> mapIPage = userMapper.selectPage(page, queryWrapper);
 
-			return mapIPage;
+			Page<UserResponse> userResponsePage = new Page<>();
+			userResponsePage.setCurrent(mapIPage.getCurrent());
+			userResponsePage.setSize(mapIPage.getSize());
+			userResponsePage.setTotal(mapIPage.getTotal());
+			userResponsePage.setPages(mapIPage.getPages());
+
+			List<User> list = mapIPage.getRecords();
+			List<UserResponse> listResponse = new ArrayList<>();
+			for (User user : list) {
+				listResponse.add(toUserResponse(user));
+			}
+			userResponsePage.setRecords(listResponse);
+
+			return userResponsePage;
 		}
 		catch (Exception e)
 		{
@@ -286,53 +233,15 @@ import java.util.*;
 		}
 	}
 
-	/**
-	 * 删除用户
-	 *
-	 * @param ids
-	 */
-	public boolean logicBatchDelete(List<String> ids)
-	{
-		for (String id : ids)
-		{
-			QueryWrapper<User> wrapper = new QueryWrapper<>();
-			if (!StringUtils.isEmpty(id))
-			{
-				wrapper.eq("id", id);
-			}
-			User userOfDatabase = userMapper.selectById(id);
-			userOfDatabase.setIsDelete(1);
-			userMapper.update(userOfDatabase, wrapper);
-		}
-		return true;
-	}
 
-	/**
-	 * 设置头像
-	 *
-	 * @param userImage
-	 */
-	@Transactional(rollbackFor = Exception.class) public void setUserImage(String id, String userImage)
-	{
-		Member memberOfDatabase = memberMapper.selectById(id);
-
-		QueryWrapper<Member> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(id))
-		{
-			wrapper.eq("id", id);
-		}
-
-		memberOfDatabase.setAvatar(userImage);
-		memberMapper.update(memberOfDatabase, wrapper);
-	}
 
 	/**
 	 * 设置头像
 	 *
 	 * @param user
 	 */
-	@Transactional(rollbackFor = Exception.class) public boolean udpate(User user)
-	{
+	@Transactional(rollbackFor = Exception.class)
+	public boolean udpate(User user) {
 
 		QueryWrapper<User> wrapper = new QueryWrapper<>();
 		if (!StringUtils.isEmpty(user.getId()))

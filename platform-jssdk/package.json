@@ -12,7 +12,9 @@
     "js-base64": "^3.4.3",
     "js-cookie": "^2.2.1",
     "qs": "^6.7.0",
-    "rollup": "^2.23.0"
+    "rollup": "^2.23.0",
+    "sockjs-client": "^1.5.0",
+    "stompjs": "^2.3.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",

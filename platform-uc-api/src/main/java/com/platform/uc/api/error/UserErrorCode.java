@@ -8,6 +8,9 @@ public enum UserErrorCode implements ErrorCode {
     USER_NOTFOUND("200030", "用户不存在"),
     ROLENAME_NOTFOUND("300030", "角色名为空"),
     ID_NOTFOUND("100031", "主键不能为空"),
+
+    PASSWORD_INCONSISTENCY("201100", "密码输入不一致"),
+
     ROLEID_NOTFOUND("300031", "角色不能为空"),
     PERMISSION_NOTFOUND("300032", "所配置的权限不能为空"),
     ;

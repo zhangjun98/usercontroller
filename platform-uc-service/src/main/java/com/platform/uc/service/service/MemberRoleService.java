@@ -26,7 +26,7 @@ public class MemberRoleService {
      * 保存用户角色
      * @param memberRole
      */
-    public int saveUserRole(MemberRole memberRole) {
+    public int saveMemberRole(MemberRole memberRole) {
         if (memberRole ==null){
             throw new RuntimeException("菜单对象为空");
         }
