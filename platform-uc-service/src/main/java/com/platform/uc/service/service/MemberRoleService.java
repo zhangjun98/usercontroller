@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.vo.Role;
@@ -33,13 +34,10 @@ public class MemberRoleService {
      */
     public BizPageResponse<UserResponse> selectUsersByConditions(QueryRoleUserRequest request){
 
-        Page<RoleMemberVo> page = new Page<>();
-        page.setCurrent(request.getPageNo());
-        page.setSize(request.getPageSize());
-        List<RoleMemberVo> members = memberRoleMapper.selectUsersByRole(page, request);
-        log.info("page = {}",page);
-        log.info("members = {}",members);
-        return null;
+        Page<UserResponse> page = new Page<>( request.getPageNo() == null ? 1 : request.getPageNo(),request.getPageSize() == null ? 10 : request.getPageSize());
+        List<UserResponse> list = memberRoleMapper.selectUsersByRole(page, request);
+        BizPageResponse bizPageResponse = new BizPageResponse(list, list.size(),request.getPageSize() , request.getPageNo(), page.getTotal());
+        return bizPageResponse;
     }
 
 

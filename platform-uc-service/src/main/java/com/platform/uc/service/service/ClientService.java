@@ -96,7 +96,9 @@ public class ClientService {
 
     public List<MemberClient> selectClientUsers(Long clientId)
     {
-        return memberClientMapper.selectList(clientId);
+        QueryWrapper<MemberClient> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("client_id",clientId);
+        return memberClientMapper.selectList(queryWrapper);
     }
 
 }

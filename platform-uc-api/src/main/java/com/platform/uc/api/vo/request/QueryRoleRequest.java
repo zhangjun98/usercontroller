@@ -20,6 +20,8 @@ public class QueryRoleRequest extends Page {
 
     private String name;
 
+    private String roleId;
+
     private Integer status = 0;
 
 }

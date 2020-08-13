@@ -1,6 +1,7 @@
 package com.platform.uc.api;
 
 import com.platform.uc.api.vo.request.*;
+import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
@@ -33,4 +34,6 @@ public interface RemoteRoleService {
 
 	@PostMapping("/addRolePermission")
 	BizResponse<Void> addRolePermission(@RequestBody UcRolePermission ucRolePermission);
+
+
 }

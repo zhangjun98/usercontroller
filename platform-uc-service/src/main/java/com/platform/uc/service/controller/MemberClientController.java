@@ -5,7 +5,6 @@ import com.platform.uc.api.vo.request.MemberClientRequest;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.MemberClientService;
 import com.platform.uc.service.vo.MemberClient;
-import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import io.swagger.annotations.ApiOperation;

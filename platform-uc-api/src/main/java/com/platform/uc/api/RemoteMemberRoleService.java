@@ -16,11 +16,7 @@ import java.util.List;
  * 远程用户角色信息接口
  * @author hao.yan
  */
-<<<<<<< HEAD
-@FeignClient(value = "platform-uc-service", path = "/uc/member/role")
-=======
 @FeignClient(value = "platform-uc-service", path = "/member/role")
->>>>>>> 207db227880d937addbae9d389a81fc2ede94d37
 public interface RemoteMemberRoleService {
 
     /**
