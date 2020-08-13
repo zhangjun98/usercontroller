@@ -4,6 +4,9 @@ import JsSdk from './JsSdk';
 
 export default {
 
+    /**
+     * 配置
+     */
     config: (options)=>{
         config.appId = options.appId
         config.appSecret = options.appSecret
@@ -15,6 +18,9 @@ export default {
         return new JsSdk();
     },
 
+    /**
+     * 权限范围
+     */
     scope: Scope
 
 }

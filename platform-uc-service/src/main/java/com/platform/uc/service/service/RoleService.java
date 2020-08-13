@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.mapper.UcRoleMapper;
+import com.platform.uc.service.mapper.UcRolePermissionMapper;
 import com.platform.uc.service.vo.MemberRole;
 import com.platform.uc.api.vo.request.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
@@ -22,6 +23,8 @@ import java.util.List;
 	@Autowired UcRoleMapper ucRoleMapper;
 
 	@Autowired MemberRoleMapper memberRoleMapper;
+
+	@Autowired UcRolePermissionMapper ucRolePermissionMapper;
 
 	public void insert(UcRole ucRole)
 	{
@@ -81,5 +84,11 @@ import java.util.List;
 
 		}
 		return null;
+	}
+
+	public void insertRolePermission(UcRolePermission ucRolePermission)
+	{
+
+		ucRolePermissionMapper.insert(ucRolePermission);
 	}
 }

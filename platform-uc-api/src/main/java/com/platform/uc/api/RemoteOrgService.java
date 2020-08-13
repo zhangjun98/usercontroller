@@ -17,9 +17,7 @@ import java.util.List;
 @FeignClient(value = "platform-uc-service", path = "/org") public interface RemoteOrgService
 {
 
-	/**
-	 * 通过用户名查询用户信息
-	 */
+
 	@PostMapping("save") public BizResponse<String> save(@RequestBody Org org);
 
 	@GetMapping("/selectList/{orgName}") public List<Org> selectList(@PathVariable String orgName);
