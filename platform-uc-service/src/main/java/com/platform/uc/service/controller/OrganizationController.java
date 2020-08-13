@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 机构管理
  */
-@RequestMapping("/org") @Controller public class OrganizationController
+@RequestMapping("/uc/org") @Controller public class OrganizationController
 {
 
 	@Autowired private OrganizationService organizationService;

@@ -3,10 +3,14 @@ package com.platform.uc.service.vo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -14,7 +18,9 @@ import java.util.List;
  * @desc 组织机构表
  * Date: 2020-08-11
  */
-@Data
+@Getter
+@Setter
+@ToString
 @TableName("uc_org")
 public class Organization implements Serializable{
 
@@ -82,4 +88,33 @@ public class Organization implements Serializable{
   @TableField(exist = false)
   private List<Organization> list;
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Organization that = (Organization) o;
+		return Objects.equals(id, that.id) &&
+				Objects.equals(parentId, that.parentId) &&
+				Objects.equals(orgCode, that.orgCode) &&
+				Objects.equals(orgName, that.orgName) &&
+				Objects.equals(shortName, that.shortName) &&
+				Objects.equals(orgType, that.orgType) &&
+				Objects.equals(description, that.description) &&
+				Objects.equals(linkMan, that.linkMan) &&
+				Objects.equals(phone, that.phone) &&
+				Objects.equals(email, that.email) &&
+				Objects.equals(address, that.address) &&
+				Objects.equals(state, that.state) &&
+				Objects.equals(adminImage, that.adminImage) &&
+				Objects.equals(createDate, that.createDate) &&
+				Objects.equals(creatorId, that.creatorId) &&
+				Objects.equals(updateDate, that.updateDate) &&
+				Objects.equals(updaterId, that.updaterId);
+	}
+
+	@Override
+	public int hashCode() {
+
+		return Objects.hash(id, parentId, orgCode, orgName, shortName, orgType, description, linkMan, phone, email, address, state, adminImage, createDate, creatorId, updateDate, updaterId);
+	}
 }

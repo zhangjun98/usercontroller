@@ -27,7 +27,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
             @Result(property = "updaterId",column = "updaterId"),
             @Result(property = "submenuList",column = "id",
                         javaType = List.class,
-                    many = @Many(select = "com.platform.uc.service.mapper.SubMenuMapper.findByMenuId")
+                    many = @Many(select = "com.platform.uc.service.mapper.PermissionMapper.findByMenuId")
             )
     })
     List<Menu> findAll();

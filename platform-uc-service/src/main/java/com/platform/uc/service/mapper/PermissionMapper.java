@@ -11,6 +11,6 @@ import java.util.List;
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    @Select("  SELECT * FROM uc_submenu WHERE menu_id=#{id} AND state=0")
+    @Select("  SELECT * FROM uc_permission WHERE menu_id=#{id} AND state=0")
     List<Permission> findByMenuId(String id);
 }
