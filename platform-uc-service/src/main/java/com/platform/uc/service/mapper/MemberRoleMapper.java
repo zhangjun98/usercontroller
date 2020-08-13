@@ -2,21 +2,37 @@ package com.platform.uc.service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.platform.uc.service.vo.MemberRole;
-import javafx.scene.control.Pagination;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
+import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+import com.platform.uc.service.vo.RoleMember;
+import com.platform.uc.service.vo.RoleMemberVo;
+import com.platform.uc.service.vo.User;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-@Repository
-public interface MemberRoleMapper extends BaseMapper<MemberRole>
-{
-	@Select("SELECT t1.*,t2.username,t2.create_time as createTime,t2.email,t2.mobile,t3.`code`,t3.description,t3.`name`,t4.org_code as orgCode,t4.org_name as orgName FROM "
-			+ "uc_member_role t1" + " LEFT JOIN uc_users t2 ON t1.mid = t2.mid" + " LEFT JOIN uc_role t3 ON t1.role_id = t3.id "
-			+ " LEFT JOIN uc_org t4 ON t3.org_id = t3.id WHERE t1.role_id = #{roleId}")
-	List<MemberRole> selectList( Page<MemberRole> page,@Param("roleId") String roleId);
+/**
+ * 用户信息角色
+ */
+@Mapper
+public interface MemberRoleMapper extends BaseMapper<RoleMember> {
+
+	@Select({"<script>" +
+			"select m.*, u.username as username, u.email as email, u.mobile as mobile, mr.create_date as create_date, mr.update_date as update_date \n" +
+			"from uc_members as m \n" +
+			"LEFT JOIN uc_users as u on u.mid = m.id \n" +
+			"LEFT JOIN uc_member_role as mr on mr.mid = m.id \n" +
+			"where 1=1 \n" +
+			"<when test='params.roleId!=null'>",
+				"AND mr.role_id = #{params.roleId}",
+			"</when>" +
+	"</script>"})
+	List<RoleMemberVo> selectUsersByRole(Page<RoleMemberVo> page, @Param("params") QueryRoleUserRequest params);
+
+
+
+	@Select("select t1.*,t2.username FROM uc_member_role t1 LEFT JOIN uc_users t2 ON t1.mid = t2.id WHERE t1.role_id = #{roleId}")
+	List<RoleMember> selectList(Long roleId);
+
 
 
 }

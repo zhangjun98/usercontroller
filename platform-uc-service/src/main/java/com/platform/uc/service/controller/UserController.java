@@ -1,18 +1,14 @@
 package com.platform.uc.service.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.UserService;
-import com.platform.uc.service.vo.User;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 用户控制器
@@ -38,7 +34,7 @@ public class UserController {
      * 注册用户信息
      */
     @PostMapping("/register")
-    public BizResponse<Void> register(@RequestBody UserRequest request){
+    public BizResponse<Void> register(@RequestBody RegisterUserRequest request){
         userService.register(request);
         return BizResponseUtils.success();
     }
@@ -57,32 +53,17 @@ public class UserController {
         return BizResponseUtils.success(userService.selectById(id));
     }
 
-//    @PostMapping("/page")
-//    @ApiOperation(value = "分页查询")
-//    public BizResponse<IPage<User>> findByPage(@RequestBody Map<String, Object> map) {
-//        return BizResponseUtils.success(userService.findByPageDataScope(map));
-//    }
-//
-//    @PostMapping("/page/all")
-//    @ApiOperation(value = "分页查询获取所有用户")
-//    public BizResponse<IPage<User>> findAllUserByPage(@RequestBody Map<String, Object> map) {
-//        return BizResponseUtils.success(userService.findByPageDataScope(map));
-//    }
-
     @GetMapping("/isExist")
     @ApiOperation(value = "检验是否存在")
-    public BizResponse<Boolean> isExist(@RequestParam String paramMap) {
-        if (userService.selectUserByLogin(paramMap) != null) {
-            return BizResponseUtils.success(true);
-        } else {
-            return BizResponseUtils.success(false);
-        }
+    public BizResponse<Boolean> isExist(@RequestParam("accountName") String accountName) {
+        return BizResponseUtils.success((userService.selectUserByLogin(accountName) != null));
     }
 
-    @PutMapping
-    @ApiOperation(value = "修改实体信息")
-    public BizResponse<Boolean> modify(@RequestBody User user) {
-        return BizResponseUtils.success(userService.udpate(user));
+    @PutMapping("/")
+    @ApiOperation(value = "修改用户信息")
+    public BizResponse<Void> modify(@RequestBody UpdateMemberRequest request) {
+        userService.update(request);
+        return BizResponseUtils.success();
     }
 
     /**
@@ -114,35 +95,5 @@ public class UserController {
         return BizResponseUtils.success();
     }
 
-    /**
-     * 设置角色
-     *
-     * @param id 用户id
-     * @param ids 角色ID
-     * @return
-     */
-    @PutMapping("/configureRoles/{id}")
-    public BizResponse<Void> configureRoles(@PathVariable String id , @RequestBody List<String> ids) {
-        if(ids==null || ids.size()<=0) {
-            return BizResponseUtils.error("999999", "角色配置不能为空");
-        }
-        userService.configureRoles(id, ids);
-        return BizResponseUtils.success();
-    }
-
-    /**
-     * 设置平台
-     * @param id
-     * @param ids
-     * @return
-     */
-    @PutMapping("/configureClients/{id}")
-    public BizResponse<Void> configureClients(@PathVariable String id , @RequestBody List<String> ids) {
-        if(ids==null || ids.size()<=0) {
-            return BizResponseUtils.error("999999", "平台配置不能为空");
-        }
-        userService.configureClients(id, ids);
-        return  BizResponseUtils.success();
-    }
 
 }

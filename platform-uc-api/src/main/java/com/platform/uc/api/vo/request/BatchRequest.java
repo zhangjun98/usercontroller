@@ -16,4 +16,6 @@ public class BatchRequest implements Serializable {
 
     private Set<String> ids;
 
+    private String operator;
+
 }

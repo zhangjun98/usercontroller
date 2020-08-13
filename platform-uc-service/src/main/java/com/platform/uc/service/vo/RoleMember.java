@@ -13,7 +13,9 @@ import java.util.Date;
  */
 @Data
 @TableName("uc_member_role")
-public class MemberRole implements Serializable {
+public class RoleMember implements Serializable {
+
+    private static final long serialVersionUID = -2435463587454988013L;
 
     /**
      * 关系ID
@@ -39,33 +41,4 @@ public class MemberRole implements Serializable {
     @TableField("update_date")
     private Date updateDate;
 
-    private Member member;
-
-    @TableField(exist = false)
-    private String userName;
-
-    @TableField(exist = false)
-    private Date createTime;
-
-    @TableField(exist = false)
-    private String email;
-
-    @TableField(exist = false)
-    private String mobile;
-
-    @TableField(exist = false)
-    private String code;
-
-
-    @TableField(exist = false)
-    private String description;
-
-    @TableField(exist = false)
-    private String name;
-
-    @TableField(exist = false)
-    private String orgCode;
-
-    @TableField(exist = false)
-    private String orgName;
 }

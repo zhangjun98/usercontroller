@@ -1,7 +1,9 @@
 package com.platform.uc.api;
 
-import com.platform.uc.api.vo.request.UcRole;
-import com.platform.uc.api.vo.request.UcRolePermission;
+import com.platform.uc.api.vo.request.*;
+import com.platform.uc.api.vo.response.RoleResponse;
+import com.platform.uc.api.vo.response.UserResponse;
+import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -11,22 +13,24 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/role") public interface RemoteRoleService
-{
+@FeignClient(value = "platform-uc-service", path = "/role")
+public interface RemoteRoleService {
 
-	@PostMapping("/addRole") public BizResponse<String> addRole(@RequestBody UcRole ucRole);
+	@PostMapping("/query")
+	BizPageResponse<RoleResponse> selectByConditions(@RequestBody QueryRoleRequest request);
 
-	@PutMapping("/updateRole") public BizResponse<String> updateRole(@RequestBody UcRole ucRole);
+	@PostMapping("/")
+	BizResponse<Void> save(@RequestBody RoleRequest roleRequest);
 
-	@GetMapping("/selectRole/{id}") public BizResponse<UcRole> selectRole(@PathVariable String id);
+	@PutMapping("/{id}")
+	BizResponse<Void> modify(@PathVariable String id, @RequestBody RoleRequest roleRequest);
 
-	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}") public BizResponse<Object> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
-			@PathVariable Integer pageSize);
+	@GetMapping("/{id}")
+	BizResponse<RoleRequest> detail(@PathVariable String id);
 
-	@DeleteMapping("/deleteRole/{id}") public BizResponse<String> deleteRole(@PathVariable String id);
+	@PostMapping("/remove")
+	BizResponse<Void> remove(@RequestBody BatchRequest request);
 
-	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize}") public BizResponse<Object> selectRoleUsers(@PathVariable String roleId, @PathVariable Integer pageNum,
-			@PathVariable Integer pageSize);
-
-	@PostMapping("/addRolePermission") public void addRolePermission(@RequestBody UcRolePermission ucRolePermission);
+	@PostMapping("/addRolePermission")
+	BizResponse<Void> addRolePermission(@RequestBody UcRolePermission ucRolePermission);
 }
