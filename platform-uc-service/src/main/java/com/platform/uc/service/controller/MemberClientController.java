@@ -1,6 +1,7 @@
 package com.platform.uc.service.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.platform.uc.api.vo.request.MemberClientRequest;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.MemberClientService;
 import com.platform.uc.service.vo.MemberClient;
@@ -17,7 +18,7 @@ import java.util.List;
  * 平台的用户
  * @author fang
  */
-@RequestMapping("/uc/client/member")
+@RequestMapping("/uc/member/client")
 @RestController
 public class MemberClientController {
 
@@ -28,10 +29,10 @@ public class MemberClientController {
 
     //角色列表
     @GetMapping("/selectUserList/{clientId}/{pageNum}/{pageSize}")
-    public BizResponse<IPage<UserResponse>> selectUserPage(@PathVariable Long clientId, @PathVariable Integer pageNum,
+    public BizResponse<IPage<MemberClient>> selectUserPage(@PathVariable String clientId, @PathVariable Integer pageNum,
                                                            @PathVariable Integer pageSize) {
-        IPage<UserResponse> pageUserResponse = memberClientService.selectUserPage(clientId, pageNum, pageSize);
-        return null;
+        IPage<MemberClient> pageUserResponse = memberClientService.selectUserPage(clientId, pageNum, pageSize);
+        return BizResponseUtils.success(pageUserResponse);
     }
 
     // TODO 保存平台用户  用平台与用户关联
@@ -68,5 +69,5 @@ public class MemberClientController {
 //    public BizResponse<Integer> modify(@RequestBody MemberClient memberClient) {
 //        return BizResponseUtils.success(memberClientService.updateUserRole(memberClient));
 //    }
-    
+
 }

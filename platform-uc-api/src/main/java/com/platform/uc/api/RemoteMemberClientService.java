@@ -16,11 +16,11 @@ import java.util.List;
  * 远程用户应用关系信息接口
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/member_client")
+@FeignClient(value = "platform-uc-service", path = "/uc/member/client")
 public interface RemoteMemberClientService {
 
-    @GetMapping("/selectUserList/{name}/{pageNum}/{pageSize}")
-    BizResponse<IPage<UserResponse>> selectUserPage(@PathVariable Long clientId, @PathVariable Integer pageNum,
+    @GetMapping("/selectUserList/{clientId}/{pageNum}/{pageSize}")
+    BizResponse<IPage<UserResponse>> selectUserPage(@PathVariable String clientId, @PathVariable Integer pageNum,
                                                            @PathVariable Integer pageSize);
     @PostMapping
     @ApiOperation(value = "保存实体信息")
