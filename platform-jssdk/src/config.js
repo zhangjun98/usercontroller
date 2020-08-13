@@ -23,8 +23,6 @@ export const config = {
 
         accessTokenUrl: '/sso/oauth/token',
 
-
-
     },
 
     open: {
@@ -34,6 +32,16 @@ export const config = {
         userInfoUrl: '/api/user/info',
 
         userMobile: '/api/user/mobile'
+    },
+
+    ws:{
+        url: 'http://localhost:8080/ws',
+
+        subscribes: {
+            chat: '/user/topic/chat',
+            notice: '/user/topic/notice'
+        }
+
     },
 
     /**
@@ -51,6 +59,10 @@ export const Scope = {
 
     USER_INFO: 'userInfo',
 
-    MOBILE: 'mobile'
+    MOBILE: 'mobile',
+
+    MESSAGE_NOTICE: 'messageNotice',
+
+    MESSAGE_CHAT: 'messageChat',
 
 };
