@@ -37,7 +37,7 @@ import java.util.List;
 		ucRoleMapper.updateById(ucRole);
 	}
 
-	public UcRole selectBean(Long id)
+	public UcRole selectBean(String id)
 	{
 		return ucRoleMapper.selectById(id);
 	}
@@ -54,33 +54,11 @@ import java.util.List;
 		return ucRoleMapper.selectPage(dataElementPage, queryWrapper);
 	}
 
-	public IPage<MemberRole> selectRoleUsers(Long roleId, Integer pageNum, Integer pageSize)
+	public IPage<MemberRole> selectRoleUsers(String roleId, Integer pageNum, Integer pageSize)
 	{
 
 		Page<MemberRole> page = new Page<>( pageNum == null ? 1 : pageNum,pageSize == null ? 10 : pageSize);// 当前页，总条数 构造 page 对象
 		return page.setRecords(memberRoleMapper.selectList(page, roleId));
-	}
-
-	@Transactional public List<MemberRole> configurePermissions(List<MeunPermissionVo> meunPermissionVos)
-	{
-		//入库列表
-		List<UcRolePermission> ucRolePermissions = new ArrayList<>();
-		for (MeunPermissionVo meunPermissionVo : meunPermissionVos)
-		{
-			if (meunPermissionVo.getPermissionId() == null || meunPermissionVo.getPermissionId().size() <= 0)
-			{
-				continue;
-			}
-			for (Long temp : meunPermissionVo.getPermissionId())
-			{
-				UcRolePermission ucRolePermission = new UcRolePermission();
-				ucRolePermission.setMenuId(meunPermissionVo.getMeunId());
-				ucRolePermission.setRoleId(meunPermissionVo.getRoleId());
-				ucRolePermission.setPermissionId(temp);
-			}
-
-		}
-		return null;
 	}
 
 	public void insertRolePermission(UcRolePermission ucRolePermission)

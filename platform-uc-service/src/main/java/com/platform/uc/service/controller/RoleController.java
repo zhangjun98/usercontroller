@@ -56,7 +56,7 @@ import java.util.List;
 	}
 
 	//角色查看回显
-	@GetMapping("/selectRole/{id}") public BizResponse<UcRole> selectRole(@PathVariable Long id)
+	@GetMapping("/selectRole/{id}") public BizResponse<UcRole> selectRole(@PathVariable String id)
 	{
 		UcRole ucRole = roleService.selectBean(id);
 		return BizResponseUtils.success(ucRole);
@@ -71,7 +71,7 @@ import java.util.List;
 	}
 
 	//角色删除
-	@DeleteMapping("/deleteRole/{id}") public BizResponse<String> deleteRole(@PathVariable Long id)
+	@DeleteMapping("/deleteRole/{id}") public BizResponse<String> deleteRole(@PathVariable String id)
 	{
 
 		UcRole ucRole = new UcRole();
@@ -82,7 +82,7 @@ import java.util.List;
 	}
 
 	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize}") public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
+	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize}") public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable String roleId, @PathVariable Integer pageNum,
 			@PathVariable Integer pageSize)
 	{
 

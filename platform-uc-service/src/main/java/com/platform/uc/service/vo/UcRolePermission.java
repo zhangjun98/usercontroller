@@ -9,15 +9,15 @@ public class UcRolePermission {
 	private Long id;
 
 	@TableField("role_id")
-	private Long roleId;
+	private String roleId;
 
 	@TableField("module_id")
 	private Long moduleId;
 
 	@TableField("menu_id")
-	private Long menuId;
+	private String menuId;
 
 	@TableField("permission_id")
-	private Long permissionId;
+	private String permissionId;
 
 }

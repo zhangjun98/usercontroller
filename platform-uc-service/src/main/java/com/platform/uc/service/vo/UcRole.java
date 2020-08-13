@@ -15,7 +15,7 @@ public class UcRole implements Serializable
 {
 
 	@TableId(type = IdType.ASSIGN_ID)
-	private Long id;
+	private String id;
 
 	@TableField(value = "`name`")
 	private String name;
@@ -45,5 +45,5 @@ public class UcRole implements Serializable
 	private Long updaterId;
 
 	@TableField(value = "organ_id")
-	private Long organId;
+	private String orgId;
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 public class UcRole implements Serializable
 {
 
-	private Long id;
+	private String id;
 
 	private String name;
 
@@ -30,5 +30,5 @@ public class UcRole implements Serializable
 
 	private Long updaterId;
 
-	private Long organId;
+	private String orgId;
 }

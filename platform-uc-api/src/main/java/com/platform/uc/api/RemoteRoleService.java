@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.*;
 
 	@PutMapping("/updateRole") public BizResponse<String> updateRole(@RequestBody UcRole ucRole);
 
-	@GetMapping("/selectRole/{id}") public BizResponse<UcRole> selectRole(@PathVariable Long id);
+	@GetMapping("/selectRole/{id}") public BizResponse<UcRole> selectRole(@PathVariable String id);
 
 	@GetMapping("/selectRoleList/{name}/{pageNum}/{pageSize}") public BizResponse<Object> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum,
 			@PathVariable Integer pageSize);
 
-	@DeleteMapping("/deleteRole/{id}") public BizResponse<String> deleteRole(@PathVariable Long id);
+	@DeleteMapping("/deleteRole/{id}") public BizResponse<String> deleteRole(@PathVariable String id);
 
-	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize}") public BizResponse<Object> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
+	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize}") public BizResponse<Object> selectRoleUsers(@PathVariable String roleId, @PathVariable Integer pageNum,
 			@PathVariable Integer pageSize);
 
 	@PostMapping("/addRolePermission") public void addRolePermission(@RequestBody UcRolePermission ucRolePermission);
