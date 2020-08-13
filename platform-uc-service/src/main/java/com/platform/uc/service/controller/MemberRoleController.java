@@ -23,8 +23,8 @@ public class MemberRoleController {
 
     @PostMapping
     @ApiOperation(value = "保存实体信息")
-    public BizResponse<Integer> saveUserRole(@RequestBody MemberRole memberRole) {
-        return BizResponseUtils.success(memberRoleService.saveUserRole(memberRole));
+    public BizResponse<Integer> saveMemberRole(@RequestBody MemberRole memberRole) {
+        return BizResponseUtils.success(memberRoleService.saveMemberRole(memberRole));
     }
 
     @GetMapping("/{id}")

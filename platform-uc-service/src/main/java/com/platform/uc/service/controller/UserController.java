@@ -53,6 +53,7 @@ public class UserController {
         return BizResponseUtils.success(userService.selectByMid(mid));
     }
 
+
     @GetMapping("/{id}")
     @ApiOperation(value = "通过id查询信息")
     public BizResponse<UserResponse> findById(@PathVariable String id) {
@@ -155,9 +156,19 @@ public class UserController {
      * @return
      */
     @PutMapping("/setUserImage")
-    public ResultBean<String> setUserImage(String id, String userImage) {
+    public BizResponse<String> setUserImage(String id, String userImage) {
         userService.setUserImage(id, userImage);
-        return ResultBean.success("设置成功！");
+        return BizResponseUtils.success("设置成功！");
+    }
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    @PutMapping("/updateUser")
+    public BizResponse<Boolean> updateUser(User user) {
+        return BizResponseUtils.success(userService.udpate(user));
     }
 
     /**

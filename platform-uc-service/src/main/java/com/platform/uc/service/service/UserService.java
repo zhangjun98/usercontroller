@@ -84,7 +84,7 @@ import java.util.*;
 		return toUserResponse(user);
 	}
 
-	private Member selectByMemberId(String id)
+	public Member selectByMemberId(String id)
 	{
 		return memberMapper.selectById(id);
 	}

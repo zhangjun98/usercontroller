@@ -3,6 +3,8 @@ package com.platform.uc.service.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.platform.uc.service.mapper.ClientMapper;
@@ -11,11 +13,9 @@ import com.platform.uc.service.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -82,10 +82,21 @@ public class ClientService {
         return clientMapper.selectList(queryWrapper);
     }
 
+    public IPage<Client> selectList(String name, Integer pageNum, Integer pageSize)
+    {
+        Page<Client> dataElementPage = new Page<>(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
+        QueryWrapper<Client> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("state", 0);
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(name))
+        {
+            queryWrapper.like("name", name);
+        }
+        return clientMapper.selectPage(dataElementPage,queryWrapper);
+    }
+
     public List<MemberClient> selectClientUsers(Long clientId)
     {
         return memberClientMapper.selectList(clientId);
     }
-
 
 }
