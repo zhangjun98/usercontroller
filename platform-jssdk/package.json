@@ -1,7 +1,7 @@
 {
   "name": "platform-jssdk",
   "version": "0.0.1",
-  "main": "lib/jssdk.js",
+  "main": "lib/jssdk.es.js",
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint src/**/*.js --fix"
@@ -43,5 +43,5 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "```\r npm install platform-jssdk --registry http://58.220.249.165:4873\r ```"
 }
