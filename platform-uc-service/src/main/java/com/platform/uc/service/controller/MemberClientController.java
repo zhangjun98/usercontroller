@@ -1,7 +1,10 @@
 package com.platform.uc.service.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.MemberClientService;
 import com.platform.uc.service.vo.MemberClient;
+import com.platform.uc.service.vo.UcRole;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import io.swagger.annotations.ApiOperation;
@@ -23,17 +26,36 @@ public class MemberClientController {
 
     // TODO 查询平台的用户列表
 
+    //角色列表
+    @GetMapping("/selectUserList/{clientId}/{pageNum}/{pageSize}")
+    public BizResponse<IPage<UserResponse>> selectUserPage(@PathVariable Long clientId, @PathVariable Integer pageNum,
+                                                           @PathVariable Integer pageSize) {
+        IPage<UserResponse> pageUserResponse = memberClientService.selectUserPage(clientId, pageNum, pageSize);
+        return null;
+    }
+
     // TODO 保存平台用户  用平台与用户关联
+    @PostMapping
+    @ApiOperation(value = "保存实体信息")
+    public BizResponse<Integer> saveUserRole(@RequestBody MemberClient memberClient) {
+        return BizResponseUtils.success(memberClientService.saveMemberClient(memberClient));
+    }
 
     // TODO 批量删除平台用户 伪删除
+    @DeleteMapping("/{id}")
+    @ApiOperation(value = "删除实体信息")
+    public BizResponse<Integer> removeById(@PathVariable String id) {
+        return BizResponseUtils.success(memberClientService.deleteById(id));
+    }
 
     // TODO 批量删除平台用户 真删除
+    @DeleteMapping("/batchRemove")
+    @ApiOperation(value = "批量删除实体信息")
+    public BizResponse<Integer> batchRemove(@RequestBody List<String> idList) {
+        return BizResponseUtils.success(memberClientService.batchDelete(idList));
+    }
 
-//    @PostMapping
-//    @ApiOperation(value = "保存实体信息")
-//    public BizResponse<Integer> saveUserRole(@RequestBody MemberClient memberClient) {
-//        return BizResponseUtils.success(memberClientService.saveUserRole(memberClient));
-//    }
+
 //
 //    @GetMapping("/{id}")
 //    @ApiOperation(value = "通过id查询信息")
@@ -46,17 +68,5 @@ public class MemberClientController {
 //    public BizResponse<Integer> modify(@RequestBody MemberClient memberClient) {
 //        return BizResponseUtils.success(memberClientService.updateUserRole(memberClient));
 //    }
-//
-//    @DeleteMapping("/{id}")
-//    @ApiOperation(value = "删除实体信息")
-//    public BizResponse<Integer> removeById(@PathVariable String id) {
-//        return BizResponseUtils.success(memberClientService.deleteById(id));
-//    }
-//
-//    @DeleteMapping("/batchRemove")
-//    @ApiOperation(value = "批量删除实体信息")
-//    public BizResponse<Integer> batchRemove(@RequestBody List<String> idList) {
-//        return BizResponseUtils.success(memberClientService.batchDelete(idList));
-//    }
-
+    
 }
