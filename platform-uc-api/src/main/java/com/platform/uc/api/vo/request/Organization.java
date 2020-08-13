@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 2020-08-11
  */
 @Data
-public class Org implements Serializable{
+public class Organization implements Serializable{
 
 
     private static final long serialVersionUID = 5272723848480230740L;
@@ -75,6 +75,6 @@ public class Org implements Serializable{
     /**
      * 装子级的机构
      */
-  private List<Org> list;
+  private List<Organization> list;
 
 }
