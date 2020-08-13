@@ -10,6 +10,7 @@ import com.platform.uc.service.vo.MemberRole;
 import com.platform.uc.api.vo.request.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.platform.uc.service.vo.UcRolePermission;
+import javafx.scene.control.Pagination;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,13 +56,9 @@ import java.util.List;
 
 	public IPage<MemberRole> selectRoleUsers(Long roleId, Integer pageNum, Integer pageSize)
 	{
-		Page<MemberRole> dataElementPage = new Page<>(pageNum == null ? 1 : pageNum, pageSize == null ? 10 : pageSize);
-		QueryWrapper<MemberRole> queryWrapper = new QueryWrapper<>();
-		if (roleId != null)
-		{
-			queryWrapper.like("role_id", roleId);
-		}
-		return memberRoleMapper.selectPage(dataElementPage, queryWrapper);
+
+		Page<MemberRole> page = new Page<>(pageSize == null ? 10 : pageSize, pageNum == null ? 1 : pageNum);// 当前页，总条数 构造 page 对象
+		return page.setRecords(memberRoleMapper.selectList(page, roleId));
 	}
 
 	@Transactional public List<MemberRole> configurePermissions(List<MeunPermissionVo> meunPermissionVos)

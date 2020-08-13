@@ -18,7 +18,6 @@ import java.util.List;
 
 	@Autowired private OrganizationService organizationService;
 
-
 	/**
 	 * 保存机构
 	 *
@@ -33,7 +32,6 @@ import java.util.List;
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 		}
 
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
@@ -53,7 +51,6 @@ import java.util.List;
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 		}
 
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
@@ -73,7 +70,6 @@ import java.util.List;
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 		}
 
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
@@ -93,7 +89,6 @@ import java.util.List;
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 		}
 
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
@@ -113,11 +108,9 @@ import java.util.List;
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 		}
 
 		return BizResponseUtils.error("999999", "系统繁忙请稍后重试");
 	}
-
 
 }
