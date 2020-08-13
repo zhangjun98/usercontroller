@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/org") public interface RemoteOrgService
+@FeignClient(value = "platform-uc-service", path = "/uc/org") public interface RemoteOrgService
 {
 
 
