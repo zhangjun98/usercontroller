@@ -94,9 +94,4 @@ public class ClientService {
         return clientMapper.selectPage(dataElementPage,queryWrapper);
     }
 
-    public List<MemberClient> selectClientUsers(Long clientId)
-    {
-        return memberClientMapper.selectList(clientId);
-    }
-
 }

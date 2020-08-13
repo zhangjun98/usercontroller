@@ -4,26 +4,28 @@ import com.platform.uc.service.service.OrganizationService;
 import com.platform.uc.service.vo.Organization;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 机构管理
  */
-@RequestMapping("/uc/org") @Controller public class OrganizationController
-{
+@RequestMapping("/org")
+@RestController
+public class OrganizationController {
 
-	@Autowired private OrganizationService organizationService;
+	@Resource
+	private OrganizationService organizationService;
 
 	/**
 	 * 保存机构
 	 *
 	 * @return
 	 */
-	@PostMapping("/save") @ResponseBody public BizResponse<String> save(@RequestBody Organization organization)
+	@PostMapping("/save")
+	public BizResponse<String> save(@RequestBody Organization organization)
 	{
 		try
 		{
@@ -42,7 +44,8 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	@GetMapping("/selectList") @ResponseBody public BizResponse<List<Organization>> selectList(String orgName)
+	@GetMapping("/selectList")
+	public BizResponse<List<Organization>> selectList(String orgName)
 	{
 		try
 		{
@@ -61,7 +64,8 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	@GetMapping("/findAllOrg") @ResponseBody public BizResponse<List<Organization>> findAllOrg()
+	@GetMapping("/findAllOrg")
+	public BizResponse<List<Organization>> findAllOrg()
 	{
 		try
 		{
@@ -80,7 +84,8 @@ import java.util.List;
 	 *
 	 * @return 修改成功返回1
 	 */
-	@PostMapping("/update") @ResponseBody public BizResponse<String> update(@RequestBody Organization organization)
+	@PostMapping("/update")
+	public BizResponse<String> update(@RequestBody Organization organization)
 	{
 		try
 		{
@@ -99,7 +104,8 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	@GetMapping("/search/{id}") @ResponseBody public BizResponse<Organization> search(@PathVariable Long id)
+	@GetMapping("/search/{id}")
+	public BizResponse<Organization> search(@PathVariable Long id)
 	{
 		try
 		{

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * 用户控制器
  * @author hao.yan
  */
-@RequestMapping("/uc/user")
+@RequestMapping("/user")
 @RestController
 public class UserController {
 
