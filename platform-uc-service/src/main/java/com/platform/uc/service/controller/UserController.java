@@ -1,12 +1,10 @@
 package com.platform.uc.service.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.platform.uc.api.vo.request.UserRequest;
+import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.UserService;
-import com.platform.uc.api.vo.request.PasswordVo;
 import com.platform.uc.service.vo.User;
-import com.ztkj.framework.common.domain.ResultBean;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import io.swagger.annotations.ApiOperation;
@@ -87,77 +85,34 @@ public class UserController {
         return BizResponseUtils.success(userService.udpate(user));
     }
 
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "删除实体信息")
-    public BizResponse<Integer> removeById(@PathVariable String id) {
-        return BizResponseUtils.success(userService.logicDeleteById(id));
-    }
-
-    @DeleteMapping("/batchRemove")
-    @ApiOperation(value = "批量删除实体信息")
-    public BizResponse<Boolean> batchRemove(@RequestBody List<String> ids) {
-        return BizResponseUtils.success(userService.logicBatchDelete(ids));
-    }
-
     /**
      * 重置密码
      */
-    @PutMapping("/{id}/password")
+    @PutMapping("/reset/password")
     @ApiOperation("重置密码")
-    public BizResponse resetPassword(@PathVariable("id") String id, @RequestBody Map<String, String> paramsMap) {
-        userService.resetPassword(id, paramsMap);
-        return BizResponseUtils.success("重置成功！");
+    public BizResponse<Void> resetPassword(@RequestBody ResetPasswordRequest password) {
+        userService.resetPassword(password);
+        return BizResponseUtils.success();
     }
 
     /**
      * 修改密码
-     *
-     * @param passwordVo
-     * @return
      */
-    @PutMapping("/changePassword")
+    @PutMapping("/forgot/password")
     @ApiOperation("修改密码")
-    public BizResponse changePassword(@RequestBody PasswordVo passwordVo) {
-        userService.changePassword(passwordVo);
-        return BizResponseUtils.success("修改成功！");
+    public BizResponse<Void> changePassword(@RequestBody ForgotPasswordRequest password) {
+        userService.changePassword(password);
+        return BizResponseUtils.success();
     }
 
-    /**
-     * 启用用户
-     *
-     * @param ids
-     * @return
-     */
-    @PutMapping("/enable")
-    @ApiOperation("启用用户")
-    public BizResponse enableUser(@RequestBody List<String> ids) {
-        userService.enableUser(ids);
-        return BizResponseUtils.success("启用成功！");
-    }
 
     /**
-     * 禁用用户
-     *
-     * @param ids
-     * @return
+     * 修改 用户是否启用与禁用
      */
-    @PutMapping("/disable")
-    @ApiOperation("禁用用户")
-    public BizResponse disableUser(@RequestBody List<String> ids) {
-        userService.disableUser(ids);
-        return BizResponseUtils.success("禁用成功！");
-    }
-
-    /**
-     * 设置当前用户图像
-     *
-     * @param userImage
-     * @return
-     */
-    @PutMapping("/setUserImage")
-    public ResultBean<String> setUserImage(String id, String userImage) {
-        userService.setUserImage(id, userImage);
-        return ResultBean.success("设置成功！");
+    @PutMapping("/change/status")
+    public BizResponse<Void> changeStatus(@RequestBody ChangeStatusRequest request){
+        userService.setEnableOrDisable(request.isEnable(), request.getUserIds());
+        return BizResponseUtils.success();
     }
 
     /**
@@ -168,14 +123,12 @@ public class UserController {
      * @return
      */
     @PutMapping("/configureRoles/{id}")
-    public BizResponse configureRoles(@PathVariable String id , @RequestBody List<String> ids)
-    {
-        if(ids==null || ids.size()<=0)
-        {
+    public BizResponse<Void> configureRoles(@PathVariable String id , @RequestBody List<String> ids) {
+        if(ids==null || ids.size()<=0) {
             return BizResponseUtils.error("999999", "角色配置不能为空");
         }
         userService.configureRoles(id, ids);
-        return  BizResponseUtils.success("操作成功");
+        return BizResponseUtils.success();
     }
 
     /**
@@ -185,14 +138,12 @@ public class UserController {
      * @return
      */
     @PutMapping("/configureClients/{id}")
-    public BizResponse configureClients(@PathVariable String id , @RequestBody List<String> ids)
-    {
-        if(ids==null || ids.size()<=0)
-        {
+    public BizResponse<Void> configureClients(@PathVariable String id , @RequestBody List<String> ids) {
+        if(ids==null || ids.size()<=0) {
             return BizResponseUtils.error("999999", "平台配置不能为空");
         }
         userService.configureClients(id, ids);
-        return  BizResponseUtils.success("操作成功");
+        return  BizResponseUtils.success();
     }
 
 }

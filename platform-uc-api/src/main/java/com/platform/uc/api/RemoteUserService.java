@@ -1,12 +1,15 @@
 package com.platform.uc.api;
 
+import com.platform.uc.api.vo.request.ChangeStatusRequest;
+import com.platform.uc.api.vo.request.ForgotPasswordRequest;
+import com.platform.uc.api.vo.request.ResetPasswordRequest;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizResponse;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 远程用户信息接口
@@ -27,5 +30,22 @@ public interface RemoteUserService {
     @GetMapping("/{mid}")
     BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid);
 
+    /**
+     * 设置密码
+     */
+    @PutMapping("/reset/password")
+    BizResponse<Void> resetPassword(@RequestBody ResetPasswordRequest password);
+
+    /**
+     * 修改密码
+     */
+    @PutMapping("/forgot/password")
+    BizResponse<Void> changePassword(@RequestBody ForgotPasswordRequest password);
+
+    /**
+     * 修改 用户是否启用与禁用
+     */
+    @PutMapping("/change/status")
+    BizResponse<Void> changeStatus(@RequestBody ChangeStatusRequest request);
 
 }
