@@ -1,5 +1,6 @@
 package com.platform.uc.service.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.platform.uc.service.service.ClientService;
@@ -77,10 +78,10 @@ public class ClientController {
     }
 
     //应用列表
-    @GetMapping("/selectClientList/{name}") @ResponseBody public BizResponse<List<Client>> selectClientList(@PathVariable String name)
+    @GetMapping("/selectClientList/{name}") @ResponseBody public BizResponse<IPage<Client>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum, @PathVariable Integer pageSize)
     {
-        List<Client> clients = clientService.selectList(name);
-        return BizResponseUtils.success(clients);
+        IPage<Client> ucRoles = clientService.selectList(name, pageNum, pageSize);
+        return BizResponseUtils.success(ucRoles);
     }
 
     //应用删除
@@ -98,13 +99,13 @@ public class ClientController {
     }
 
     //查看应用下的成员
-    @GetMapping("/selectClientUsers/{roleId}") @ResponseBody public BizResponse<List<MemberClient>> selectClientUsers(@PathVariable Long roleId)
+    @GetMapping("/selectClientUsers/{clientId}") @ResponseBody public BizResponse<List<MemberClient>> selectClientUsers(@PathVariable Long clientId)
     {
-        if (roleId == null)
+        if (clientId == null)
         {
             return BizResponseUtils.error("999999", "应用不能为空");
         }
-        List<MemberClient> ucMemberClients = clientService.selectClientUsers(roleId);
+        List<MemberClient> ucMemberClients = clientService.selectClientUsers(clientId);
         return BizResponseUtils.success(ucMemberClients);
     }
 }
