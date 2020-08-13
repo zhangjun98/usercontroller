@@ -2,6 +2,8 @@ package com.platform.uc.service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.uc.api.vo.request.QueryClientUserRequest;
+import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.platform.uc.service.vo.MemberClient;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -12,9 +14,16 @@ import java.util.List;
 @Repository
 public interface MemberClientMapper extends BaseMapper<MemberClient> {
 
-    @Select("SELECT t1.*,t2.username,t2.create_time as createTime,t2.email,t2.mobile,t3.`code`,t3.description,t3.`name`,t4.org_code as orgCode,t4.org_name as orgName FROM "
-            + "uc_member_client t1" + " LEFT JOIN uc_users t2 ON t1.mid = t2.mid" + " LEFT JOIN uc_client t3 ON t1.client_id = t3.id "
-            + " LEFT JOIN uc_org t4 ON t3.org_id = t3.id WHERE t1.client_id = #{clientId}")
-    List<MemberClient> selectList(Page<MemberClient> page, @Param("clientId") String clientId);
+    @Select({"<script>" +
+            "select m.*, u.id as uid, u.username as username, u.email as email, u.mobile as mobile, mr.create_date as create_date, mr.update_date as update_date \n" +
+            "from uc_members as m \n" +
+            "LEFT JOIN uc_users as u on u.mid = m.id \n" +
+            "LEFT JOIN uc_member_client as mr on mr.mid = m.id \n" +
+            "where 1=1 \n" +
+            "<if test='params.clientId!=null'>",
+            "AND mr.client_id = #{params.clientId}",
+            "</if>" +
+    "</script>"})
+    List<RoleMemberResponse> selectUsersByClientId(Page<RoleMemberResponse> page, @Param("params") QueryClientUserRequest params);
 }
 

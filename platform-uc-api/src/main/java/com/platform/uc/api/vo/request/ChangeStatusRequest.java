@@ -19,6 +19,6 @@ public class ChangeStatusRequest implements Serializable {
     /**
      * 用户编号集合
      */
-    private Set<String> userIds;
+    private Set<String> ids;
 
 }
