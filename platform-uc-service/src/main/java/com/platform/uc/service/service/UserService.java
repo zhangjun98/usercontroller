@@ -166,8 +166,10 @@ public class UserService {
 	 * @param map
 	 * @return
 	 */
-	public Page<User> findByPageDataScope(Map<String, Object> map) {
-		try {
+	public Page<UserResponse> findByPageDataScope(Map<String, Object> map)
+	{
+		try
+		{
 			//todo
 			//分页参数
 			String name = (String) map.get("name");
@@ -184,7 +186,20 @@ public class UserService {
 			//模糊查询方法
 			Page<User> mapIPage = userMapper.selectPage(page, queryWrapper);
 
-			return mapIPage;
+			Page<UserResponse> userResponsePage = new Page<>();
+			userResponsePage.setCurrent(mapIPage.getCurrent());
+			userResponsePage.setSize(mapIPage.getSize());
+			userResponsePage.setTotal(mapIPage.getTotal());
+			userResponsePage.setPages(mapIPage.getPages());
+
+			List<User> list = mapIPage.getRecords();
+			List<UserResponse> listResponse = new ArrayList<>();
+			for (User user : list) {
+				listResponse.add(toUserResponse(user));
+			}
+			userResponsePage.setRecords(listResponse);
+
+			return userResponsePage;
 		}
 		catch (Exception e)
 		{

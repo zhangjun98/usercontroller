@@ -19,7 +19,7 @@ public class MemberClientService {
      * 保存用户平台
      * @param memberClient
      */
-    public int saveUserRole(MemberClient memberClient) {
+    public int saveMemberClient(MemberClient memberClient) {
         if (memberClient ==null){
             throw new RuntimeException("菜单对象为空");
         }

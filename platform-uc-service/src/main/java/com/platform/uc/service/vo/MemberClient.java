@@ -37,4 +37,6 @@ public class MemberClient implements Serializable {
 
     private Client client;
 
+    @TableField(exist = false)
+    private String userName;
 }
