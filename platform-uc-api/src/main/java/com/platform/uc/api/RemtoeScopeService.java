@@ -13,7 +13,7 @@ import java.util.List;
  * 远程范围信息接口
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/scope")
+@FeignClient(value = "platform-uc-service", path = "/scope")
 public interface RemtoeScopeService {
 
 

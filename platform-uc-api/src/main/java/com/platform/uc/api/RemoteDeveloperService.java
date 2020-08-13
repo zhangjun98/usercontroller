@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * 远程开发者信息接口
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/developer")
+@FeignClient(value = "platform-uc-service", path = "/developer")
 public interface RemoteDeveloperService {
 
     /**

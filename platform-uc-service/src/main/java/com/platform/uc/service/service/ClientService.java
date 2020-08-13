@@ -94,11 +94,5 @@ public class ClientService {
         return clientMapper.selectPage(dataElementPage,queryWrapper);
     }
 
-    public List<MemberClient> selectClientUsers(Long clientId)
-    {
-        QueryWrapper<MemberClient> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("client_id",clientId);
-        return memberClientMapper.selectList(queryWrapper);
-    }
 
 }

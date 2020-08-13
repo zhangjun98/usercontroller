@@ -4,13 +4,14 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+
 import com.platform.uc.api.vo.response.MemberRoleResponse;
+import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberRoleMapper;
-import com.platform.uc.service.vo.Role;
 import com.platform.uc.service.vo.RoleMember;
-import com.platform.uc.service.vo.RoleMemberVo;
 import com.ztkj.framework.response.core.BizPageResponse;
+import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +33,13 @@ public class MemberRoleService {
     /**
      * 查询角色下的用户
      */
-    public BizPageResponse<UserResponse> selectUsersByConditions(QueryRoleUserRequest request){
 
-        Page<UserResponse> page = new Page<>( request.getPageNo() == null ? 1 : request.getPageNo(),request.getPageSize() == null ? 10 : request.getPageSize());
-        List<UserResponse> list = memberRoleMapper.selectUsersByRole(page, request);
-        BizPageResponse bizPageResponse = new BizPageResponse(list, list.size(),request.getPageSize() , request.getPageNo(), page.getTotal());
-        return bizPageResponse;
+    public BizPageResponse<MemberRoleResponse> selectUsersByConditions(QueryRoleUserRequest request){
+        Page<MemberRoleResponse> page = new Page<>();
+        page.setCurrent(request.getPageNo());
+        page.setSize(request.getPageSize());
+        List<MemberRoleResponse> members = memberRoleMapper.selectUsersByRole(page, request);
+        return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), members);
     }
 
 
@@ -51,7 +53,6 @@ public class MemberRoleService {
             throw new RuntimeException("菜单对象为空");
         }
         roleMember.setCreateDate(new Date());
-
         int insert = memberRoleMapper.insert(roleMember);
         return insert;
     }

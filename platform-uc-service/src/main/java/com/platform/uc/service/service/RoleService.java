@@ -89,7 +89,6 @@ import java.util.*;
 
 	public void insertRolePermission(UcRolePermission RolePermission)
 	{
-
 		rolePermissionMapper.insert(RolePermission);
 	}
 

@@ -17,7 +17,7 @@ public class PermissionRequest implements Serializable{
 
     private static final long serialVersionUID = 32L;
 
-  private Long id;
+  private String id;
 	/**
 	 * 子菜单名称
 	 */
@@ -29,7 +29,7 @@ public class PermissionRequest implements Serializable{
 	/**
 	 * 外键菜单表
 	 */
-  private Long menuId;
+  private String menuId;
 	/**
 	 * 状态(0--正常 9--删除)
 	 */

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * 用户控制器
  * @author hao.yan
  */
-@RequestMapping("/uc/user")
+@RequestMapping("/user")
 @RestController
 public class UserController {
 
@@ -91,7 +91,7 @@ public class UserController {
      */
     @PutMapping("/change/status")
     public BizResponse<Void> changeStatus(@RequestBody ChangeStatusRequest request){
-        userService.setEnableOrDisable(request.isEnable(), request.getUserIds());
+        userService.setEnableOrDisable(request.isEnable(), request.getIds());
         return BizResponseUtils.success();
     }
 

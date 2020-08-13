@@ -3,6 +3,7 @@ package com.platform.uc.api;
 import com.platform.uc.api.vo.request.MemberRoleRequest;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 import com.platform.uc.api.vo.response.MemberRoleResponse;
+import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
@@ -16,6 +17,7 @@ import java.util.List;
  * 远程用户角色信息接口
  * @author hao.yan
  */
+
 @FeignClient(value = "platform-uc-service", path = "/member/role")
 public interface RemoteMemberRoleService {
 
@@ -23,7 +25,7 @@ public interface RemoteMemberRoleService {
      * 查询角色下的用户
      */
     @PostMapping("/query")
-    BizPageResponse<UserResponse> selectByConditions(@RequestBody QueryRoleUserRequest request);
+    BizPageResponse<MemberRoleResponse> selectByConditions(@RequestBody QueryRoleUserRequest request);
 
     @PostMapping
     @ApiOperation(value = "保存实体信息")

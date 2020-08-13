@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 远程菜单的信息接口
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/menu")
+@FeignClient(value = "platform-uc-service", path = "/menu")
 public interface RemoteMenuService {
 
     /**
@@ -65,7 +65,7 @@ public interface RemoteMenuService {
      */
     @GetMapping("/findSubMenu")
     @ResponseBody
-    public BizResponse<List<PermissionRequest>> findSubMenu(@RequestParam Long id);
+    public BizResponse<List<PermissionRequest>> findSubMenu(@RequestParam String id);
 
     /**
      * 查询所有菜单 同时带上对应的子菜单
