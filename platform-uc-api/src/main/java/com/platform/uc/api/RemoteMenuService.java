@@ -65,7 +65,7 @@ public interface RemoteMenuService {
      */
     @GetMapping("/findSubMenu")
     @ResponseBody
-    public BizResponse<List<PermissionRequest>> findSubMenu(@RequestParam Long id);
+    public BizResponse<List<PermissionRequest>> findSubMenu(@RequestParam String id);
 
     /**
      * 查询所有菜单 同时带上对应的子菜单

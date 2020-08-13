@@ -18,11 +18,11 @@ public class MenuRequest implements Serializable{
 
     private static final long serialVersionUID = 24L;
 
-      private Long id;
+      private String id;
         /**
          * 父菜单
          */
-      private Long parentId;
+      private String parentId;
         /**
          * 系统模块
          */

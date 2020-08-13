@@ -24,5 +24,5 @@ import java.util.List;
 
 	@PostMapping("/update")  public BizResponse<String> update(@RequestBody Organization organization);
 
-	@GetMapping("/search/{id}")  public BizResponse<Organization> search(@PathVariable Long id);
+	@GetMapping("/search/{id}")  public BizResponse<Organization> search(@PathVariable String id);
 }
