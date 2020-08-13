@@ -39,4 +39,29 @@ public class MemberClient implements Serializable {
 
     @TableField(exist = false)
     private String userName;
+
+    @TableField(exist = false)
+    private Date createTime;
+
+    @TableField(exist = false)
+    private String email;
+
+    @TableField(exist = false)
+    private String mobile;
+
+    @TableField(exist = false)
+    private String code;
+
+
+    @TableField(exist = false)
+    private String description;
+
+    @TableField(exist = false)
+    private String name;
+
+    @TableField(exist = false)
+    private String orgCode;
+
+    @TableField(exist = false)
+    private String orgName;
 }

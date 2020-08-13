@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberClientMapper;
 import com.platform.uc.service.vo.MemberClient;
+import com.platform.uc.service.vo.MemberRole;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -100,9 +101,10 @@ public class MemberClientService {
      * @param pageSize
      * @return
      */
-    public Page<UserResponse> selectUserPage(String clientId, @PathVariable Integer pageNum,
+    public Page<MemberClient> selectUserPage(String clientId, @PathVariable Integer pageNum,
                                              @PathVariable Integer pageSize) {
-        return null;
+        Page<MemberClient> page = new Page<>( pageNum == null ? 1 : pageNum,pageSize == null ? 10 : pageSize);// 当前页，总条数 构造 page 对象
+        return page.setRecords(memberClientMapper.selectList(page, clientId));
     }
 
 }

@@ -29,10 +29,10 @@ public class MemberClientController {
 
     //角色列表
     @GetMapping("/selectUserList/{clientId}/{pageNum}/{pageSize}")
-    public BizResponse<IPage<UserResponse>> selectUserPage(@PathVariable String clientId, @PathVariable Integer pageNum,
+    public BizResponse<IPage<MemberClient>> selectUserPage(@PathVariable String clientId, @PathVariable Integer pageNum,
                                                            @PathVariable Integer pageSize) {
-        IPage<UserResponse> pageUserResponse = memberClientService.selectUserPage(clientId, pageNum, pageSize);
-        return null;
+        IPage<MemberClient> pageUserResponse = memberClientService.selectUserPage(clientId, pageNum, pageSize);
+        return BizResponseUtils.success(pageUserResponse);
     }
 
     // TODO 保存平台用户  用平台与用户关联
