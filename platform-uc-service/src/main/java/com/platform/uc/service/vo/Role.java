@@ -9,13 +9,17 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 角色
+ */
 @Data
 @TableName(value = "uc_role")
-public class UcRole implements Serializable
-{
+public class Role implements Serializable {
+
+	private static final long serialVersionUID = -5710710681616739771L;
 
 	@TableId(type = IdType.ASSIGN_ID)
-	private Long id;
+	private String id;
 
 	@TableField(value = "`name`")
 	private String name;
@@ -26,24 +30,21 @@ public class UcRole implements Serializable
 	@TableField(value = "description")
 	private String description;
 
-	@TableField(value = "permission_type")
-	private int permissionType;
+	@TableField(value = "org_id")
+	private String orgId;
 
-	@TableField(value = "state")
-	private int state;
+	private int status;
 
 	@TableField(value = "create_date")
 	private Date createDate;
 
 	@TableField(value = "creator_id")
-	private Long creatorId;
+	private String creatorId;
 
 	@TableField(value = "update_date")
 	private Date updateDate;
 
 	@TableField(value = "updater_id")
-	private Long updaterId;
+	private String updaterId;
 
-	@TableField(value = "organ_id")
-	private Long organId;
 }

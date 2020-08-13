@@ -32,5 +32,19 @@ public class MemberClientResponse implements Serializable {
     private Date updateDate;
 
     private String userName;
+
+    private String email;
+
+    private String mobile;
+
+    private String code;
+
+    private String description;
+
+    private String name;
+
+    private String orgCode;
+
+    private String orgName;
 }
 

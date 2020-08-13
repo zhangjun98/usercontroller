@@ -1,19 +1,18 @@
 package com.platform.uc.api;
 
-import com.platform.uc.api.vo.request.ChangeStatusRequest;
-import com.platform.uc.api.vo.request.ForgotPasswordRequest;
-import com.platform.uc.api.vo.request.ResetPasswordRequest;
-import com.platform.uc.api.vo.request.UserRequest;
+import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 远程用户信息接口
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/user")
+@FeignClient(value = "platform-uc-service", path = "/user")
 public interface RemoteUserService {
 
     /**
@@ -21,16 +20,24 @@ public interface RemoteUserService {
      */
     @PostMapping("/account")
     BizResponse<UserResponse> selectUserByLogin(@RequestParam("accountName") String accountName);
+
     /**
      * 注册用户信息
      */
     @PostMapping("/register")
-    BizResponse<Void> register(@RequestBody UserRequest request);
+    BizResponse<Void> register(@RequestBody RegisterUserRequest request);
+
     /**
      * 通过用户信息编号查询用户信息
      */
     @GetMapping("/{mid}")
     BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid);
+
+    /**
+     * 修改用户信息
+     */
+    @PutMapping("/")
+    BizResponse<Void> modify(@RequestBody UpdateMemberRequest request);
 
     /**
      * 设置密码
@@ -50,4 +57,9 @@ public interface RemoteUserService {
     @PutMapping("/change/status")
     BizResponse<Void> changeStatus(@RequestBody ChangeStatusRequest request);
 
+    @PutMapping("/configureRoles/{id}")
+    BizResponse<Void> configureRoles(@PathVariable String id , @RequestBody List<String> ids);
+
+    @PutMapping("/configureClients/{id}")
+    BizResponse<Void> configureClients(@PathVariable String id , @RequestBody List<String> ids);
 }

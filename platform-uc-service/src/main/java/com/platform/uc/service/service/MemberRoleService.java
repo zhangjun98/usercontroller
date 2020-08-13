@@ -2,8 +2,14 @@ package com.platform.uc.service.service;
 
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+import com.platform.uc.api.vo.response.RoleMemberResponse;
+import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberRoleMapper;
-import com.platform.uc.service.vo.MemberRole;
+import com.platform.uc.service.vo.RoleMember;
+import com.ztkj.framework.response.core.BizPageResponse;
+import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +29,28 @@ public class MemberRoleService {
     private MemberRoleMapper memberRoleMapper;
 
     /**
-     * 保存用户角色
-     * @param memberRole
+     * 查询角色下的用户
      */
-    public int saveMemberRole(MemberRole memberRole) {
-        if (memberRole ==null){
+    public BizPageResponse<RoleMemberResponse> selectUsersByConditions(QueryRoleUserRequest request){
+        Page<RoleMemberResponse> page = new Page<>();
+        page.setCurrent(request.getPageNo());
+        page.setSize(request.getPageSize());
+        List<RoleMemberResponse> members = memberRoleMapper.selectUsersByRole(page, request);
+        return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), members);
+    }
+
+
+
+    /**
+     * 保存用户角色
+     * @param roleMember
+     */
+    public int saveMemberRole(RoleMember roleMember) {
+        if (roleMember ==null){
             throw new RuntimeException("菜单对象为空");
         }
-        memberRole.setCreateDate(new Date());
-
-        int insert = memberRoleMapper.insert(memberRole);
+        roleMember.setCreateDate(new Date());
+        int insert = memberRoleMapper.insert(roleMember);
         return insert;
     }
 
@@ -41,12 +59,12 @@ public class MemberRoleService {
      * @param mid
      * @return
      */
-    public List<MemberRole> selectByUserId(String mid){
-        QueryWrapper<MemberRole> wrapper = new QueryWrapper<>();
+    public List<RoleMember> selectByUserId(String mid){
+        QueryWrapper<RoleMember> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(mid)) {
             wrapper.eq("mid", mid);
         }
-        List<MemberRole> listRole=  memberRoleMapper.selectList(wrapper);
+        List<RoleMember> listRole=  memberRoleMapper.selectList(wrapper);
         return listRole;
     }
 
@@ -55,8 +73,8 @@ public class MemberRoleService {
      * @param id
      * @return
      */
-    public MemberRole selectById(String id){
-        QueryWrapper<MemberRole> wrapper = new QueryWrapper<>();
+    public RoleMember selectById(String id){
+        QueryWrapper<RoleMember> wrapper = new QueryWrapper<>();
         if (!StringUtils.isEmpty(id)) {
             wrapper.eq("id", id);
         }
@@ -66,16 +84,16 @@ public class MemberRoleService {
     /**
      * 更新角色
      *
-     * @param memberRole
+     * @param roleMember
      */
-    public int updateUserRole(MemberRole memberRole) {
+    public int updateUserRole(RoleMember roleMember) {
 
-        QueryWrapper<MemberRole> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(memberRole.getRoleId())) {
-            wrapper.eq("role_id", memberRole.getRoleId());
+        QueryWrapper<RoleMember> wrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(roleMember.getRoleId())) {
+            wrapper.eq("role_id", roleMember.getRoleId());
         }
 
-        return memberRoleMapper.update(memberRole, wrapper);
+        return memberRoleMapper.update(roleMember, wrapper);
     }
 
     /**

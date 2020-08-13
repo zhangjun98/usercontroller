@@ -16,7 +16,7 @@ import java.util.List;
  * 客户端控制器
  * @author hao.yan
  */
-@RequestMapping("/uc/scope")
+@RequestMapping("/scope")
 @RestController
 public class ScopeController {
 

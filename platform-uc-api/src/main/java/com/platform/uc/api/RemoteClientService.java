@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.ClientRequest;
 import com.platform.uc.api.vo.response.ClientResponse;
 import com.platform.uc.api.vo.response.MemberClientResponse;
-import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ import java.util.List;
  * 远程用户信息接口
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/client")
+@FeignClient(value = "platform-uc-service", path = "/client")
 public interface RemoteClientService {
 
     /**

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 远程菜单的信息接口
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/menu")
+@FeignClient(value = "platform-uc-service", path = "/menu")
 public interface RemoteMenuService {
 
     /**

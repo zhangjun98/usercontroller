@@ -6,8 +6,14 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+
+/**
+ * 平台用户
+ */
 @Data
 public class MemberClient implements Serializable {
+
+    private static final long serialVersionUID = -8159631955300767911L;
 
     /**
      * 关系ID
@@ -22,6 +28,13 @@ public class MemberClient implements Serializable {
     private String mid;
 
     /**
+     *  0: 未删除
+     *  1: 已删除
+     */
+    @TableField("is_deleted")
+    private boolean deleted;
+
+    /**
      * 平台
      */
     @TableField("client_id")
@@ -33,10 +46,4 @@ public class MemberClient implements Serializable {
     @TableField("update_date")
     private Date updateDate;
 
-    private Member member;
-
-    private Client client;
-
-    @TableField(exist = false)
-    private String userName;
 }

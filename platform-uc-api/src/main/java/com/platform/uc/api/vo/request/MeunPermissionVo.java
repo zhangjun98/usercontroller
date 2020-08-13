@@ -8,12 +8,12 @@ import java.util.List;
 public class MeunPermissionVo {
 
 	//菜单ID
-	private Long meunId;
+	private String meunId;
 
 	//权限ID
-	private List<Long> permissionId;
+	private List<String> permissionId;
 
 	//角色ID
-	private Long roleId;
+	private String roleId;
 
 }
