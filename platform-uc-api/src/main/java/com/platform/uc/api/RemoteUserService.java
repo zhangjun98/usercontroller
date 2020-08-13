@@ -9,6 +9,8 @@ import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 远程用户信息接口
  * @author hao.yan
@@ -50,4 +52,9 @@ public interface RemoteUserService {
     @PutMapping("/change/status")
     BizResponse<Void> changeStatus(@RequestBody ChangeStatusRequest request);
 
+    @PutMapping("/configureRoles/{id}")
+    BizResponse<Void> configureRoles(@PathVariable String id , @RequestBody List<String> ids);
+
+    @PutMapping("/configureClients/{id}")
+    BizResponse<Void> configureClients(@PathVariable String id , @RequestBody List<String> ids);
 }

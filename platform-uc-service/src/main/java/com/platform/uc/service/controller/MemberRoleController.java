@@ -14,7 +14,7 @@ import java.util.List;
  * 用户角色关系控制器
  * @author fang
  */
-@RequestMapping("/uc/member_role")
+@RequestMapping("/uc/member/role")
 @RestController
 public class MemberRoleController {
 

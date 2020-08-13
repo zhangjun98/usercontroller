@@ -1,6 +1,7 @@
 package com.platform.uc.service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.platform.uc.api.vo.request.MemberClientRequest;
 import com.platform.uc.service.vo.MemberClient;
 import com.platform.uc.service.vo.User;
 import org.apache.ibatis.annotations.Select;
