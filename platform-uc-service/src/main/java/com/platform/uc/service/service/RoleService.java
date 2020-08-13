@@ -57,7 +57,7 @@ import java.util.List;
 	public IPage<MemberRole> selectRoleUsers(Long roleId, Integer pageNum, Integer pageSize)
 	{
 
-		Page<MemberRole> page = new Page<>(pageSize == null ? 10 : pageSize, pageNum == null ? 1 : pageNum);// 当前页，总条数 构造 page 对象
+		Page<MemberRole> page = new Page<>( pageNum == null ? 1 : pageNum,pageSize == null ? 10 : pageSize);// 当前页，总条数 构造 page 对象
 		return page.setRecords(memberRoleMapper.selectList(page, roleId));
 	}
 

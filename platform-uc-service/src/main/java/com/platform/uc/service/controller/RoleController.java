@@ -3,14 +3,11 @@ package com.platform.uc.service.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.service.service.RoleService;
 import com.platform.uc.service.vo.MemberRole;
-import com.platform.uc.api.vo.request.MeunPermissionVo;
 import com.platform.uc.service.vo.UcRole;
 import com.platform.uc.service.vo.UcRolePermission;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,7 +21,7 @@ import java.util.List;
  * <p>
  * 错误代码在UserErrorCode中定义
  */
-@Slf4j @Controller @RequestMapping("/uc/role") public class RoleController
+@Slf4j @RestController @RequestMapping("/uc/role") public class RoleController
 {
 
 	@Resource private RoleService roleService;
@@ -85,7 +82,7 @@ import java.util.List;
 	}
 
 	//查看角色下的成员
-	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize") public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
+	@GetMapping("/selectRoleUsers/{roleId}/{pageNum}/{pageSize}") public BizResponse<IPage<MemberRole>> selectRoleUsers(@PathVariable Long roleId, @PathVariable Integer pageNum,
 			@PathVariable Integer pageSize)
 	{
 
