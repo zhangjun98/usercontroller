@@ -12,13 +12,13 @@ import java.util.List;
  *
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/uc/org") public interface RemoteOrgService
+@FeignClient(value = "platform-uc-service", path = "/uc/org",url = "http://192.168.1.205:9000/") public interface RemoteOrgService
 {
 
 
 	@PostMapping("save") public BizResponse<String> save(@RequestBody Organization organization);
 
-	@GetMapping("/selectList/{orgName}") public List<Organization> selectList(@PathVariable String orgName);
+	@GetMapping("/selectList") @ResponseBody public BizResponse<List<Organization>> selectList(@RequestParam String orgName);
 
 	@GetMapping("/findAllOrg") public BizResponse<List<Organization>> findAllOrg();
 
