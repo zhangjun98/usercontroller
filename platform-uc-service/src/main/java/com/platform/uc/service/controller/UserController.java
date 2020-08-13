@@ -57,17 +57,17 @@ public class UserController {
         return BizResponseUtils.success(userService.selectById(id));
     }
 
-    @PostMapping("/page")
-    @ApiOperation(value = "分页查询")
-    public BizResponse<IPage<User>> findByPage(@RequestBody Map<String, Object> map) {
-        return BizResponseUtils.success(userService.findByPageDataScope(map));
-    }
-
-    @PostMapping("/page/all")
-    @ApiOperation(value = "分页查询获取所有用户")
-    public BizResponse<IPage<User>> findAllUserByPage(@RequestBody Map<String, Object> map) {
-        return BizResponseUtils.success(userService.findByPageDataScope(map));
-    }
+//    @PostMapping("/page")
+//    @ApiOperation(value = "分页查询")
+//    public BizResponse<IPage<User>> findByPage(@RequestBody Map<String, Object> map) {
+//        return BizResponseUtils.success(userService.findByPageDataScope(map));
+//    }
+//
+//    @PostMapping("/page/all")
+//    @ApiOperation(value = "分页查询获取所有用户")
+//    public BizResponse<IPage<User>> findAllUserByPage(@RequestBody Map<String, Object> map) {
+//        return BizResponseUtils.success(userService.findByPageDataScope(map));
+//    }
 
     @GetMapping("/isExist")
     @ApiOperation(value = "检验是否存在")
