@@ -27,7 +27,7 @@ public interface RemoteRoleService {
 	BizResponse<Void> modify(@PathVariable String id, @RequestBody RoleRequest roleRequest);
 
 	@GetMapping("/{id}")
-	BizResponse<RoleRequest> detail(@PathVariable String id);
+	BizResponse<RoleResponse> detail(@PathVariable String id);
 
 	@PostMapping("/remove")
 	BizResponse<Void> remove(@RequestBody BatchRequest request);
