@@ -50,19 +50,9 @@ public class Organization implements Serializable{
 	private String description;
 
 	/**
-	* 联系人
-	*/
-	private String linkMan;
-
-	/**
-	* 联系电话
-	*/
-	private String phone;
-
-	/**
-	* 邮箱
-	*/
-	private String email;
+	 * 机构管理员ID
+	 */
+	private String mid;
 
 	/**
 	* 联系地址

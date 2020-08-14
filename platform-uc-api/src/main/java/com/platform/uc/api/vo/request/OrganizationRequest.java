@@ -57,22 +57,10 @@ public class OrganizationRequest implements Serializable{
 	private String description;
 
 	/**
-	* 联系人
-	*/
-	@ApiModelProperty(value = "联系人")
-	private String linkMan;
-
-	/**
-	* 联系电话
-	*/
-	@ApiModelProperty(value = "联系电话")
-	private String phone;
-
-	/**
-	* 邮箱
-	*/
-	@ApiModelProperty(value = "邮箱")
-	private String email;
+	 * 机构管理员ID
+	 */
+	@ApiModelProperty(value = "机构管理员ID")
+	private String mId;
 
 	/**
 	* 联系地址

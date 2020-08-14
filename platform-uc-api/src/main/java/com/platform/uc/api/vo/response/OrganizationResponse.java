@@ -49,23 +49,18 @@ public class OrganizationResponse implements Serializable {
     private String description;
 
     /**
-     * 联系人
+     * 机构管理员ID
      */
-    @ApiModelProperty(value = "联系人")
-    private String linkMan;
+    @ApiModelProperty(value = "机构管理员ID")
+    private String mId;
 
-    /**
-     * 联系电话
-     */
-    @ApiModelProperty(value = "联系电话")
-    private String phone;
+    private String nickName;
 
-    /**
-     * 邮箱
-     */
-    @ApiModelProperty(value = "邮箱")
+    private String avatar;
+
     private String email;
 
+    private String mobile;
     /**
      * 联系地址
      */
