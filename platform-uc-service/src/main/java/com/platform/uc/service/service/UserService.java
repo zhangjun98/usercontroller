@@ -162,4 +162,11 @@ public class UserService {
 		}
 	}
 
+
+	List<User> selectByMids(Set<String> mids){
+		QueryWrapper<User> wrapper = new QueryWrapper<>();
+		wrapper.in("mid", mids);
+		return userMapper.selectList(wrapper);
+	}
+
 }
