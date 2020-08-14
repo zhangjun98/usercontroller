@@ -3,10 +3,9 @@ package com.platform.uc.api;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 import com.platform.uc.api.vo.request.RoleMemberRequest;
-import com.platform.uc.api.vo.response.RoleMemberResponse;
+import com.platform.uc.api.vo.response.ClientMemberResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ public interface RemoteMemberRoleService {
      * 查询角色下的用户
      */
     @PostMapping("/users")
-    BizPageResponse<RoleMemberResponse> selectByConditions(@RequestBody QueryRoleUserRequest request);
+    BizPageResponse<ClientMemberResponse> selectByConditions(@RequestBody QueryRoleUserRequest request);
 
     @PostMapping("/")
     BizResponse<Void> save(@RequestBody Collection<RoleMemberRequest> roleMembers);

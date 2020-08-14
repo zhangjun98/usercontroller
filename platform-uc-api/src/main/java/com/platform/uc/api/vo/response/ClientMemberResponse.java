@@ -6,15 +6,16 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户角色关系
+ * 平台用户
+ * @author hao.yan
  */
 @Data
-public class RoleMemberResponse implements Serializable {
+public class ClientMemberResponse implements Serializable {
 
     private static final long serialVersionUID = -2435463587454988013L;
 
     /**
-     * ID
+     * 用户标号
      */
     private String id;
 
@@ -33,6 +34,8 @@ public class RoleMemberResponse implements Serializable {
     private String avatar;
 
     private String sex;
+
+    private String orgId;
 
     private Date createDate;
 

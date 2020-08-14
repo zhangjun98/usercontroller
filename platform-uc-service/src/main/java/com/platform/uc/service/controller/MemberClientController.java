@@ -4,7 +4,7 @@ import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MemberClientRequest;
 import com.platform.uc.api.vo.request.QueryClientUserRequest;
-import com.platform.uc.api.vo.response.RoleMemberResponse;
+import com.platform.uc.api.vo.response.ClientMemberResponse;
 import com.platform.uc.service.service.MemberClientService;
 
 import com.ztkj.framework.response.core.BizPageResponse;
@@ -31,7 +31,7 @@ public class MemberClientController {
      * 查询平台的用户列表
      */
     @PostMapping("/query")
-    public BizPageResponse<RoleMemberResponse> selectUsersPage(@RequestBody QueryClientUserRequest request) {
+    public BizPageResponse<ClientMemberResponse> selectUsersPage(@RequestBody QueryClientUserRequest request) {
         return memberClientService.selectUsersByClientId(request);
     }
 

@@ -42,7 +42,8 @@ public class ClientController {
     }
     
     //应用修改
-    @PutMapping("/updateClient") @ResponseBody public BizResponse<String> updateClient(@RequestBody Client client)
+    @PutMapping("/updateClient")
+    public BizResponse<String> updateClient(@RequestBody Client client)
     {
         if (StringUtils.isEmpty(client.getName()))
         {
@@ -64,26 +65,17 @@ public class ClientController {
         return BizResponseUtils.success("操作成功");
     }
 
-    //应用查看回显
-    @GetMapping("/selectClient/{id}") @ResponseBody public BizResponse<Client> selectClient(@PathVariable Long id)
-    {
-        if (id == null)
-        {
-            return BizResponseUtils.error("999999", "主键不能为空");
-        }
-        Client client = clientService.selectBean(id);
-        return BizResponseUtils.success(client);
-    }
-
     //应用列表
-    @GetMapping("/selectClientList/{name}") @ResponseBody public BizResponse<IPage<Client>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum, @PathVariable Integer pageSize)
+    @GetMapping("/selectClientList/{name}")
+    public BizResponse<IPage<Client>> selectRoleList(@PathVariable String name, @PathVariable Integer pageNum, @PathVariable Integer pageSize)
     {
         IPage<Client> ucRoles = clientService.selectList(name, pageNum, pageSize);
         return BizResponseUtils.success(ucRoles);
     }
 
     //应用删除
-    @DeleteMapping("/deleteClient/{id}") @ResponseBody public BizResponse<String> deleteClient(@PathVariable String id)
+    @DeleteMapping("/deleteClient/{id}")
+    public BizResponse<String> deleteClient(@PathVariable String id)
     {
         if (id == null)
         {

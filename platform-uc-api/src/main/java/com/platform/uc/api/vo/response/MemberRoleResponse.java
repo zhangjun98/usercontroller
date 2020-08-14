@@ -43,7 +43,6 @@ public class MemberRoleResponse implements Serializable {
 
     private String code;
 
-
     private String description;
 
     private String name;
