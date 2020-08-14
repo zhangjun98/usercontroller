@@ -31,6 +31,7 @@ public enum UserErrorCode implements ErrorCode {
 
     ROLE_MENU_BIND_FAIL("201601", "角色绑定权限失败"),
 
+    ROLE_MENU_BIND_PARAMS_ERROR("201602", "角色绑定权限参数错误"),
 
     MENU_INSERT_FAIL("201601", "菜单保存失败"),
 

@@ -3,6 +3,7 @@ package com.platform.uc.api;
 import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizResponse;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,13 @@ public interface RemoteUserService {
      */
     @PutMapping("/forgot/password")
     BizResponse<Void> changePassword(@RequestBody ForgotPasswordRequest password);
+
+    /**
+     * 检验账户是否存在
+     */
+    @GetMapping("/isExist")
+    @ApiOperation(value = "检验是否存在")
+    BizResponse<Boolean> isExist(@RequestParam("accountName") String accountName);
 
     /**
      * 修改 用户是否启用与禁用

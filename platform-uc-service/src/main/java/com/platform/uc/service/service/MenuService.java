@@ -104,7 +104,7 @@ public class MenuService {
      * 树形菜单
      */
     public BizPageResponse<TreeMenuResponse> tree(){
-        List<Menu> menus = menuMapper.findAll();
+        List<Menu> menus = menuMapper.selectList(new QueryWrapper<>());
         List<TreeMenuResponse> menuResponses = BeanUtils.toList(menus, TreeMenuResponse.class);
         List<TreeMenuResponse> tree = buidTree(menuResponses);
         return BizPageResponseUtils.success(tree);
