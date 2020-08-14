@@ -2,18 +2,24 @@ package com.platform.uc.service.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
+import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
+import com.platform.uc.api.vo.response.OrganizationResponse;
+import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.mapper.OrganizationMapper;
 import com.platform.uc.service.vo.Organization;
+import com.platform.uc.service.vo.Role;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -31,15 +37,18 @@ public class OrganizationService {
 	@Resource
 	private OrganizationMapper organizationMapper;
 
-
 	/**
 	 * 保存机构信息
 	 */
 	public void save(OrganizationRequest request) {
 		Organization organization = BeanUtils.toT(request, Organization.class);
-		organizationMapper.insert(organization);
+		organization.setCreatorId(request.getOperator());
+		organization.setCreateDate(new Date());
+		int count = organizationMapper.insert(organization);
+		if (count <= 0){
+			throw new BizException(UserErrorCode.ROLE_INSERT_FAIL);
+		}
 	}
-
 
 	/**
 	 * 更新机构信息
@@ -57,7 +66,34 @@ public class OrganizationService {
 		if (count <= 0){
 			throw new BizException(UserErrorCode.ROLE_UPDATE_FAIL);
 		}
+	}
 
+	/**
+	 * 机构详情
+	 * @param id
+	 * @return
+	 */
+	public OrganizationResponse detail(String id) {
+		Organization org = organizationMapper.selectById(id);
+		return BeanUtils.toT(org, OrganizationResponse.class);
+	}
+
+	/**
+	 * 更新状态
+	 * 0: 正常
+	 * 1: 删除状态
+	 */
+	public void changeStatus(BatchRequest request, Integer status){
+		UpdateWrapper<Organization> wrapper = new UpdateWrapper<>();
+		wrapper.in("id", request.getIds());
+		Organization org = new Organization();
+		org.setStatus(status);
+		org.setUpdaterId(request.getOperator());
+		org.setUpdateDate(new Date());
+		int count = organizationMapper.update(org, wrapper);
+		if (count <= 0){
+			throw new BizException(UserErrorCode.ROLE_DELETE_FAIL);
+		}
 	}
 
 	/**

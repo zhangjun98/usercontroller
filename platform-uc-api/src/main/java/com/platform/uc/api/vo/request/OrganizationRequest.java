@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author CDN
@@ -74,8 +75,6 @@ public class OrganizationRequest implements Serializable{
 	@ApiModelProperty(value = "状态(0--正常 9--删除)")
 	private Integer status;
 
-
 	@ApiModelProperty(value = "操作人")
 	private String operator;
-
 }
