@@ -18,4 +18,6 @@ public class QueryClientUserRequest extends Page {
 
     private String clientId;
 
+    private String searchName;
+
 }

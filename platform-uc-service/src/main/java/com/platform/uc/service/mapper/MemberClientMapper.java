@@ -21,8 +21,11 @@ public interface MemberClientMapper extends BaseMapper<MemberClient> {
             "LEFT JOIN uc_member_client as mr on mr.mid = m.id \n" +
             "where 1=1 \n" +
             "<if test='params.clientId!=null'>",
-            "AND mr.client_id = #{params.clientId}",
-            "</if>" +
+            "AND mr.client_id = #{params.clientId} ",
+            "</if>",
+            "<if test='params.searchName!=null'>",
+                "AND  (username like concat('%', '${params.searchName}', '%') OR email like concat('%', '${params.searchName}', '%') OR email like concat('%', '${params.mobile}', '%'))",
+            "</if>",
     "</script>"})
     List<RoleMemberResponse> selectUsersByClientId(Page<RoleMemberResponse> page, @Param("params") QueryClientUserRequest params);
 }
