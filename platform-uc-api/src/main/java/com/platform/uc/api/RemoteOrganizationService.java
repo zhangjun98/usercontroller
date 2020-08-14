@@ -37,13 +37,14 @@ public interface RemoteOrganizationService {
 	 * 根据条件
 	 */
 	@PostMapping("/query")
-	BizPageResponse<TreeOrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request);
+	BizPageResponse<OrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request);
 
 	/**
 	 * 详情
 	*/
 	@GetMapping("/{id}")
 	BizResponse<OrganizationResponse> detail(@PathVariable String id);
+
 	/*
 	 * 树形菜单
 	 */
