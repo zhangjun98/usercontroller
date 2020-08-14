@@ -1,6 +1,5 @@
 package com.platform.uc.service.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,8 +7,13 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
+<<<<<<< .mine
 import com.platform.uc.api.vo.response.OrganizationResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
+=======
+import com.platform.uc.api.vo.response.OrganizationResponse;
+
+>>>>>>> .theirs
 import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.mapper.OrganizationMapper;
 import com.platform.uc.service.vo.Organization;
@@ -27,6 +31,8 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 机构管理的service
@@ -99,7 +105,7 @@ public class OrganizationService {
 	/**
 	 * 查询机构
 	 */
-	public BizPageResponse<TreeOrganizationResponse> selectByConditions(QueryOrganizationRequest request) {
+	public BizPageResponse<OrganizationResponse> selectByConditions(QueryOrganizationRequest request) {
 		Page<Organization> page = new Page<>();
 		page.setSize(request.getPageSize());
 		page.setCurrent(request.getPageNo());
@@ -107,11 +113,11 @@ public class OrganizationService {
 		QueryWrapper<Organization> queryWrapper = new QueryWrapper<>();
 		if (StringUtils.isNotEmpty(request.getSearchName())) {
 			queryWrapper
-						.like("name", request.getSearchName())
+						.like("org_name", request.getSearchName())
 					.or()
 						.like("short_name", request.getSearchName())
 					.or()
-					 	.like("code", request.getSearchName());
+					 	.like("org_code", request.getSearchName());
 		}
 
 		if (StringUtils.isNotEmpty(request.getId())){
@@ -123,27 +129,32 @@ public class OrganizationService {
 		if(CollectionUtils.isEmpty(organizationPage.getRecords())){
 			return BizPageResponseUtils.success(new ArrayList<>());
 		}
-
-		List<Organization> organizations = organizationMapper.selectList(null);
-		List<TreeOrganizationResponse> treeOrgResponses = JSONObject.parseArray(JSONObject.toJSONString(organizations), TreeOrganizationResponse.class);
-		List<TreeOrganizationResponse> result = buidTree(organizationPage.getRecords(), treeOrgResponses);
-		return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), result);
+		List<OrganizationResponse> responses = organizationPage.getRecords().stream()
+				.map(item->BeanUtils.toT(item, OrganizationResponse.class))
+				.collect(Collectors.toList());
+		return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), responses);
 	}
 
+	public BizPageResponse<TreeOrganizationResponse> tree(Set<String> pids){
+		List<Organization> organizations = recursion(pids);
+		if (CollectionUtils.isEmpty(organizations)){
+			return BizPageResponseUtils.success(new ArrayList<>());
+		}
+		List<TreeOrganizationResponse> tree = buidTree(organizations.stream()
+				.map(item->BeanUtils.toT(item, TreeOrganizationResponse.class))
+				.collect(Collectors.toList()));
 
+		return BizPageResponseUtils.success(tree);
+	}
 
 	/**
 	 * 把一个List转成树
 	 */
-	private List<TreeOrganizationResponse> buidTree(List<Organization> list, List<TreeOrganizationResponse> allList){
+	private List<TreeOrganizationResponse> buidTree(List<TreeOrganizationResponse> list){
 		List<TreeOrganizationResponse> tree = new ArrayList<>();
-		for (int i = 0; i < allList.size(); i++) {
-			for (int t = 0; t < list.size(); t++) {
-				if (list.get(t).getId().equals(allList.get(i).getId())){
-					TreeOrganizationResponse treeOrgResponse = JSONObject.parseObject(JSONObject.toJSONString(list.get(t)), TreeOrganizationResponse.class);
-					//TreeOrganizationResponse treeOrgResponse = BeanUtils.toT(list.get(t), TreeOrganizationResponse.class);
-					tree.add(findChild(treeOrgResponse,allList));
-				}
+		for(TreeOrganizationResponse node:list){
+			if(node.getParentId().equals("0")){
+				tree.add(findChild(node,list));
 			}
 		}
 		return tree;
@@ -151,7 +162,7 @@ public class OrganizationService {
 
 	private TreeOrganizationResponse findChild(TreeOrganizationResponse node, List<TreeOrganizationResponse> list){
 		for(TreeOrganizationResponse n:list){
-			if(n.getParentId().compareTo(node.getId()) == 0){
+			if(n.getParentId().equals(node.getId())){
 				if(node.getChildren() == null){
 					node.setChildren(new ArrayList<>());
 				}
@@ -160,4 +171,27 @@ public class OrganizationService {
 		}
 		return node;
 	}
+
+	/**
+	 * 递归查询某个节点下的所有子节点
+	 */
+	private List<Organization> recursion(Set<String> pids){
+		List<Organization> organizations = selectByPids(pids);
+		if (CollectionUtils.isEmpty(organizations)){
+			return organizations;
+		}
+		organizations.addAll(recursion(organizations.stream()
+				.map(Organization::getId)
+				.collect(Collectors.toSet())));
+		return organizations;
+	}
+
+
+	private List<Organization> selectByPids(Set<String> pids){
+		QueryWrapper<Organization> wrapper = new QueryWrapper<>();
+		wrapper.in("parent_id", pids);
+		List<Organization> organizations = organizationMapper.selectList(wrapper);
+		return organizationMapper.selectList(wrapper);
+	}
+
 }

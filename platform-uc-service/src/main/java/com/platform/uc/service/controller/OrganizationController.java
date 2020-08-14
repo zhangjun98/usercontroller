@@ -4,17 +4,15 @@ import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
-import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.service.OrganizationService;
-import com.platform.uc.service.vo.Organization;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Set;
 
 /**
  * 机构管理
@@ -66,8 +64,17 @@ public class OrganizationController {
 	 * 根据条件
 	 */
 	@PostMapping("/query")
-	public BizPageResponse<TreeOrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request){
+	public BizPageResponse<OrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request){
 		return organizationService.selectByConditions(request);
+	}
+
+
+	/**
+	 * 树形菜单
+	 */
+	@PostMapping("/tree")
+	public BizPageResponse<TreeOrganizationResponse> tree(@RequestBody Set<String> pids){
+		return organizationService.tree(pids);
 	}
 
 }

@@ -125,7 +125,7 @@ public class MenuService {
 
     private TreeMenuResponse findChild(TreeMenuResponse node, List<TreeMenuResponse> list){
         for(TreeMenuResponse n:list){
-            if(n.getParentId().compareTo(node.getId()) == 0){
+            if(n.getParentId().equals(node.getId())){
                 if(node.getChildren() == null){
                     node.setChildren(new ArrayList<>());
                 }
