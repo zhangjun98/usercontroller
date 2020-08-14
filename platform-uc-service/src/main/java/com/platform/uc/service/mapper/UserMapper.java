@@ -22,6 +22,5 @@ public interface UserMapper extends BaseMapper<User> {
             @Result(property = "password",column = "password"),
             @Result(property = "member",column = "mid", one = @One(select="com.platform.uc.service.mapper.MemberMapper.selectById",fetchType= FetchType.EAGER))
     })
-
     User selectByMid(@Param("mid")String mid);
 }
