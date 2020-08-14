@@ -34,9 +34,9 @@ public class UserController {
      * 注册用户信息
      */
     @PostMapping("/register")
-    public BizResponse<Void> register(@RequestBody RegisterUserRequest request){
-        userService.register(request);
-        return BizResponseUtils.success();
+    public BizResponse<String> register(@RequestBody RegisterUserRequest request){
+        String mid = userService.register(request);
+        return BizResponseUtils.success(mid);
     }
 
     /**

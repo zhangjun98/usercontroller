@@ -85,7 +85,7 @@ public class UserService {
 	/**
 	 * 注册用户
 	 */
-	public void register(RegisterUserRequest request) {
+	public String register(RegisterUserRequest request) {
 		// 保存用户信息 获取到MID
 		Member member = BeanUtils.toT(request.getMember(), Member.class);
 		memberMapper.insert(member);
@@ -94,6 +94,7 @@ public class UserService {
 		user.setMid(member.getId());
 		user.setCreateTime(new Date());
 		userMapper.insert(user);
+		return member.getId();
 	}
 
 	private UserResponse toUserResponse(User user, Member member) {

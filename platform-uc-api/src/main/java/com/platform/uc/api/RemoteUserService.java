@@ -26,7 +26,7 @@ public interface RemoteUserService {
      * 注册用户信息
      */
     @PostMapping("/register")
-    BizResponse<Void> register(@RequestBody RegisterUserRequest request);
+    BizResponse<String> register(@RequestBody RegisterUserRequest request);
 
     /**
      * 通过用户信息编号查询用户信息
