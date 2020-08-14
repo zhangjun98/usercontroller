@@ -25,7 +25,6 @@ public class MemberClientRequest implements Serializable {
      */
     private String clientId;
 
-    private Date createDate;
+    private String orgId;
 
-    private Date updateDate;
 }

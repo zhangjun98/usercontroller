@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.Set;
+
 /**
  * 查询用户
  * @author hao.yan
@@ -19,5 +21,7 @@ public class QueryClientUserRequest extends Page {
     private String clientId;
 
     private String searchName;
+
+    private Set<String> mids;
 
 }

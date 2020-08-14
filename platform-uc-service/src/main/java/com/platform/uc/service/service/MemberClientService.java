@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.*;
-import com.platform.uc.api.vo.response.RoleMemberResponse;
+import com.platform.uc.api.vo.response.ClientMemberResponse;
 import com.platform.uc.service.mapper.MemberClientMapper;
 import com.platform.uc.service.vo.MemberClient;
 
@@ -69,11 +69,11 @@ public class MemberClientService {
     /**
      * 查询应用下的用户
      */
-    public BizPageResponse<RoleMemberResponse> selectUsersByClientId(QueryClientUserRequest request){
-        Page<RoleMemberResponse> page = new Page<>();
+    public BizPageResponse<ClientMemberResponse> selectUsersByClientId(QueryClientUserRequest request){
+        Page<ClientMemberResponse> page = new Page<>();
         page.setCurrent(request.getPageNo());
         page.setSize(request.getPageSize());
-        List<RoleMemberResponse> members = memberClientMapper.selectUsersByClientId(page, request);
+        List<ClientMemberResponse> members = memberClientMapper.selectUsersByClientId(page, request);
         return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), members);
     }
 
