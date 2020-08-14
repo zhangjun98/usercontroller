@@ -53,7 +53,7 @@ public class OrganizationController {
 	/**
 	 * 树形菜单
 	 */
-	@GetMapping("/tree")
+	@PostMapping("/tree")
 	public BizPageResponse<TreeOrganizationResponse> tree(@RequestBody Set<String> pids){
 		return organizationService.tree(pids);
 	}

@@ -6,7 +6,6 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
-import com.platform.uc.api.vo.response.TreeMenuResponse;
 import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.mapper.OrganizationMapper;
 import com.platform.uc.service.vo.Organization;
