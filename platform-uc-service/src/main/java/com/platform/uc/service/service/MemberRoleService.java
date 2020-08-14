@@ -1,5 +1,6 @@
 package com.platform.uc.service.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.BatchRequest;
@@ -66,10 +67,18 @@ public class MemberRoleService {
 
     /**
      * 批量删除角色信息
-     * @param idList
      */
     public void remove(BatchRequest request) {
         memberRoleMapper.deleteBatchIds(request.getIds());
+    }
+
+    /**
+     * 删除用户下面的角色
+     */
+    public void removeByMid(String mid) {
+        UpdateWrapper<RoleMember> wrapper = new UpdateWrapper<>();
+        wrapper.eq("mid", mid);
+        memberRoleMapper.delete(wrapper);
     }
 
 }

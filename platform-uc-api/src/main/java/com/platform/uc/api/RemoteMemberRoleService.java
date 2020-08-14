@@ -6,6 +6,7 @@ import com.platform.uc.api.vo.request.RoleMemberRequest;
 import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +30,11 @@ public interface RemoteMemberRoleService {
 
     @PostMapping("/remove")
     BizResponse<Void> remove(@RequestBody BatchRequest request);
+
+    /**
+     * 删除用户下面的角色
+     */
+    @DeleteMapping("/{mid}/remove")
+    BizResponse<Void> remove(@PathVariable("mid")String mid);
 
 }

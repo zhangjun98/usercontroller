@@ -47,4 +47,11 @@ public class MemberRoleController {
         return BizResponseUtils.success();
     }
 
+    @DeleteMapping("/{mid}/remove")
+    @ApiOperation(value = "删除用户下面的角色")
+    public BizResponse<Void> remove(@PathVariable("mid")String mid){
+        memberRoleService.removeByMid(mid);
+        return BizResponseUtils.success();
+    }
+
 }
