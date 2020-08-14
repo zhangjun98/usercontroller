@@ -5,13 +5,7 @@ import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
-<<<<<<< .mine
-import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.api.vo.response.TreeOrganizationResponse;
-=======
-import com.platform.uc.api.vo.response.TreeOrganizationResponse;
-
->>>>>>> .theirs
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -46,31 +40,18 @@ public interface RemoteOrganizationService {
 	BizPageResponse<TreeOrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request);
 
 	/**
-<<<<<<< .mine
 	 * 详情
-	 * @param id
-	 * @return
-
-
-
-
-=======
+	*/
+	@GetMapping("/{id}")
+	BizResponse<OrganizationResponse> detail(@PathVariable String id);
+	/*
 	 * 树形菜单
 	 */
 	@PostMapping("/tree")
 	BizPageResponse<TreeOrganizationResponse> tree(@RequestBody Set<String> pids);
 
 	/**
-	 * 更新
->>>>>>> .theirs
-	 */
-	@GetMapping("/{id}")
-	BizResponse<OrganizationResponse> detail(@PathVariable String id);
-
-	/**
 	 * 删除
-	 * @param request
-	 * @return
 	 */
 	@PostMapping("/remove")
 	BizResponse<Void> remove(@RequestBody BatchRequest request);
