@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -91,5 +92,19 @@ public class OrganizationService {
 				.collect(Collectors.toList());
 		return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), responses);
 	}
+
+	/**
+	 * 递归查询某个节点下的所有子节点
+	 */
+	private List<Organization> recursion(){
+
+		return null;
+	}
+
+
+//	private List<Organization> selectByPids(Set<String> pids){
+//		organizationMapper.
+//
+//	}
 
 }

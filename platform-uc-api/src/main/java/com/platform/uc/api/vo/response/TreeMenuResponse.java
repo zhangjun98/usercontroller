@@ -17,7 +17,7 @@ public class TreeMenuResponse implements Serializable {
 
     private String id;
 
-    private String pid;
+    private String parentId;
 
     /**
      * 菜单/按钮名称

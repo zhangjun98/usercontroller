@@ -116,7 +116,7 @@ public class MenuService {
     private List<TreeMenuResponse> buidTree(List<TreeMenuResponse> list){
         List<TreeMenuResponse> tree = new ArrayList<>();
         for(TreeMenuResponse node:list){
-            if(node.getPid().equals("0")){
+            if(node.getParentId().equals("0")){
                 tree.add(findChild(node,list));
             }
         }
@@ -125,7 +125,7 @@ public class MenuService {
 
     private TreeMenuResponse findChild(TreeMenuResponse node, List<TreeMenuResponse> list){
         for(TreeMenuResponse n:list){
-            if(n.getPid().compareTo(node.getId()) == 0){
+            if(n.getParentId().equals(node.getId())){
                 if(node.getChildren() == null){
                     node.setChildren(new ArrayList<>());
                 }
