@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 用户角色关系控制器

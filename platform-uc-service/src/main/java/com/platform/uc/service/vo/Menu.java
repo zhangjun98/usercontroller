@@ -1,6 +1,5 @@
 package com.platform.uc.service.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,8 +7,6 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
 
 /**
  * @author CDN
@@ -45,6 +42,12 @@ public class Menu implements Serializable{
      * 路由
      */
     private String url;
+
+    /**
+     * 对应路由组件component
+     */
+    private String component;
+
     /**
      * 排序
      */

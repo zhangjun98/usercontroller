@@ -8,6 +8,7 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
 import com.platform.uc.api.vo.response.MenuResponse;
+import com.platform.uc.api.vo.response.TreeMenuResponse;
 import com.platform.uc.service.comparator.SeqComparator;
 import com.platform.uc.service.mapper.MenuMapper;
 import com.platform.uc.service.mapper.PermissionMapper;
@@ -104,6 +105,41 @@ public class MenuService {
                 .map(item->BeanUtils.toT(item, MenuResponse.class))
                 .collect(Collectors.toList());
         return BizPageResponseUtils.success(responses);
+    }
+
+    /**
+     * 树形菜单
+     */
+    public BizPageResponse<TreeMenuResponse> tree(){
+        List<Menu> menus = menuMapper.findAll();
+        List<TreeMenuResponse> menuResponses = BeanUtils.toList(menus, TreeMenuResponse.class);
+        List<TreeMenuResponse> tree = buidTree(menuResponses);
+        return BizPageResponseUtils.success(tree);
+    }
+
+    /**
+     * 把一个List转成树
+     */
+    private List<TreeMenuResponse> buidTree(List<TreeMenuResponse> list){
+        List<TreeMenuResponse> tree = new ArrayList<>();
+        for(TreeMenuResponse node:list){
+            if(node.getPid().equals("0")){
+                tree.add(findChild(node,list));
+            }
+        }
+        return tree;
+    }
+
+    private TreeMenuResponse findChild(TreeMenuResponse node, List<TreeMenuResponse> list){
+        for(TreeMenuResponse n:list){
+            if(n.getPid().compareTo(node.getId()) == 0){
+                if(node.getChildren() == null){
+                    node.setChildren(new ArrayList<>());
+                }
+                node.getChildren().add(findChild(n,list));
+            }
+        }
+        return node;
     }
 
 }
