@@ -11,7 +11,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
 
 
-    @Select("SELECT * FROM uc_menu WHERE state=0")
+    @Select("SELECT * FROM uc_menu WHERE status=0")
     @Results({
             @Result(id = true,property = "id",column = "id"),
             @Result(property = "parentId", column = "parent_id"),
