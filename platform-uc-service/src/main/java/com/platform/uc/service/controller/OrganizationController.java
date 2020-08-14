@@ -3,7 +3,7 @@ package com.platform.uc.service.controller;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
-import com.platform.uc.api.vo.response.TreeOrgResponse;
+import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.service.OrganizationService;
 import com.platform.uc.service.vo.Organization;
 import com.ztkj.framework.response.core.BizPageResponse;
@@ -46,7 +46,7 @@ public class OrganizationController {
 	 * 根据条件
 	 */
 	@PostMapping("/query")
-	public BizPageResponse<TreeOrgResponse> selectByConditions(@RequestBody QueryOrganizationRequest request){
+	public BizPageResponse<TreeOrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request){
 		return organizationService.selectByConditions(request);
 	}
 
