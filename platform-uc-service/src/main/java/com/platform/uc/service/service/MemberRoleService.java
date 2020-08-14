@@ -38,11 +38,12 @@ public class MemberRoleService {
     /**
      * 查询角色下的用户
      */
-    public BizPageResponse<RoleMemberResponse> selectUsersByConditions(QueryRoleUserRequest request){
-        Page<RoleMemberResponse> page = new Page<>();
+
+    public BizPageResponse<MemberRoleResponse> selectUsersByConditions(QueryRoleUserRequest request){
+        Page<MemberRoleResponse> page = new Page<>();
         page.setCurrent(request.getPageNo());
         page.setSize(request.getPageSize());
-        List<RoleMemberResponse> members = memberRoleMapper.selectUsersByRole(page, request);
+        List<MemberRoleResponse> members = memberRoleMapper.selectUsersByRole(page, request);
         return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), members);
     }
 
@@ -69,8 +70,11 @@ public class MemberRoleService {
      * 批量删除角色信息
      * @param idList
      */
-    public void remove(BatchRequest request) {
-        memberRoleMapper.deleteBatchIds(request.getIds());
+    public int batchDelete(List<String> idList) {
+        for (String id: idList) {
+            memberRoleMapper.deleteById(id);
+        }
+        return 1;
     }
 
 }

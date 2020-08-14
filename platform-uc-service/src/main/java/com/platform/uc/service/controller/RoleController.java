@@ -1,8 +1,11 @@
 package com.platform.uc.service.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.QueryRoleRequest;
+import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 import com.platform.uc.api.vo.request.RoleRequest;
+import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.service.service.RoleService;
 import com.platform.uc.service.vo.UcRolePermission;
@@ -14,14 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-/**
- * 使用RestController注解不需要ResponseBody注解
- * RestController注解中包含了ResponseBody注解
- * <p>
- * try{}catch{} 不要用e.printStackTrace(); 打出堆栈信息
- * <p>
- * 错误代码在UserErrorCode中定义
- */
 @Slf4j
 @RestController
 @RequestMapping("/role")
@@ -69,9 +64,10 @@ public class RoleController {
 	 */
 	@PostMapping("/remove")
 	public BizResponse<Void> remove(@RequestBody BatchRequest request){
-		roleService.changeStatus(request, 1);
+		roleService.changeStatus(request, 9);
 		return BizResponseUtils.success();
 	}
+
 
 
 	//权限配置

@@ -3,7 +3,10 @@ package com.platform.uc.service.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+
+import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.api.vo.response.RoleMemberResponse;
+import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.vo.RoleMember;
 import org.apache.ibatis.annotations.*;
 
@@ -26,7 +29,15 @@ public interface MemberRoleMapper extends BaseMapper<RoleMember> {
 				"AND mr.role_id = #{params.roleId}",
 			"</if>",
 	"</script>"})
-	List<RoleMemberResponse> selectUsersByRole(Page<RoleMemberResponse> page, @Param("params") QueryRoleUserRequest params);
+	List<MemberRoleResponse> selectUsersByRole(Page<MemberRoleResponse> page, @Param("params") QueryRoleUserRequest params);
+
+
+
+	@Select("select t1.*,t2.username FROM uc_member_role t1 LEFT JOIN uc_users t2 ON t1.mid = t2.id WHERE t1.role_id = #{roleId}")
+	List<RoleMember> selectList(Long roleId);
+
+
+
 
 	@Insert({
 		"<script>",

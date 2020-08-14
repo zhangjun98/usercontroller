@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author hao.yan
  */
-@FeignClient(value = "platform-uc-service", path = "/org") public interface RemoteOrgService
+@FeignClient(value = "platform-uc-service", path = "/uc/org") public interface RemoteOrgService
 {
 
 
@@ -27,5 +27,5 @@ import java.util.List;
 
 	@PostMapping("/update")  public BizResponse<String> update(@RequestBody Organization organization);
 
-	@GetMapping("/search/{id}")  public BizResponse<Organization> search(@PathVariable Long id);
+	@GetMapping("/search/{id}")  public BizResponse<Organization> search(@PathVariable String id);
 }
