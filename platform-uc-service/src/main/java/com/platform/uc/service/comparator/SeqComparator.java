@@ -8,7 +8,7 @@ public class SeqComparator implements Comparator<Menu> {
 
     @Override
     public int compare(Menu o1, Menu o2) {
-        long l = o1.getSeq() - o2.getSeq();
+        long l = o1.getSort() - o2.getSort();
         return (int) l;
     }
 

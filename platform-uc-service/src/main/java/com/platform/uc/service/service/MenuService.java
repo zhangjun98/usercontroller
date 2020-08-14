@@ -9,7 +9,6 @@ import com.platform.uc.api.vo.request.MenuRequest;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
 import com.platform.uc.service.mapper.MenuMapper;
-import com.platform.uc.service.mapper.PermissionMapper;
 import com.platform.uc.service.vo.Menu;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
@@ -33,9 +32,6 @@ public class MenuService {
 
     @Resource
     private MenuMapper menuMapper;
-
-    @Resource
-    private PermissionMapper permissionMapper;
 
     /**
      * 保存菜单
