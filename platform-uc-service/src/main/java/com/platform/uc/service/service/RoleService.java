@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.RoleResponse;
-import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.mapper.RoleMapper;
 import com.platform.uc.service.mapper.UcRolePermissionMapper;
 import com.platform.uc.service.vo.RoleMember;
@@ -32,9 +31,6 @@ public class RoleService {
 
 	@Resource
 	private RoleMapper roleMapper;
-
-	@Resource
-	private MemberRoleMapper memberRoleMapper;
 
 	@Resource
 	private UcRolePermissionMapper ucRolePermissionMapper;

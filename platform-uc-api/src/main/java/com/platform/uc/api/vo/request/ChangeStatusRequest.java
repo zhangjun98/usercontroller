@@ -21,4 +21,6 @@ public class ChangeStatusRequest implements Serializable {
      */
     private Set<String> ids;
 
+    private String operator;
+
 }

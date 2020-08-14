@@ -12,19 +12,16 @@ import java.util.List;
 /**
  * 机构管理的service
  */
-@Service public class OrganizationService
-{
+@Service
+public class OrganizationService {
 
-	@Resource private OrganizationMapper organizationMapper;
+	@Resource
+	private OrganizationMapper organizationMapper;
 
 	/**
 	 * 保存机构信息
-	 *
-	 * @param organization
-	 * @return
 	 */
-	public void save(Organization organization)
-	{
+	public void save(Organization organization) {
 		organizationMapper.insert(organization);
 	}
 
@@ -34,12 +31,10 @@ import java.util.List;
 	 * @param orgName
 	 * @return
 	 */
-	public List<Organization> selectList(String orgName)
-	{
+	public List<Organization> selectList(String orgName) {
 		//查询所有的机构
 		QueryWrapper<Organization> queryWrapper = new QueryWrapper<>();
-		if (StringUtils.isNotEmpty(orgName))
-		{
+		if (StringUtils.isNotEmpty(orgName)) {
 			queryWrapper.like("org_name", orgName).or().like("short_name", orgName).or().like("org_code", orgName);
 		}
 		queryWrapper.eq("state", 0);
@@ -51,8 +46,7 @@ import java.util.List;
 	 *
 	 * @return
 	 */
-	public List<Organization> findAllOrg()
-	{
+	public List<Organization> findAllOrg() {
 		QueryWrapper<Organization> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("state", 0);
 		List<Organization> organizations = organizationMapper.selectList(queryWrapper);
@@ -61,12 +55,8 @@ import java.util.List;
 
 	/**
 	 * 更新机构信息
-	 *
-	 * @param organization
-	 * @return
 	 */
-	public void update(Organization organization)
-	{
+	public void update(Organization organization) {
 		organizationMapper.updateById(organization);
 	}
 
@@ -76,11 +66,8 @@ import java.util.List;
 	 * @param id 机构的id
 	 * @return org 机构对象
 	 */
-	public Organization search(Long id)
-	{
-
+	public Organization search(Long id) {
 		return organizationMapper.selectById(id);
-
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.platform.uc.service.service;
 
-import com.alibaba.druid.util.StringUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
@@ -39,34 +37,6 @@ public class MemberClientService {
             throw new BizException(UserErrorCode.MEMBER_CLIENT_INSERT_FAIL);
         }
     }
-
-    /**
-     * 通过用户ID获取平台信息
-     * @param mid
-     * @return
-     */
-    public List<MemberClient> selectByUserId(String mid){
-        QueryWrapper<MemberClient> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(mid)) {
-            wrapper.eq("mid", mid);
-        }
-        List<MemberClient> listRole=  memberClientMapper.selectList(wrapper);
-        return listRole;
-    }
-
-    /**
-     * 通过用户ID获取平台信息
-     * @param id
-     * @return
-     */
-    public MemberClient selectById(String id){
-        QueryWrapper<MemberClient> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(id)) {
-            wrapper.eq("id", id);
-        }
-        return memberClientMapper.selectById(wrapper);
-    }
-
 
     /**
      * 批量删除或恢复

@@ -27,6 +27,11 @@ public enum UserErrorCode implements ErrorCode {
 
     MEMBER_CLIENT_DELETE_FAIL("201404", "删除用户失败"),
 
+    MEMBER_ROLE_DELETE_FAIL("201501", "角色绑定用户失败"),
+
+
+    MENU_INSERT_FAIL("201601", "菜单保存失败"),
+
     ROLEID_NOTFOUND("300031", "角色不能为空"),
     PERMISSION_NOTFOUND("300032", "所配置的权限不能为空"),
     ;

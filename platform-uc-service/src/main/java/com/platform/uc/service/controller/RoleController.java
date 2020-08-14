@@ -24,7 +24,8 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping("/uc/role") public class RoleController {
+@RequestMapping("/role")
+public class RoleController {
 
 	@Resource private RoleService roleService;
 
@@ -53,7 +54,6 @@ import javax.annotation.Resource;
 		roleService.update(id, request);
 		return BizResponseUtils.success();
 	}
-
 
 	/**
 	 * 角色详情

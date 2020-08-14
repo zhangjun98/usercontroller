@@ -20,43 +20,41 @@ import java.util.List;
 @TableName("uc_menu")
 public class Menu implements Serializable{
 
+    private static final long serialVersionUID = 7083881876490326808L;
 
-    private static final long serialVersionUID = 24L;
+    @TableId
+    private String id;
 
-     @TableId(type = IdType.ID_WORKER)
-      private Long id;
-        /**
-         * 父菜单
-         */
-      private Long parentId;
-        /**
-         * 系统模块
-         */
-      private Long moduleId;
-        /**
-         * 菜单名称
-         */
-      private String name;
-        /**
-         * 菜单编码
-         */
-      private String code;
-        /**
-         * 图标
-         */
-      private String icon;
-        /**
-         * 路由
-         */
-      private String url;
-        /**
-         * 排序
-         */
-      private Long seq;
-        /**
-         * 状态(0--正常 9--删除)
-         */
-      private Long state;
+    /**
+     * 父菜单
+     */
+    @TableField("parent_id")
+    private String parentId;
+
+    /**
+     * 菜单名称
+     */
+    private String name;
+
+    /**
+     * 图标
+     */
+    private String icon;
+
+    /**
+     * 路由
+     */
+    private String url;
+    /**
+     * 排序
+     */
+    @TableField("`sort`")
+    private Integer sort;
+
+    /**
+     * 状态(0--正常 9--删除)
+     */
+    private Boolean status;
 
     /**
      * 菜单添加时间
@@ -66,7 +64,7 @@ public class Menu implements Serializable{
     /**
      * 创建人的id
      */
-    private Long creatorId;
+    private String creatorId;
 
     /**
      * 更新菜单的时间
@@ -76,17 +74,6 @@ public class Menu implements Serializable{
     /**
      * 更新人的id
      */
-    private Long updaterId;
+    private String updaterId;
 
-    /**
-     * 保存子级菜单
-     */
-    @TableField(exist = false)
-    private List<Menu> list;
-
-    /**
-     * 保存子菜单
-     */
-    @TableField(exist = false)
-    private List<Permission> submenuList;
 }

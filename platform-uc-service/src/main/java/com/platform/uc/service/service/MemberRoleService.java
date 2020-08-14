@@ -3,19 +3,26 @@ package com.platform.uc.service.service;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.uc.api.error.UserErrorCode;
+import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
+import com.platform.uc.api.vo.request.RoleMemberRequest;
 import com.platform.uc.api.vo.response.RoleMemberResponse;
-import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.vo.RoleMember;
 import com.ztkj.framework.response.core.BizPageResponse;
+import com.ztkj.framework.response.exception.BizException;
+import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 用户角色关系业务类
@@ -39,80 +46,31 @@ public class MemberRoleService {
         return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), members);
     }
 
-
-
     /**
      * 保存用户角色
-     * @param roleMember
      */
-    public int saveMemberRole(RoleMember roleMember) {
-        if (roleMember ==null){
+    public void save(Collection<RoleMemberRequest> roleMembers) {
+        if (CollectionUtils.isEmpty(roleMembers)){
             throw new RuntimeException("菜单对象为空");
         }
-        roleMember.setCreateDate(new Date());
-        int insert = memberRoleMapper.insert(roleMember);
-        return insert;
-    }
-
-    /**
-     * 通过用户ID获取角色信息
-     * @param mid
-     * @return
-     */
-    public List<RoleMember> selectByUserId(String mid){
-        QueryWrapper<RoleMember> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(mid)) {
-            wrapper.eq("mid", mid);
+        Date now = new Date();
+        List<RoleMember> roleMemberList = roleMembers.stream().map(item->{
+            RoleMember roleMember = BeanUtils.toT(item, RoleMember.class);
+            roleMember.setCreateDate(now);
+            return roleMember;
+        }).collect(Collectors.toList());
+        int count = memberRoleMapper.insertBatch(roleMemberList);
+        if (count <= 0){
+            throw new BizException(UserErrorCode.MEMBER_ROLE_DELETE_FAIL);
         }
-        List<RoleMember> listRole=  memberRoleMapper.selectList(wrapper);
-        return listRole;
-    }
-
-    /**
-     * 通过用户ID获取角色信息
-     * @param id
-     * @return
-     */
-    public RoleMember selectById(String id){
-        QueryWrapper<RoleMember> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(id)) {
-            wrapper.eq("id", id);
-        }
-        return memberRoleMapper.selectById(wrapper);
-    }
-
-    /**
-     * 更新角色
-     *
-     * @param roleMember
-     */
-    public int updateUserRole(RoleMember roleMember) {
-
-        QueryWrapper<RoleMember> wrapper = new QueryWrapper<>();
-        if (!StringUtils.isEmpty(roleMember.getRoleId())) {
-            wrapper.eq("role_id", roleMember.getRoleId());
-        }
-
-        return memberRoleMapper.update(roleMember, wrapper);
-    }
-
-    /**
-     * 删除角色信息
-     * @param id
-     */
-    public int deleteById(String id) {
-        return memberRoleMapper.deleteById(id);
     }
 
     /**
      * 批量删除角色信息
      * @param idList
      */
-    public int batchDelete(List<String> idList) {
-        for (String id: idList) {
-            memberRoleMapper.deleteById(id);
-        }
-        return 1;
+    public void remove(BatchRequest request) {
+        memberRoleMapper.deleteBatchIds(request.getIds());
     }
 
 }

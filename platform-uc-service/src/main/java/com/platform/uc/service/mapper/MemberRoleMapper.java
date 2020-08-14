@@ -7,6 +7,7 @@ import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.platform.uc.service.vo.RoleMember;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,9 +24,19 @@ public interface MemberRoleMapper extends BaseMapper<RoleMember> {
 			"where 1=1 \n" +
 			"<if test='params.roleId!=null'>",
 				"AND mr.role_id = #{params.roleId}",
-			"</if>" +
+			"</if>",
 	"</script>"})
 	List<RoleMemberResponse> selectUsersByRole(Page<RoleMemberResponse> page, @Param("params") QueryRoleUserRequest params);
+
+	@Insert({
+		"<script>",
+			"insert into uc_member_role(mid, role_id, create_date) values ",
+			"<foreach collection='items' item='item' index='index' separator=','>",
+				"(#{item.mid}, #{item.roleId}, #{item.createDate})",
+			"</foreach>",
+		"</script>"
+	})
+	int insertBatch(@Param("items") Collection<RoleMember> items);
 
 }
 

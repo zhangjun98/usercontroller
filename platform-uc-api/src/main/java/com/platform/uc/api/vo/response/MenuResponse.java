@@ -1,19 +1,21 @@
-package com.platform.uc.api.vo.request;
+package com.platform.uc.api.vo.response;
 
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
- * @author CDN
- * @desc 系统菜单表
- * Date: 2020-08-10
+ * 菜单
+ * @author hao.yan
  */
 @Data
-public class MenuRequest implements Serializable{
+public class MenuResponse implements Serializable{
 
-    private static final long serialVersionUID = -2485397326130062396L;
+    private static final long serialVersionUID = 1443168361935089124L;
+
+    private String id;
 
     /**
      * 父菜单
@@ -42,11 +44,16 @@ public class MenuRequest implements Serializable{
     /**
      * 状态(0--正常 9--删除)
      */
-    private Integer status;
+    private Boolean status;
 
     /**
-     * 操作人
+     * 创建人
      */
-    private String operator;
+    private Date createDate;
+
+    /**
+     * 更新人
+     */
+    private Date updateDate;
 
 }
