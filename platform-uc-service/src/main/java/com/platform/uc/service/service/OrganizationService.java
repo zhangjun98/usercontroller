@@ -7,23 +7,15 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
-<<<<<<< .mine
 import com.platform.uc.api.vo.response.OrganizationResponse;
-import com.platform.uc.api.vo.response.RoleResponse;
-=======
-import com.platform.uc.api.vo.response.OrganizationResponse;
-
->>>>>>> .theirs
 import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.mapper.OrganizationMapper;
 import com.platform.uc.service.vo.Organization;
-import com.platform.uc.service.vo.Role;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
