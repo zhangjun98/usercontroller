@@ -8,23 +8,23 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.service.mapper.RoleMapper;
-import com.platform.uc.service.mapper.UcRolePermissionMapper;
-import com.platform.uc.service.vo.RoleMember;
+import com.platform.uc.service.mapper.RoleMenuMapper;
 import com.platform.uc.service.vo.Role;
-import com.platform.uc.service.vo.UcRolePermission;
+import com.platform.uc.service.vo.RoleMenu;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleService {
@@ -33,7 +33,7 @@ public class RoleService {
 	private RoleMapper roleMapper;
 
 	@Resource
-	private UcRolePermissionMapper ucRolePermissionMapper;
+	private RoleMenuMapper roleMenuMapper;
 
 	public void insert(RoleRequest request){
 		Role role = BeanUtils.toT(request, Role.class);
@@ -54,7 +54,7 @@ public class RoleService {
 		newRole.setId(role.getId());
 		newRole.setUpdateDate(new Date());
 		newRole.setUpdaterId(request.getOperator());
-		int count = roleMapper.updateById(role);
+		int count = roleMapper.updateById(newRole);
 		if (count <= 0){
 			throw new BizException(UserErrorCode.ROLE_UPDATE_FAIL);
 		}
@@ -103,32 +103,17 @@ public class RoleService {
 		}
 	}
 
-
-	@Transactional
-	public List<RoleMember> configurePermissions(List<MeunPermissionVo> meunPermissionVos) {
-		//入库列表
-		List<UcRolePermission> ucRolePermissions = new ArrayList<>();
-		for (MeunPermissionVo meunPermissionVo : meunPermissionVos)
-		{
-			if (meunPermissionVo.getPermissionId() == null || meunPermissionVo.getPermissionId().size() <= 0)
-			{
-				continue;
-			}
-			for (String temp : meunPermissionVo.getPermissionId())
-			{
-				UcRolePermission ucRolePermission = new UcRolePermission();
-				ucRolePermission.setMenuId(meunPermissionVo.getMeunId());
-				ucRolePermission.setRoleId(meunPermissionVo.getRoleId());
-				ucRolePermission.setPermissionId(temp);
-			}
-
+	/**
+	 * 绑定菜单
+	 */
+	public void bindMenus(Collection<BindMenuRequest> requests){
+		if (CollectionUtils.isEmpty(requests)){
+			throw new BizException(UserErrorCode.ROLE_MENU_BIND_FAIL);
 		}
-		return null;
+		List<RoleMenu> roleMenus = requests.stream()
+				.map(item->BeanUtils.toT(item, RoleMenu.class))
+				.collect(Collectors.toList());
+		roleMenuMapper.insertBatch(roleMenus);
 	}
 
-	public void insertRolePermission(UcRolePermission ucRolePermission)
-	{
-
-		ucRolePermissionMapper.insert(ucRolePermission);
-	}
 }

@@ -32,13 +32,6 @@ public interface MemberRoleMapper extends BaseMapper<RoleMember> {
 	List<MemberRoleResponse> selectUsersByRole(Page<MemberRoleResponse> page, @Param("params") QueryRoleUserRequest params);
 
 
-
-	@Select("select t1.*,t2.username FROM uc_member_role t1 LEFT JOIN uc_users t2 ON t1.mid = t2.id WHERE t1.role_id = #{roleId}")
-	List<RoleMember> selectList(Long roleId);
-
-
-
-
 	@Insert({
 		"<script>",
 			"insert into uc_member_role(mid, role_id, create_date) values ",

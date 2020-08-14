@@ -2,7 +2,6 @@ package com.platform.uc.service.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.platform.uc.service.vo.Permission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

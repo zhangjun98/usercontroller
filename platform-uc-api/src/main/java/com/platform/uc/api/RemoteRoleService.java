@@ -1,13 +1,13 @@
 package com.platform.uc.api;
 
 import com.platform.uc.api.vo.request.*;
-import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
-import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * 远程用户信息接口
@@ -32,8 +32,10 @@ public interface RemoteRoleService {
 	@PostMapping("/remove")
 	BizResponse<Void> remove(@RequestBody BatchRequest request);
 
-	@PostMapping("/addRolePermission")
-	BizResponse<Void> addRolePermission(@RequestBody UcRolePermission ucRolePermission);
-
+	/**
+	 * 权限配置
+	 */
+	@PostMapping("/bind/menus")
+	BizResponse<Void> bindMenus(@RequestBody Collection<BindMenuRequest> requests);
 
 }

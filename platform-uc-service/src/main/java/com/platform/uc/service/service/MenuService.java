@@ -3,17 +3,14 @@ package com.platform.uc.service.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
-import com.platform.uc.service.comparator.SeqComparator;
 import com.platform.uc.service.mapper.MenuMapper;
 import com.platform.uc.service.mapper.PermissionMapper;
 import com.platform.uc.service.vo.Menu;
-import com.platform.uc.service.vo.Permission;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;

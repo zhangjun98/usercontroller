@@ -1,14 +1,11 @@
 package com.platform.uc.service.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.BatchRequest;
+import com.platform.uc.api.vo.request.BindMenuRequest;
 import com.platform.uc.api.vo.request.QueryRoleRequest;
-import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 import com.platform.uc.api.vo.request.RoleRequest;
-import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.service.service.RoleService;
-import com.platform.uc.service.vo.UcRolePermission;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
@@ -16,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 
 @Slf4j
 @RestController
@@ -68,12 +66,12 @@ public class RoleController {
 		return BizResponseUtils.success();
 	}
 
-
-
-	//权限配置
-	@PostMapping("/addRolePermission")
-	public BizResponse<Void> addRolePermission(@RequestBody UcRolePermission ucRolePermission){
-		roleService.insertRolePermission(ucRolePermission);
+	/**
+	 * 权限配置
+	 */
+	@PostMapping("/bind/menus")
+	public BizResponse<Void> bindMenus(@RequestBody Collection<BindMenuRequest> requests){
+		roleService.bindMenus(requests);
 		return BizResponseUtils.success();
 	}
 
