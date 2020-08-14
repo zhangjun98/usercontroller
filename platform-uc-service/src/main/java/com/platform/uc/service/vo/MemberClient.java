@@ -40,6 +40,9 @@ public class MemberClient implements Serializable {
     @TableField("client_id")
     private String clientId;
 
+    @TableField("org_id")
+    private String orgId;
+
     @TableField("create_date")
     private Date createDate;
 
