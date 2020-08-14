@@ -4,10 +4,13 @@ package com.platform.uc.api;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
+import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * 远程用户信息接口
@@ -28,6 +31,12 @@ public interface RemoteOrganizationService {
 	 */
 	@PostMapping("/query")
 	BizPageResponse<OrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request);
+
+	/**
+	 * 树形菜单
+	 */
+	@PostMapping("/tree")
+	BizPageResponse<TreeOrganizationResponse> tree(@RequestBody Set<String> pids);
 
 	/**
 	 * 更新
