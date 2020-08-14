@@ -1,10 +1,10 @@
 package com.platform.uc.service.controller;
 
+import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
-import com.platform.uc.api.vo.response.RoleMemberResponse;
-import com.platform.uc.api.vo.response.UserResponse;
+import com.platform.uc.api.vo.request.RoleMemberRequest;
+import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.service.service.MemberRoleService;
-import com.platform.uc.service.vo.RoleMember;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.utils.BizResponseUtils;
@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 /**

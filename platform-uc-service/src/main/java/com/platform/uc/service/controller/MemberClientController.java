@@ -1,13 +1,11 @@
 package com.platform.uc.service.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MemberClientRequest;
 import com.platform.uc.api.vo.request.QueryClientUserRequest;
 import com.platform.uc.api.vo.response.RoleMemberResponse;
 import com.platform.uc.service.service.MemberClientService;
-import com.platform.uc.service.vo.MemberClient;
 
 import com.ztkj.framework.response.core.BizPageResponse;
 
@@ -17,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * 平台的用户

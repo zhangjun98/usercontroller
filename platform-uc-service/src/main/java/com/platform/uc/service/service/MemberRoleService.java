@@ -1,13 +1,11 @@
 package com.platform.uc.service.service;
 
-import com.alibaba.druid.util.StringUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 import com.platform.uc.api.vo.request.RoleMemberRequest;
-import com.platform.uc.api.vo.response.RoleMemberResponse;
+import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.vo.RoleMember;
 import com.ztkj.framework.response.core.BizPageResponse;
@@ -70,11 +68,8 @@ public class MemberRoleService {
      * 批量删除角色信息
      * @param idList
      */
-    public int batchDelete(List<String> idList) {
-        for (String id: idList) {
-            memberRoleMapper.deleteById(id);
-        }
-        return 1;
+    public void remove(BatchRequest request) {
+        memberRoleMapper.deleteBatchIds(request.getIds());
     }
 
 }
