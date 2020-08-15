@@ -83,7 +83,10 @@ public class MenuService {
         menu.setStatus(request.isEnable());
         menu.setUpdateDate(new Date());
         menu.setUpdaterId(request.getOperator());
-        menuMapper.update(menu, wrapper);
+        int count = menuMapper.update(menu, wrapper);
+        if (count <= 0){
+            throw new BizException(UserErrorCode.MENU_UPDATE_FAIL);
+        }
     }
 
     /**

@@ -105,11 +105,11 @@ public class OrganizationService {
 		QueryWrapper<Organization> queryWrapper = new QueryWrapper<>();
 		if (StringUtils.isNotEmpty(request.getSearchName())) {
 			queryWrapper
-						.like("org_name", request.getSearchName())
+						.like("name", request.getSearchName())
 					.or()
 						.like("short_name", request.getSearchName())
 					.or()
-					 	.like("org_code", request.getSearchName());
+					 	.like("code", request.getSearchName());
 		}
 
 		if (StringUtils.isNotEmpty(request.getId())){
