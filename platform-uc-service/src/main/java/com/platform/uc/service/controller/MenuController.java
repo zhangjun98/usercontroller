@@ -1,6 +1,7 @@
 package com.platform.uc.service.controller;
 
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
+import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
@@ -52,9 +53,9 @@ public class MenuController {
     /**
      * 查询菜单
      */
-    @GetMapping("/{pid}")
-    public BizPageResponse<MenuResponse> selectMenuByParentId(@PathVariable("pid") String parentId){
-       return menuService.selectMenuByParentId(parentId);
+    @PostMapping("/parent")
+    public BizPageResponse<MenuResponse> selectMenuByParentId(@RequestBody MenuParentRequest request){
+       return menuService.selectMenuByParentId(request);
     }
 
     /**

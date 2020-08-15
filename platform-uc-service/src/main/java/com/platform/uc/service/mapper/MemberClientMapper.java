@@ -24,7 +24,7 @@ public interface MemberClientMapper extends BaseMapper<MemberClient> {
             "AND mr.client_id = #{params.clientId} ",
             "</if>",
             "<if test='params.searchName!=null'>",
-                "AND  (username like concat('%', '${params.searchName}', '%') OR email like concat('%', '${params.searchName}', '%') OR email like concat('%', '${params.mobile}', '%'))",
+                "AND  (username like concat('%', '${params.searchName}', '%') OR email like concat('%', '${params.searchName}', '%') OR mobile like concat('%', '${params.searchName}', '%'))",
             "</if>",
     "</script>"})
     List<ClientMemberResponse> selectUsersByClientId(Page<ClientMemberResponse> page, @Param("params") QueryClientUserRequest params);
