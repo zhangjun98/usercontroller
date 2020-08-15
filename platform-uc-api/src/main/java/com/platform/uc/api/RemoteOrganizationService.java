@@ -1,6 +1,7 @@
 package com.platform.uc.api;
 
 
+import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
@@ -27,21 +28,33 @@ public interface RemoteOrganizationService {
 	BizResponse<Void> save(@RequestBody OrganizationRequest organizationRequest);
 
 	/**
+	 * 更新
+	 */
+	@PutMapping("/{id}")
+	BizResponse<Void> modify(@PathVariable String id,@RequestBody OrganizationRequest organizationRequest);
+
+	/**
 	 * 根据条件
 	 */
 	@PostMapping("/query")
 	BizPageResponse<OrganizationResponse> selectByConditions(@RequestBody QueryOrganizationRequest request);
 
 	/**
+	 * 详情
+	*/
+	@GetMapping("/{id}")
+	BizResponse<OrganizationResponse> detail(@PathVariable String id);
+
+	/*
 	 * 树形菜单
 	 */
 	@PostMapping("/tree")
 	BizPageResponse<TreeOrganizationResponse> tree(@RequestBody Set<String> pids);
 
 	/**
-	 * 更新
+	 * 删除
 	 */
-	@PutMapping("/{id}")
-	BizResponse<Void> update(@PathVariable String id,@RequestBody OrganizationRequest organizationRequest);
+	@PostMapping("/remove")
+	BizResponse<Void> remove(@RequestBody BatchRequest request);
 
 }

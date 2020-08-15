@@ -1,5 +1,6 @@
 package com.platform.uc.service.controller;
 
+import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
 import com.platform.uc.api.vo.response.OrganizationResponse;
@@ -38,6 +39,24 @@ public class OrganizationController {
 	@PutMapping("/{id}")
 	public BizResponse<Void> modify(@PathVariable String id, @RequestBody OrganizationRequest request){
 		organizationService.update(id, request);
+		return BizResponseUtils.success();
+	}
+
+	/**
+	 * 机构详情
+	 */
+	@GetMapping("/{id}")
+	public BizResponse<OrganizationResponse> detail(@PathVariable String id) {
+		OrganizationResponse org = organizationService.detail(id);
+		return BizResponseUtils.success(org);
+	}
+
+	/**
+	 * 移除
+	 */
+	@PostMapping("/remove")
+	public BizResponse<Void> remove(@RequestBody BatchRequest request){
+		organizationService.changeStatus(request, 9);
 		return BizResponseUtils.success();
 	}
 

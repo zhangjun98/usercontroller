@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 public class OrganizationResponse implements Serializable {
@@ -72,5 +73,4 @@ public class OrganizationResponse implements Serializable {
      */
     @ApiModelProperty(value = "状态(0--正常 9--删除)")
     private Integer status;
-
 }
