@@ -92,7 +92,7 @@ public class MenuService {
     public BizPageResponse<MenuResponse> selectMenuByParentId(String parentId){
         QueryWrapper<Menu> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", parentId);
-        wrapper.eq("status", true);
+        wrapper.eq("status", 0);
         List<Menu> menus = menuMapper.selectList(wrapper);
         List<MenuResponse> responses = menus.stream()
                 .map(item->BeanUtils.toT(item, MenuResponse.class))
