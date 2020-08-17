@@ -35,7 +35,13 @@ public class MenuResponse implements Serializable{
     /**
      * 路由
      */
-    private String url;
+    private String path;
+
+    /**
+     * 对应路由组件component
+     */
+    private String component;
+
     /**
      * 排序
      */
@@ -45,6 +51,11 @@ public class MenuResponse implements Serializable{
      * 状态(0--正常 9--删除)
      */
     private Boolean status;
+
+
+    private Integer type;
+
+    private String remark;
 
     /**
      * 创建人

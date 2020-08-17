@@ -37,16 +37,19 @@ public class Menu implements Serializable{
     /**
      * 图标
      */
+    @TableField("icon")
     private String icon;
 
     /**
      * 路由地址
      */
+    @TableField("path")
     private String path;
 
     /**
      * 对应路由组件component
      */
+    @TableField("component")
     private String component;
 
     /**

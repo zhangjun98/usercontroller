@@ -1,4 +1,4 @@
-package com.platform.uc.api.vo.response;
+package com.platform.uc.service.vo;
 
 import lombok.Data;
 
@@ -6,14 +6,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户实体
+ * 用户信息
  * @author hao.yan
  */
 @Data
-public class MemberResponse implements Serializable {
+public class MemberDetail  implements Serializable {
 
-
-    private static final long serialVersionUID = 4700966728478527499L;
+    private static final long serialVersionUID = 1494166605099657856L;
 
     /**
      * 用户编号
@@ -55,10 +54,16 @@ public class MemberResponse implements Serializable {
      */
     private Date birthday;
 
+    /**
+     * 身份真
+     */
     private String idCard;
 
-    private Date createTime;
+    /**
+     * 状态
+     */
+    private Integer status;
 
-    private Date updateTime;
+    private Date createTime;
 
 }
