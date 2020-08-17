@@ -17,7 +17,7 @@ public class ChangeStatusRequest implements Serializable {
     private boolean enable = Boolean.TRUE;
 
     /**
-     * 用户编号集合
+     * 编号集合
      */
     private Set<String> ids;
 

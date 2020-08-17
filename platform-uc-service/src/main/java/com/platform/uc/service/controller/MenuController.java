@@ -3,6 +3,7 @@ package com.platform.uc.service.controller;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
+import com.platform.uc.api.vo.response.MenuDetailResponse;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
 import com.platform.uc.service.service.MenuService;
@@ -39,6 +40,16 @@ public class MenuController {
     public BizResponse<Void> modify(@PathVariable String id, @RequestBody MenuRequest request){
         menuService.modify(id, request);
         return BizResponseUtils.success();
+    }
+
+
+    /**
+     * 查询详情
+     */
+    @GetMapping("/{id}/detail")
+    public BizResponse<MenuDetailResponse> modify(@PathVariable String id){
+        MenuDetailResponse detailResponse = menuService.detail(id);
+        return BizResponseUtils.success(detailResponse);
     }
 
     /**

@@ -27,7 +27,7 @@ public class MenuParentRequest implements Serializable {
      * 状态
      */
     @ApiModelProperty(value = "状态", required = false)
-    private Integer status = 0;
+    private Integer status = 1;
 
     /**
      * 名称
@@ -42,8 +42,15 @@ public class MenuParentRequest implements Serializable {
     private Integer type;
 
     /**
-     * 用户标号
+     * 用户编号
      */
+    @ApiModelProperty(value = "用户编号", required = false)
     private String mid;
+
+    /**
+     * 角色编号
+     */
+    @ApiModelProperty(value = "角色编号", required = false)
+    private String roleId;
 
 }

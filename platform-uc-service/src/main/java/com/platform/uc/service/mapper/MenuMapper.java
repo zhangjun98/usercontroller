@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.QueryClientUserRequest;
 import com.platform.uc.service.vo.Menu;
+import com.platform.uc.service.vo.MenuDetail;
 import org.apache.ibatis.annotations.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Mapper
@@ -35,19 +37,37 @@ public interface MenuMapper extends BaseMapper<Menu> {
                     "LEFT JOIN uc_member_role as mr on mr.role_id = rm.role_id " ,
                     "where 1=1 ",
                     "<if test='params.mid!=null'>",
-                        "mr.mid=#{params.mid} ",
+                    "and mr.mid=#{params.mid} ",
+                    "</if>",
+                    "<if test='params.pids!=null'>",
+                        "and m.parent_id in ",
+                        "<foreach collection='params.pids' open='(' item='pid' separator=',' close=')'>",
+                            "#{pid}",
+                        "</foreach>",
                     "</if>",
                     "<if test='params.type!=null'>",
-                        "m.type=#{params.type} ",
+                        "and m.type=#{params.type} ",
                     "</if>",
                     "<if test='params.searchName!=null'>",
-                        "m.name like concat('%', '${params.searchName}', '%') ",
+                        "and m.name like concat('%', '${params.searchName}', '%') ",
                     "</if>",
                     "<if test='params.status!=null'>",
-                        "m.status=#{params.status} ",
+                        "and m.status=#{params.status} ",
+                    "</if>",
+                    "<if test='params.roleId!=null'>",
+                        "and mr.role_id=#{params.roleId} ",
                     "</if>",
                     "GROUP BY m.id",
             "</script>"})
     List<Menu> selectByMid(@Param("params") MenuParentRequest params);
 
+
+    @Select({
+            "<script>",
+            "select m.*, pm.`name` as parent_name from uc_menu as m ",
+                    "LEFT JOIN uc_menu as pm on m.parent_id = pm.id ",
+                    "where m.id=#{id}",
+            "</script>"
+    })
+    MenuDetail selectByMenuId(@Param("id") Serializable id);
 }

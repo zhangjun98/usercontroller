@@ -7,12 +7,12 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
+import com.platform.uc.api.vo.response.MenuDetailResponse;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
-import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.mapper.MenuMapper;
 import com.platform.uc.service.vo.Menu;
-import com.platform.uc.service.vo.Organization;
+import com.platform.uc.service.vo.MenuDetail;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
@@ -81,6 +81,12 @@ public class MenuService {
         }
     }
 
+
+    public MenuDetailResponse detail(String id){
+        MenuDetail menu = menuMapper.selectByMenuId(id);
+        return BeanUtils.toT(menu, MenuDetailResponse.class);
+    }
+
     /**
      * 删除菜单
      */
@@ -101,11 +107,15 @@ public class MenuService {
      * 根据父节点查询菜单
      */
     public BizPageResponse<MenuResponse> selectMenuByParentId(MenuParentRequest request){
-        List<Menu> rootMenus = menuMapper.selectBatchIds(request.getPids());
+
         List<Menu> menus = recursion(request);
-        if (!CollectionUtils.isEmpty(rootMenus)){
-            menus.addAll(rootMenus);
+        if (!CollectionUtils.isEmpty(request.getPids())){
+            List<Menu> rootMenus = menuMapper.selectBatchIds(request.getPids());
+            if (!CollectionUtils.isEmpty(rootMenus)){
+                menus.addAll(rootMenus);
+            }
         }
+
         List<MenuResponse> responses = menus.stream()
                 .map(item->BeanUtils.toT(item, MenuResponse.class))
                 .collect(Collectors.toList());
@@ -132,15 +142,6 @@ public class MenuService {
      * 查询父节点下的菜单
      */
     private List<Menu> selectByPids(MenuParentRequest request){
-//        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
-//        wrapper.in("parent_id", request.getPids());
-//        wrapper.eq("status", request.getStatus());
-//        if (!StringUtils.isEmpty(request.getSearchName())){
-//            wrapper.like("name", request.getSearchName());
-//        }
-//        if (request.getType() != null){
-//            wrapper.eq("type", request.getType());
-//        }
         return menuMapper.selectByMid(request);
     }
 
@@ -178,9 +179,6 @@ public class MenuService {
         }
         return node;
     }
-
-
-
 
 
 }
