@@ -42,6 +42,7 @@ public class OrganizationService {
 		Organization organization = BeanUtils.toT(request, Organization.class);
 		organization.setCreatorId(request.getOperator());
 		organization.setCreateDate(new Date());
+		organization.setStatus(0);
 		int count = organizationMapper.insert(organization);
 		if (count <= 0){
 			throw new BizException(UserErrorCode.ROLE_INSERT_FAIL);

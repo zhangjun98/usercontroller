@@ -61,7 +61,7 @@ public class OrganizationRequest implements Serializable{
 	 * 机构管理员ID
 	 */
 	@ApiModelProperty(value = "机构管理员ID")
-	private String mId;
+	private String mid;
 
 	/**
 	* 联系地址
