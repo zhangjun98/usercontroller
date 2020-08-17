@@ -72,7 +72,7 @@ public class MenuController {
     /**
      * 树形菜单
      */
-    @GetMapping("/tree")
+    @PostMapping("/tree")
     public BizPageResponse<TreeMenuResponse> tree(){
         return menuService.tree();
     }

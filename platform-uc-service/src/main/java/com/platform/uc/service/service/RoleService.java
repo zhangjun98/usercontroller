@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.*;
+import com.platform.uc.api.vo.response.RoleMenuResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.service.mapper.RoleMapper;
 import com.platform.uc.service.mapper.RoleMenuMapper;
@@ -114,6 +115,13 @@ public class RoleService {
 				.map(item->BeanUtils.toT(item, RoleMenu.class))
 				.collect(Collectors.toList());
 		roleMenuMapper.insertBatch(roleMenus);
+	}
+
+	/**
+	 * 查询角色菜单列表
+	 */
+	public List<RoleMenuResponse>findRoleMenusByRoleId(String roleId) {
+		return roleMenuMapper.selectMenusByRole(roleId);
 	}
 
 }

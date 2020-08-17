@@ -1,6 +1,7 @@
 package com.platform.uc.api;
 
 import com.platform.uc.api.vo.request.*;
+import com.platform.uc.api.vo.response.RoleMenuResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
@@ -8,6 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 远程用户信息接口
@@ -38,4 +40,9 @@ public interface RemoteRoleService {
 	@PostMapping("/bind/menus")
 	BizResponse<Void> bindMenus(@RequestBody Collection<BindMenuRequest> requests);
 
+	/**
+	 * 查询权限所有根菜单
+	 */
+	@GetMapping("/menus/{id}")
+	BizResponse<List<RoleMenuResponse>> findModelMenusByRoleId(@PathVariable String id);
 }

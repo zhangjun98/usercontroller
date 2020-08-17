@@ -54,7 +54,7 @@ public interface RemoteMenuService {
     /**
      * 树形菜单
      */
-    @GetMapping("/tree")
+    @PostMapping("/tree")
     BizPageResponse<TreeMenuResponse> tree();
 
 }
