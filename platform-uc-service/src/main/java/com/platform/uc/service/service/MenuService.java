@@ -7,10 +7,12 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
+import com.platform.uc.api.vo.response.MenuDetailResponse;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
 import com.platform.uc.service.mapper.MenuMapper;
 import com.platform.uc.service.vo.Menu;
+import com.platform.uc.service.vo.MenuDetail;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
@@ -77,6 +79,12 @@ public class MenuService {
         if (count <= 0){
             throw new BizException(UserErrorCode.MENU_UPDATE_FAIL);
         }
+    }
+
+
+    public MenuDetailResponse detail(String id){
+        MenuDetail menu = menuMapper.selectByMenuId(id);
+        return BeanUtils.toT(menu, MenuDetailResponse.class);
     }
 
     /**

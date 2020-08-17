@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.QueryClientUserRequest;
 import com.platform.uc.service.vo.Menu;
+import com.platform.uc.service.vo.MenuDetail;
 import org.apache.ibatis.annotations.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Mapper
@@ -59,4 +61,13 @@ public interface MenuMapper extends BaseMapper<Menu> {
             "</script>"})
     List<Menu> selectByMid(@Param("params") MenuParentRequest params);
 
+
+    @Select({
+            "<script>",
+            "select m.*, pm.`name` as parent_name from uc_menu as m ",
+                    "LEFT JOIN uc_menu as pm on m.parent_id = pm.id ",
+                    "where m.id=#{id}",
+            "</script>"
+    })
+    MenuDetail selectByMenuId(@Param("id") Serializable id);
 }

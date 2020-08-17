@@ -4,6 +4,7 @@ package com.platform.uc.api;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
 import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
+import com.platform.uc.api.vo.response.MenuDetailResponse;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
 import com.ztkj.framework.response.core.BizPageResponse;
@@ -30,6 +31,12 @@ public interface RemoteMenuService {
     BizResponse<Void> modify(@PathVariable String id, @RequestBody MenuRequest request);
 
     /**
+     * 查询详情
+     */
+    @GetMapping("/{id}/detail")
+    BizResponse<MenuDetailResponse> detail(@PathVariable String id);
+
+    /**
      * 删除子菜单
      */
     @PostMapping("/remove")
@@ -41,6 +48,8 @@ public interface RemoteMenuService {
      */
     @PostMapping("/parent")
     BizPageResponse<MenuResponse> selectMenuByParentId(@RequestBody MenuParentRequest request);
+
+
 
     /**
      * 树形菜单
