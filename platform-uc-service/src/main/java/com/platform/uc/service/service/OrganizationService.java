@@ -42,6 +42,7 @@ public class OrganizationService {
 		Organization organization = BeanUtils.toT(request, Organization.class);
 		organization.setCreatorId(request.getOperator());
 		organization.setCreateDate(new Date());
+		organization.setStatus(0);
 		int count = organizationMapper.insert(organization);
 		if (count <= 0){
 			throw new BizException(UserErrorCode.ROLE_INSERT_FAIL);
@@ -81,7 +82,14 @@ public class OrganizationService {
 	 * 0: 正常
 	 * 1: 删除状态
 	 */
-	public void changeStatus(BatchRequest request, Integer status){
+	public UserErrorCode changeStatus(BatchRequest request, Integer status){
+		//判断是否存在子节点
+		List<Organization> listChild = this.selectByPids(request.getIds());
+
+		if (listChild.size() > 0) {
+			return UserErrorCode.DELETE_NOD_FAIL_HAS_CHILD;
+		}
+
 		UpdateWrapper<Organization> wrapper = new UpdateWrapper<>();
 		wrapper.in("id", request.getIds());
 		Organization org = new Organization();
@@ -90,7 +98,9 @@ public class OrganizationService {
 		org.setUpdateDate(new Date());
 		int count = organizationMapper.update(org, wrapper);
 		if (count <= 0){
-			throw new BizException(UserErrorCode.ROLE_DELETE_FAIL);
+			return UserErrorCode.DELETE_ERROR;
+		} else {
+			return UserErrorCode.SUCCESS;
 		}
 	}
 
@@ -118,6 +128,7 @@ public class OrganizationService {
 
 		queryWrapper.eq("status", request.getStatus());
 		Page<Organization> organizationPage = organizationMapper.selectPage(page, queryWrapper);
+
 		if(CollectionUtils.isEmpty(organizationPage.getRecords())){
 			return BizPageResponseUtils.success(new ArrayList<>());
 		}
@@ -182,6 +193,7 @@ public class OrganizationService {
 	private List<Organization> selectByPids(Set<String> pids){
 		QueryWrapper<Organization> wrapper = new QueryWrapper<>();
 		wrapper.in("parent_id", pids);
+		wrapper.in("status", 0);
 		List<Organization> organizations = organizationMapper.selectList(wrapper);
 		return organizationMapper.selectList(wrapper);
 	}

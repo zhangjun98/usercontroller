@@ -53,7 +53,7 @@ public class OrganizationResponse implements Serializable {
      * 机构管理员ID
      */
     @ApiModelProperty(value = "机构管理员ID")
-    private String mId;
+    private String mid;
 
     private String nickName;
 
