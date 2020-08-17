@@ -2,6 +2,7 @@ package com.platform.uc.api;
 
 
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
+import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
@@ -38,8 +39,8 @@ public interface RemoteMenuService {
      * 查询所有菜单目录,有序展示
      * @return
      */
-    @GetMapping("/{pid}")
-    BizPageResponse<MenuResponse> selectMenuByParentId(@PathVariable("pid") String parentId);
+    @PostMapping("/parent")
+    BizPageResponse<MenuResponse> selectMenuByParentId(@RequestBody MenuParentRequest request);
 
     /**
      * 树形菜单

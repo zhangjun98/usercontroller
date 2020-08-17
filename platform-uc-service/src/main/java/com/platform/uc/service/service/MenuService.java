@@ -5,17 +5,21 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.ChangeStatusRequest;
+import com.platform.uc.api.vo.request.MenuParentRequest;
 import com.platform.uc.api.vo.request.MenuRequest;
 import com.platform.uc.api.vo.response.MenuResponse;
 import com.platform.uc.api.vo.response.TreeMenuResponse;
+import com.platform.uc.api.vo.response.TreeOrganizationResponse;
 import com.platform.uc.service.mapper.MenuMapper;
 import com.platform.uc.service.vo.Menu;
+import com.platform.uc.service.vo.Organization;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -37,10 +41,11 @@ public class MenuService {
      * 保存菜单
      */
     public void save(MenuRequest request) {
-        Menu menu = BeanUtils.toT(request, Menu.class);
-        if (ObjectUtils.isEmpty(menu)){
+        if (ObjectUtils.isEmpty(request)){
             throw new RuntimeException("菜单对象为空");
         }
+        Menu menu = BeanUtils.toT(request, Menu.class);
+        menu.setStatus(true);
         menu.setCreateDate(new Date());
         menu.setCreatorId(request.getOperator());
         // 添加排序
@@ -54,11 +59,14 @@ public class MenuService {
         }
     }
 
+    /**
+     * 更新
+     */
     public void modify(String id, MenuRequest request){
-        Menu menu = BeanUtils.toT(request, Menu.class);
-        if (ObjectUtils.isEmpty(menu)){
+        if (ObjectUtils.isEmpty(request)){
             throw new RuntimeException("菜单对象为空");
         }
+        Menu menu = BeanUtils.toT(request, Menu.class);
         menu.setId(id);
         menu.setUpdateDate(new Date());
         menu.setUpdaterId(request.getOperator());
@@ -69,7 +77,7 @@ public class MenuService {
         }
         int count = menuMapper.updateById(menu);
         if (count <= 0){
-            throw new BizException(UserErrorCode.MENU_INSERT_FAIL);
+            throw new BizException(UserErrorCode.MENU_UPDATE_FAIL);
         }
     }
 
@@ -83,21 +91,57 @@ public class MenuService {
         menu.setStatus(request.isEnable());
         menu.setUpdateDate(new Date());
         menu.setUpdaterId(request.getOperator());
-        menuMapper.update(menu, wrapper);
+        int count = menuMapper.update(menu, wrapper);
+        if (count <= 0){
+            throw new BizException(UserErrorCode.MENU_UPDATE_FAIL);
+        }
     }
 
     /**
      * 根据父节点查询菜单
      */
-    public BizPageResponse<MenuResponse> selectMenuByParentId(String parentId){
-        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
-        wrapper.eq("parent_id", parentId);
-        wrapper.eq("status", 0);
-        List<Menu> menus = menuMapper.selectList(wrapper);
+    public BizPageResponse<MenuResponse> selectMenuByParentId(MenuParentRequest request){
+        List<Menu> rootMenus = menuMapper.selectBatchIds(request.getPids());
+        List<Menu> menus = recursion(request);
+        if (!CollectionUtils.isEmpty(rootMenus)){
+            menus.addAll(rootMenus);
+        }
         List<MenuResponse> responses = menus.stream()
                 .map(item->BeanUtils.toT(item, MenuResponse.class))
                 .collect(Collectors.toList());
         return BizPageResponseUtils.success(responses);
+    }
+
+    /**
+     * 递归查询某个节点下的所有子节点
+     */
+    private List<Menu> recursion(MenuParentRequest request){
+        List<Menu> menus = selectByPids(request);
+        if (CollectionUtils.isEmpty(menus)){
+            return menus;
+        }
+        Set<String> pids = menus.stream()
+                .map(Menu::getId)
+                .collect(Collectors.toSet());
+        request.setPids(pids);
+        menus.addAll(recursion(request));
+        return menus;
+    }
+
+    /**
+     * 查询父节点下的菜单
+     */
+    private List<Menu> selectByPids(MenuParentRequest request){
+//        QueryWrapper<Menu> wrapper = new QueryWrapper<>();
+//        wrapper.in("parent_id", request.getPids());
+//        wrapper.eq("status", request.getStatus());
+//        if (!StringUtils.isEmpty(request.getSearchName())){
+//            wrapper.like("name", request.getSearchName());
+//        }
+//        if (request.getType() != null){
+//            wrapper.eq("type", request.getType());
+//        }
+        return menuMapper.selectByMid(request);
     }
 
     /**
@@ -134,5 +178,9 @@ public class MenuService {
         }
         return node;
     }
+
+
+
+
 
 }
