@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.lang.reflect.Member;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * 用户信息返回
@@ -29,6 +30,11 @@ public class UserResponse extends MemberResponse {
      * 密码
      */
     private String password;
+
+    /**
+     * 角色编号
+     */
+    private Set<String> roleIds;
 
     /**
      * 账户是否失效

@@ -2,23 +2,25 @@ package com.platform.uc.adapter.service;
 
 import com.platform.uc.api.RemoteUserService;
 import com.platform.uc.api.vo.response.UserResponse;
+import com.ztkj.framework.common.authorization.vo.OAuthGrantedAuthority;
 import com.ztkj.framework.common.authorization.vo.OAuthUser;
 import com.ztkj.framework.response.core.BizResponse;
 import com.ztkj.framework.response.core.ErrorCode;
+import com.ztkj.framework.response.utils.BeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 用户业务类
@@ -67,22 +69,22 @@ public class BizUserDetailsService implements UserDetailsService {
      * 转换对象
      */
     private UserDetails toUserDetails(UserResponse user){
-        OAuthUser auth = new OAuthUser();
-        auth.setId(user.getUid());
-        auth.setMid(user.getId());
-        auth.setUsername(user.getUsername());
-        auth.setPassword(user.getPassword());
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority("READ"));
-        authorities.add(new SimpleGrantedAuthority("WRITE"));
+        OAuthUser auth = BeanUtils.toT(user, OAuthUser.class);
+        List<OAuthGrantedAuthority> authorities = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(user.getRoleIds())){
+            auth.setAuthorities(user
+                    .getRoleIds().stream()
+                    .map(OAuthGrantedAuthority::new)
+                    .collect(Collectors.toList())
+            );
+        }
         auth.setAuthorities(authorities);
-        auth.setEnabled(user.isEnabled());
         // 账号过期
-        auth.setAccountExpired(user.isAccountNonExpired());
+        auth.setAccountNonExpired(user.isAccountNonExpired());
         // 账号是否锁定
-        auth.setAccountLocked(user.isAccountLocked());
+        auth.setAccountNonLocked(!user.isAccountLocked());
         // 证件是否过期
-        auth.setCredentialsExpired(user.isCredentialsExpired());
+        auth.setCredentialsNonExpired(!user.isCredentialsExpired());
         return auth;
     }
 

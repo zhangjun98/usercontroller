@@ -6,6 +6,7 @@ import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberMapper;
+import com.platform.uc.service.mapper.RoleMapper;
 import com.platform.uc.service.mapper.UserMapper;
 import com.platform.uc.service.vo.*;
 import com.platform.uc.service.vo.Member;
@@ -16,10 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户业务类
@@ -29,6 +32,9 @@ import java.util.*;
 @Slf4j
 @Service
 public class UserService {
+
+	@Resource
+	private RoleMapper roleMapper;
 
 	@Resource
 	private UserMapper userMapper;
@@ -51,6 +57,11 @@ public class UserService {
 			Long now = System.currentTimeMillis();
 			Long accountExpired = userDetail.getAccountExpired().getTime();
 			response.setAccountNonExpired((now.compareTo(accountExpired) > 0));
+		}
+		// 查询用户角色
+		List<Role> roles =  roleMapper.selectByMid(userDetail.getId());
+		if (!CollectionUtils.isEmpty(roles)){
+			response.setRoleIds(roles.stream().map(Role::getId).collect(Collectors.toSet()));
 		}
 		return response;
 	}
