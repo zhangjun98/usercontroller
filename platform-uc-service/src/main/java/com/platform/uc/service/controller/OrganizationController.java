@@ -1,5 +1,6 @@
 package com.platform.uc.service.controller;
 
+import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.OrganizationRequest;
 import com.platform.uc.api.vo.request.QueryOrganizationRequest;
@@ -56,8 +57,15 @@ public class OrganizationController {
 	 */
 	@PostMapping("/remove")
 	public BizResponse<Void> remove(@RequestBody BatchRequest request){
-		organizationService.changeStatus(request, 9);
-		return BizResponseUtils.success();
+		UserErrorCode code = organizationService.changeStatus(request, 9);
+		if (code.getCode().equals(UserErrorCode.SUCCESS.getCode()))  {
+			return BizResponseUtils.success();
+		} else if (code.getCode().equals(UserErrorCode.DELETE_NOD_FAIL_HAS_CHILD.getCode())){
+			return BizResponseUtils.error(UserErrorCode.DELETE_NOD_FAIL_HAS_CHILD);
+		} else {
+			return BizResponseUtils.error(UserErrorCode.DELETE_ERROR);
+		}
+
 	}
 
 	/**
