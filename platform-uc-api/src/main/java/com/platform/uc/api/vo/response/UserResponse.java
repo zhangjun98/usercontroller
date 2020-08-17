@@ -1,6 +1,8 @@
 package com.platform.uc.api.vo.response;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.lang.reflect.Member;
@@ -12,39 +14,16 @@ import java.util.Date;
  * @author hao.yan
  */
 @Data
-public class UserResponse implements Serializable {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class UserResponse extends MemberResponse {
 
     private static final long serialVersionUID = -3814579972074311736L;
 
     /**
-     * 用户编号
+     * 账户编号
      */
-    private String id;
-
-    /**
-     * 用户编号
-     */
-    private MemberResponse member;
-
-    /**
-     * 显示名称
-     */
-    private String nickname;
-
-    /**
-     * 账户名
-     */
-    private String username;
-
-    /**
-     * 手机号
-     */
-    private String mobile;
-
-    /**
-     * 邮箱
-     */
-    private String email;
+    private String uid;
 
     /**
      * 密码
@@ -52,14 +31,9 @@ public class UserResponse implements Serializable {
     private String password;
 
     /**
-     * 角色名称
-     */
-    private Collection<String> roles;
-
-    /**
      * 账户是否失效
      */
-    private boolean accountExpired = true;
+    private boolean accountNonExpired = true;
 
     /**
      * 账户是否锁定
@@ -75,11 +49,5 @@ public class UserResponse implements Serializable {
      * 账户是否启动
      */
     private boolean enabled;
-
-    private Date createTime;
-
-    private Date updateTime;
-
-    private int isDelete;
 
 }

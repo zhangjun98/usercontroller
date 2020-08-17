@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 登录后 lt(login token) 验证
+ * @author hao.yan
+ */
 public class BizAuthenticationFilter extends OncePerRequestFilter {
 
     private final BizUserCache userCache;

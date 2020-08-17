@@ -68,8 +68,8 @@ public class BizUserDetailsService implements UserDetailsService {
      */
     private UserDetails toUserDetails(UserResponse user){
         OAuthUser auth = new OAuthUser();
-        auth.setId(user.getId());
-        auth.setMid(user.getMember().getId());
+        auth.setId(user.getUid());
+        auth.setMid(user.getId());
         auth.setUsername(user.getUsername());
         auth.setPassword(user.getPassword());
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -78,7 +78,7 @@ public class BizUserDetailsService implements UserDetailsService {
         auth.setAuthorities(authorities);
         auth.setEnabled(user.isEnabled());
         // 账号过期
-        auth.setAccountExpired(user.isAccountExpired());
+        auth.setAccountExpired(user.isAccountNonExpired());
         // 账号是否锁定
         auth.setAccountLocked(user.isAccountLocked());
         // 证件是否过期

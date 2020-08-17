@@ -1,6 +1,5 @@
 package com.platform.uc.service.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.*;
@@ -8,7 +7,6 @@ import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.mapper.MemberMapper;
 import com.platform.uc.service.mapper.UserMapper;
-import com.platform.uc.service.utils.BeanCloneUtils;
 import com.platform.uc.service.vo.*;
 import com.platform.uc.service.vo.Member;
 import com.ztkj.framework.response.core.CommonErrorCode;
@@ -18,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -40,19 +39,20 @@ public class UserService {
 	/**
 	 * 通过登录信息获取用户信息
 	 */
-	public UserResponse selectUserByLogin(String accountName){
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(accountName)){
-			wrapper
-					.eq("username", accountName)
-				.or()
-					.eq("email", accountName)
-				.or()
-					.eq("mobile", accountName);
+	public UserResponse selectUserByLogin(String searchName){
+		QueryMemberRequest request = new QueryMemberRequest();
+		request.setSearchName(searchName);
+		UserDetail userDetail = userMapper.selectOne(request);
+		UserResponse response = BeanUtils.toT(userDetail, UserResponse.class);
+		// TODO 根据身份证的过期时间设置 证件是否过期
+		// response.setCredentialsExpired();
+		// 设置账号是否过期
+		if (!ObjectUtils.isEmpty(userDetail.getAccountExpired())){
+			Long now = System.currentTimeMillis();
+			Long accountExpired = userDetail.getAccountExpired().getTime();
+			response.setAccountNonExpired((now.compareTo(accountExpired) > 0));
 		}
-		User user = userMapper.selectOne(wrapper);
-		Member member = selectByMemberId(user.getMid());
-		return toUserResponse(user, member);
+		return response;
 	}
 
 	/**
@@ -70,11 +70,6 @@ public class UserService {
 		return BeanUtils.toT(detail, MemberResponse.class);
 	}
 
-
-	private Member selectByMemberId(String id) {
-		return memberMapper.selectById(id);
-	}
-
 	/**
 	 * 注册用户
 	 */
@@ -88,24 +83,6 @@ public class UserService {
 		user.setCreateTime(new Date());
 		userMapper.insert(user);
 		return member.getId();
-	}
-
-	private UserResponse toUserResponse(User user, Member member) {
-		UserResponse response = BeanCloneUtils.convert(user, UserResponse.class);
-		log.info("{}", user);
-		long currTime = System.currentTimeMillis();
-		Date accountExpired = user.getAccountExpired();
-		if (!Objects.isNull(accountExpired)) {
-			response.setAccountExpired(!(currTime > accountExpired.getTime()));
-		}
-		Date credentialsExpired = user.getCredentialsExpired();
-		if (!Objects.isNull(credentialsExpired)) {
-			response.setCredentialsExpired(!(currTime > credentialsExpired.getTime()));
-		}
-		if (Objects.nonNull(member)) {
-			response.setMember(BeanCloneUtils.convert(member, MemberResponse.class));
-		}
-		return response;
 	}
 
 	/**

@@ -92,11 +92,6 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
             .and()
                 // 设置成为无状态
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//              .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
-
-//                    .requestMatchers().antMatchers(HttpMethod.OPTIONS, "/oauth/**")
-//                .and()
-
                 .authorizeRequests()
 //                    // 放开option请求
 //                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
