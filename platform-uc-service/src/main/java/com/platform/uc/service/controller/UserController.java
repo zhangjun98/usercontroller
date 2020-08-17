@@ -1,6 +1,7 @@
 package com.platform.uc.service.controller;
 
 import com.platform.uc.api.vo.request.*;
+import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.platform.uc.service.service.UserService;
 import com.ztkj.framework.response.core.BizResponse;
@@ -43,14 +44,10 @@ public class UserController {
      * 通过mid获取用户信息与账户信息
      */
     @GetMapping("/{mid}")
-    public BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid){
-        return BizResponseUtils.success(userService.selectByMid(mid));
-    }
-
-    @GetMapping("/{id}")
-    @ApiOperation(value = "通过id查询信息")
-    public BizResponse<UserResponse> findById(@PathVariable String id) {
-        return BizResponseUtils.success(userService.selectById(id));
+    public BizResponse<MemberResponse> selectUserByMid(@PathVariable("mid") String mid){
+        QueryMemberRequest request = new QueryMemberRequest();
+        request.setId(mid);
+        return BizResponseUtils.success(userService.selectOne(request));
     }
 
     @GetMapping("/isExist")

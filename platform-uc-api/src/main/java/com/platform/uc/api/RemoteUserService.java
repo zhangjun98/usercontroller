@@ -1,6 +1,7 @@
 package com.platform.uc.api;
 
 import com.platform.uc.api.vo.request.*;
+import com.platform.uc.api.vo.response.MemberResponse;
 import com.platform.uc.api.vo.response.UserResponse;
 import com.ztkj.framework.response.core.BizResponse;
 import io.swagger.annotations.ApiOperation;
@@ -32,7 +33,7 @@ public interface RemoteUserService {
      * 通过用户信息编号查询用户信息
      */
     @GetMapping("/{mid}")
-    BizResponse<UserResponse> selectUserByMid(@PathVariable("mid") String mid);
+    BizResponse<MemberResponse> selectUserByMid(@PathVariable("mid") String mid);
 
     /**
      * 修改用户信息

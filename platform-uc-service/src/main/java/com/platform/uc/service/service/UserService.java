@@ -58,25 +58,18 @@ public class UserService {
 	/**
 	 * 通过用户信息编号查询 账户信息 与 用户信息
 	 */
-	public UserResponse selectByMid(String mid) {
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(mid)) {
-			wrapper.eq("mid", mid);
+	public MemberResponse selectOne(QueryMemberRequest request) {
+		MemberDetail detail = memberMapper.selectOne(request);
+		if (detail == null){
+			throw new BizException(UserErrorCode.USER_NOTFOUND);
 		}
-		User user = userMapper.selectOne(wrapper);
-		Member member = selectByMemberId(mid);
-		return toUserResponse(user, member);
+		return toMemberReponse(detail);
 	}
 
-	public UserResponse selectById(String id) {
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		if (!StringUtils.isEmpty(id)) {
-			wrapper.eq("id", id);
-		}
-		User user = userMapper.selectOne(wrapper);
-		Member member = selectByMemberId(user.getMid());
-		return toUserResponse(user, member);
+	private MemberResponse toMemberReponse(MemberDetail detail){
+		return BeanUtils.toT(detail, MemberResponse.class);
 	}
+
 
 	private Member selectByMemberId(String id) {
 		return memberMapper.selectById(id);
@@ -160,13 +153,6 @@ public class UserService {
 		if(code <= 0){
 			throw new BizException(UserErrorCode.MEMBER_UPDATE_FAIL);
 		}
-	}
-
-
-	List<User> selectByMids(Set<String> mids){
-		QueryWrapper<User> wrapper = new QueryWrapper<>();
-		wrapper.in("mid", mids);
-		return userMapper.selectList(wrapper);
 	}
 
 }

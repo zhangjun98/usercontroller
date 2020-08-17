@@ -27,7 +27,11 @@ public class TreeMenuResponse implements Serializable {
     /**
      * 对应路由path
      */
-    private String url;
+    private String path;
+
+    private Integer type;
+
+    private String remark;
 
     /**
      * 对应路由组件component
