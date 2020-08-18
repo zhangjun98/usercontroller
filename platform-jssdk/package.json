@@ -1,7 +1,10 @@
 {
   "name": "platform-jssdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "lib/jssdk.es.js",
+  "publishConfig": {
+    "registry": "http://58.220.249.165:4873/"
+  },
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint src/**/*.js --fix"
