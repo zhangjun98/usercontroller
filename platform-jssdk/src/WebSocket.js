@@ -1,5 +1,5 @@
 import SockJS from  'sockjs-client';
-import  Stomp from 'stompjs';
+import Stomp from 'stompjs';
 import {config, Scope} from "./config";
 
 const subscribe = Symbol('subscribe');
