@@ -43,17 +43,17 @@ export default class OAuth {
             this.generateToken(params.code, options);
             return;
         }
-        this.generateAuthorize(config.scopes);
+        this.generateAuthorize(config.scopes, options.redirectUri);
     }
 
     /**
      * 跳转授权页面
      */
-    generateAuthorize(scopes) {
+    generateAuthorize(scopes, redirectUri) {
         const tempObj = {
             client_id: config.appId,
             response_type: 'code',
-            'redirect_uri': location.href
+            'redirect_uri': redirectUri || location.href
         };
 
         if (scopes){
@@ -68,7 +68,7 @@ export default class OAuth {
      * 获取token
      */
     generateToken(code, options){
-        const url = location.href;
+        const url =  options.redirectUri || location.href;
         const uri = url.substring(0, (url.lastIndexOf("code") - 1))
         const basic = Base64.encode(config.appId + ":" + config.appSecret);
         const headers = {

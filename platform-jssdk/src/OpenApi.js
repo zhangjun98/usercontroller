@@ -14,12 +14,12 @@ export default class OpenApi {
     }
 
     [Scope.USER_INFO](options){
-        const _headers = this[headers](options)
-        if (_headers) {
+        const authHeaders = this[headers](options)
+        if (authHeaders) {
             this.ajax.axios({
                 url: config.open.userInfoUrl,
                 method: 'GET',
-                headers: _headers
+                headers: authHeaders
             }).then(res=>{
                 options.success(res.data);
             }).catch(err=>{
@@ -29,12 +29,12 @@ export default class OpenApi {
     }
 
     [Scope.MOBILE](options){
-        const _headers = this[headers](options)
-        if (_headers) {
+        const authHeaders = this[headers](options)
+        if (authHeaders) {
             this.ajax.axios({
                 url: config.open.userMobile,
                 method: 'GET',
-                headers: _headers
+                headers: authHeaders
             }).then(res=>{
                 options.success(res.data);
             }).catch(err=>{
