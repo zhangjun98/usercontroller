@@ -72,7 +72,7 @@ public class BizUserDetailsService implements UserDetailsService {
         OAuthUser auth = BeanUtils.toT(user, OAuthUser.class);
         List<OAuthGrantedAuthority> authorities = new ArrayList<>();
         if (!CollectionUtils.isEmpty(user.getRoleIds())){
-            auth.setAuthorities(user
+            authorities.addAll(user
                     .getRoleIds().stream()
                     .map(OAuthGrantedAuthority::new)
                     .collect(Collectors.toList())

@@ -1,5 +1,6 @@
 package com.platform.uc.service.service;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.*;
@@ -49,6 +50,7 @@ public class UserService {
 		QueryMemberRequest request = new QueryMemberRequest();
 		request.setSearchName(searchName);
 		UserDetail userDetail = userMapper.selectOne(request);
+		log.info(JSON.toJSONString(userDetail));
 		UserResponse response = BeanUtils.toT(userDetail, UserResponse.class);
 		// TODO 根据身份证的过期时间设置 证件是否过期
 		// response.setCredentialsExpired();

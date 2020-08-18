@@ -25,7 +25,6 @@ import org.thymeleaf.util.MapUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;

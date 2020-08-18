@@ -1,5 +1,6 @@
 package com.platform.uc.service.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -17,6 +18,15 @@ public class UserDetail extends Member {
      * 账户编号
      */
     private String uid;
+
+    private String username;
+
+    private String email;
+
+    /**
+     * 手机号
+     */
+    private String mobile;
 
     /**
      * 密码
