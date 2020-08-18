@@ -24,7 +24,7 @@ public class UserController {
         OAuthUser user = (OAuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         MemberResponse member = new MemberResponse();
         member.setAvatar("https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3854906927,947371630&fm=26&gp=0.jpg");
-        member.setId(user.getMid());
+        member.setId(user.getId());
         member.setNickname("YH");
         member.setBirthday(new Date());
         member.setSex(0);
