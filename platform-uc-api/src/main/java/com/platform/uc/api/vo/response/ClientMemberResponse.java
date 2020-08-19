@@ -37,6 +37,8 @@ public class ClientMemberResponse implements Serializable {
 
     private String orgId;
 
+    private Integer status;
+
     private Date createDate;
 
     private Date updateDate;

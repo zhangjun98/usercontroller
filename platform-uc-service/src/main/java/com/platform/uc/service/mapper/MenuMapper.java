@@ -37,7 +37,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
                     "LEFT JOIN uc_member_role as mr on mr.role_id = rm.role_id " ,
                     "where 1=1 ",
                     "<if test='params.mid!=null'>",
-                    "and mr.mid=#{params.mid} ",
+                        "and mr.mid=#{params.mid} ",
                     "</if>",
                     "<if test='params.pids!=null'>",
                         "and m.parent_id in ",

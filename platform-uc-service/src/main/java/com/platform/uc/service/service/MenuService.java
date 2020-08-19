@@ -107,15 +107,16 @@ public class MenuService {
      * 根据父节点查询菜单
      */
     public BizPageResponse<MenuResponse> selectMenuByParentId(MenuParentRequest request){
-
-        List<Menu> menus = recursion(request);
+        List<Menu> menus = new ArrayList<>();
         if (!CollectionUtils.isEmpty(request.getPids())){
+            // 查询父节点的菜单
             List<Menu> rootMenus = menuMapper.selectBatchIds(request.getPids());
             if (!CollectionUtils.isEmpty(rootMenus)){
                 menus.addAll(rootMenus);
             }
         }
-
+        // 更具条件查询
+        menus.addAll(recursion(request));
         List<MenuResponse> responses = menus.stream()
                 .map(item->BeanUtils.toT(item, MenuResponse.class))
                 .collect(Collectors.toList());
@@ -130,11 +131,13 @@ public class MenuService {
         if (CollectionUtils.isEmpty(menus)){
             return menus;
         }
-        Set<String> pids = menus.stream()
-                .map(Menu::getId)
-                .collect(Collectors.toSet());
-        request.setPids(pids);
-        menus.addAll(recursion(request));
+        if (!CollectionUtils.isEmpty(request.getPids())) {
+            Set<String> pids = menus.stream()
+                    .map(Menu::getId)
+                    .collect(Collectors.toSet());
+            request.setPids(pids);
+            menus.addAll(recursion(request));
+        }
         return menus;
     }
 
