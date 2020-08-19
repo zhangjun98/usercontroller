@@ -30,6 +30,7 @@ public class RoleController {
 
 	@Resource
 	private MenuService menuService;
+
 	/**
 	 * 查询角色列表
 	 */
@@ -70,7 +71,7 @@ public class RoleController {
 	 */
 	@PostMapping("/remove")
 	public BizResponse<Void> remove(@RequestBody BatchRequest request){
-		roleService.changeStatus(request, 9);
+		roleService.changeStatus(request, -1);
 		return BizResponseUtils.success();
 	}
 

@@ -122,6 +122,9 @@ public class RoleService {
 	 */
 	public List<RoleResponse> selectByMid(String mid){
 		List<Role> roles = roleMapper.selectByMid(mid);
+		if(CollectionUtils.isEmpty(roles)){
+			return new ArrayList<>();
+		}
 		return BeanUtils.toList(roles, RoleResponse.class);
 	}
 
