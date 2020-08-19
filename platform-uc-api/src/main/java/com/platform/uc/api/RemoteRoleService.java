@@ -45,4 +45,11 @@ public interface RemoteRoleService {
 	 */
 	@GetMapping("/menus/{id}")
 	BizResponse<List<RoleMenuResponse>> findModelMenusByRoleId(@PathVariable String id);
+
+	/**
+	 * 查询用户下的角色
+	 */
+	@GetMapping("/user/{mid}")
+	BizPageResponse<RoleResponse> selectRoleByMid(@PathVariable String mid);
+
 }

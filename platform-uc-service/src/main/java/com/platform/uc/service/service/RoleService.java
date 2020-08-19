@@ -118,6 +118,17 @@ public class RoleService {
 	}
 
 	/**
+	 * 根据用户编号查询角色
+	 */
+	public List<RoleResponse> selectByMid(String mid){
+		List<Role> roles = roleMapper.selectByMid(mid);
+		if(CollectionUtils.isEmpty(roles)){
+			return new ArrayList<>();
+		}
+		return BeanUtils.toList(roles, RoleResponse.class);
+	}
+
+	/**
 	 * 查询角色菜单列表
 	 */
 	public List<RoleMenuResponse>findRoleMenusByRoleId(String roleId) {

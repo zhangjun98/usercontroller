@@ -1,5 +1,6 @@
 package com.platform.uc.api.vo.response;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +12,6 @@ import java.util.List;
  */
 @Data
 public class TreeMenuResponse implements Serializable {
-
 
     private static final long serialVersionUID = -7451840060110765736L;
 
@@ -37,6 +37,12 @@ public class TreeMenuResponse implements Serializable {
      * 对应路由组件component
      */
     private String component;
+
+    /**
+     * 权限标识
+     */
+    @ApiModelProperty(value = "权限标识")
+    private String permission;
 
     private String icon;
 

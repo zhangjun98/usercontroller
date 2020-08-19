@@ -49,6 +49,11 @@ public class MenuDetail implements Serializable{
     private String component;
 
     /**
+     * 权限标识
+     */
+    private String permission;
+
+    /**
      * 类型
      * 1: 菜单
      * 2: 按钮
