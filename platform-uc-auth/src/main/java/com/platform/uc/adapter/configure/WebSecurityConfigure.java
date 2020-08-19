@@ -107,7 +107,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
             .and()
                 .logout().permitAll()
                 // /logout退出清除cookie
-                .addLogoutHandler(new CookieClearingLogoutHandler("token", "remember-me"))
+                .addLogoutHandler(new CookieClearingLogoutHandler("lt", "remember-me"))
                 .logoutSuccessHandler(logoutSuccessHandler)
             .and()
                 // 认证鉴权错误处理,为了统一异常处理。每个资源服务器都应该加上。

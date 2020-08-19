@@ -13,6 +13,7 @@ import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
+import com.ztkj.framework.response.utils.SnowflakeIdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -33,6 +34,8 @@ public class MemberRoleService {
 
     @Resource
     private MemberRoleMapper memberRoleMapper;
+
+    private final SnowflakeIdUtils snowflakeIdUtils = new SnowflakeIdUtils(0, 0);
 
     /**
      * 查询角色下的用户
@@ -55,6 +58,7 @@ public class MemberRoleService {
         Date now = new Date();
         List<RoleMember> roleMemberList = roleMembers.stream().map(item->{
             RoleMember roleMember = BeanUtils.toT(item, RoleMember.class);
+            roleMember.setId(String.valueOf(snowflakeIdUtils.nextId()));
             roleMember.setCreateDate(now);
             return roleMember;
         }).collect(Collectors.toList());

@@ -32,9 +32,9 @@ public interface MemberRoleMapper extends BaseMapper<RoleMember> {
 
 	@Insert({
 		"<script>",
-			"insert into uc_member_role(mid, role_id, create_date) values ",
+			"insert into uc_member_role(id, mid, role_id, create_date) values ",
 			"<foreach collection='items' item='item' index='index' separator=','>",
-				"(#{item.mid}, #{item.roleId}, #{item.createDate})",
+				"(#{item.id}, #{item.mid}, #{item.roleId}, #{item.createDate})",
 			"</foreach>",
 		"</script>"
 	})
