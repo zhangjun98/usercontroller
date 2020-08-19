@@ -10,6 +10,7 @@ import com.platform.uc.service.service.MenuService;
 import com.platform.uc.service.service.RoleService;
 import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.core.BizResponse;
+import com.ztkj.framework.response.utils.BizPageResponseUtils;
 import com.ztkj.framework.response.utils.BizResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -96,4 +97,14 @@ public class RoleController {
 		}
 		return BizResponseUtils.success(modelMenuList);
 	}
+
+	/**
+	 * 查询权限所有根菜单
+	 */
+	@GetMapping("/user/{mid}")
+	public BizPageResponse<RoleResponse> selectRoleByMid(@PathVariable String mid) {
+		List<RoleResponse> responses = roleService.selectByMid(mid);
+		return BizPageResponseUtils.success(responses);
+	}
+
 }
