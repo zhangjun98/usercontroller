@@ -128,8 +128,10 @@ public class RoleService {
 	/**
 	 * 查询角色菜单列表
 	 */
-	public List<RoleMenuResponse>findRoleMenusByRoleId(String roleId) {
-		return roleMenuMapper.selectMenusByRole(roleId);
+	public BizPageResponse<RoleMenuResponse>findRoleMenusByRoleId(RoleMenuRequest roleMenuRequest) {
+		Page<Role> page = new Page<>();
+		List<RoleMenuResponse> responses = roleMenuMapper.selectMenusByRole(roleMenuRequest);
+		return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), responses);
 	}
 
 }

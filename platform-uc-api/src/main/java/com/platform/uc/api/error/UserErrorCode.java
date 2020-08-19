@@ -40,7 +40,7 @@ public enum UserErrorCode implements ErrorCode {
     ROLEID_NOTFOUND("300031", "角色不能为空"),
     PERMISSION_NOTFOUND("300032", "所配置的权限不能为空"),
 
-    DELETE_ERROR("201703", "存在子节点，无法删除"),
+    DELETE_ERROR("201703", "删除失败"),
     DELETE_NOD_FAIL_HAS_CHILD("201704", "存在子节点，无法删除"),
     SUCCESS("201705", "操作成功"),
     ;

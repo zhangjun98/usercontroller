@@ -1,9 +1,6 @@
 package com.platform.uc.service.controller;
 
-import com.platform.uc.api.vo.request.BatchRequest;
-import com.platform.uc.api.vo.request.BindMenuRequest;
-import com.platform.uc.api.vo.request.QueryRoleRequest;
-import com.platform.uc.api.vo.request.RoleRequest;
+import com.platform.uc.api.vo.request.*;
 import com.platform.uc.api.vo.response.RoleMenuResponse;
 import com.platform.uc.api.vo.response.RoleResponse;
 import com.platform.uc.service.service.MenuService;
@@ -86,16 +83,9 @@ public class RoleController {
 	/**
 	 * 查询权限所有根菜单
 	 */
-	@GetMapping("/menus/{id}")
-	public BizResponse<List<RoleMenuResponse>> findModelMenusByRoleId(@PathVariable String id) {
-		List<RoleMenuResponse> list= roleService.findRoleMenusByRoleId(id);
-		List<RoleMenuResponse> modelMenuList = new ArrayList<>();
-		for (RoleMenuResponse menuResponse : list) {
-			if (menuResponse.getParentId().equals("0")) {
-				modelMenuList.add(menuResponse);
-			}
-		}
-		return BizResponseUtils.success(modelMenuList);
+	@GetMapping("/menus/root")
+	public BizPageResponse<RoleMenuResponse> findModelMenusByRoleId(@RequestBody RoleMenuRequest roleMenuRequest) {
+		return roleService.findRoleMenusByRoleId(roleMenuRequest);
 	}
 
 	/**

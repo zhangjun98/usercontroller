@@ -1,6 +1,7 @@
 package com.platform.uc.service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.platform.uc.api.vo.request.RoleMenuRequest;
 import com.platform.uc.api.vo.response.RoleMenuResponse;
 import com.platform.uc.service.vo.RoleMenu;
 import org.apache.ibatis.annotations.Insert;
@@ -30,10 +31,13 @@ public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
             "from uc_role_menu as rm \n" +
             "LEFT JOIN uc_menu as u on u.id = rm.menu_id \n" +
             "where 1=1 \n" +
-            "<if test='roleId!=null'>",
-            "AND rm.role_id = #{roleId}",
+            "<if test='params.roleId!=null'>",
+            "AND rm.role_id = #{params.roleId}",
+            "</if>",
+            "<if test='params.parentId!=null'>",
+            "AND rm.parent_id = #{params.parentId}",
             "</if>",
             "</script>"})
-    List<RoleMenuResponse> selectMenusByRole(@Param("roleId")String roleId);
+    List<RoleMenuResponse> selectMenusByRole(@Param("params")RoleMenuRequest roleMenuRequest);
 
 }
