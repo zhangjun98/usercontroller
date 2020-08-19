@@ -5,7 +5,6 @@ import com.platform.uc.service.vo.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public interface RoleMapper extends BaseMapper<Role> {
         "<script>",
             "select r.* from uc_role as r",
             "LEFT JOIN uc_member_role as mr ON r.id = mr.role_id ",
-            "WHERE mr.mid=#{mid}",
+            "WHERE mr.mid=#{mid} and r.status=1",
         "</script>"
     })
     List<Role> selectByMid(@Param("mid") String mid);
