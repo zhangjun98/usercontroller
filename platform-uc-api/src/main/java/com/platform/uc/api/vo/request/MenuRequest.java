@@ -42,6 +42,12 @@ public class MenuRequest implements Serializable{
     private String path;
 
     /**
+     * 权限标识
+     */
+    @ApiModelProperty(value = "权限标识")
+    private String permission;
+
+    /**
      * 对应路由组件component
      */
     @ApiModelProperty(value = "路由地址")

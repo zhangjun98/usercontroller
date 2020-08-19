@@ -60,6 +60,11 @@ public class Menu implements Serializable{
     private Integer type;
 
     /**
+     * 权限标识
+     */
+    private String permission;
+
+    /**
      * 排序
      */
     private Integer sort;

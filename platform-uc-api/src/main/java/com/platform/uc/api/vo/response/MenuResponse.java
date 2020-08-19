@@ -1,5 +1,6 @@
 package com.platform.uc.api.vo.response;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -41,6 +42,12 @@ public class MenuResponse implements Serializable{
      * 对应路由组件component
      */
     private String component;
+
+    /**
+     * 权限标识
+     */
+    @ApiModelProperty(value = "权限标识")
+    private String permission;
 
     /**
      * 排序
