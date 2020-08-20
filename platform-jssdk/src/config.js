@@ -2,67 +2,62 @@
  * 配置参数
  */
 export const config = {
+  /**
+   * appId
+   */
+  appId: "",
 
-    /**
-     * appId
-     */
-    appId: '',
+  /**
+   * appSecret
+   */
+  appSecret: "",
 
-    /**
-     * appSecret
-     */
-    appSecret: '',
+  logoutRedirect: "http://58.220.249.165:21501/sso",
 
-    scopes: [],
+  scopes: [],
 
-    oauth: {
+  oauth: {
+    baseURL: "http://58.220.249.165:21501",
 
-        baseURL: 'http://58.220.249.165:21501',
+    authorizeUrl: "/sso/oauth/authorize",
 
-        authorizeUrl: '/sso/oauth/authorize',
+    accessTokenUrl: "/sso/oauth/token",
 
-        accessTokenUrl: '/sso/oauth/token',
+    logoutUrl: "/sso/logout"
+  },
 
-    },
+  open: {
+    baseURL: "http://58.220.249.165:21500",
 
-    open: {
+    userInfoUrl: "/api/user/info",
 
-        baseURL: 'http://58.220.249.165:21500',
+    userMobile: "/api/user/mobile"
+  },
 
-        userInfoUrl: '/api/user/info',
+  ws: {
+    url: "http://localhost:8080/ws",
 
-        userMobile: '/api/user/mobile'
-    },
+    subscribes: {
+      chat: "/user/topic/chat",
+      notice: "/user/topic/notice"
+    }
+  },
 
-    ws:{
-        url: 'http://localhost:8080/ws',
-
-        subscribes: {
-            chat: '/user/topic/chat',
-            notice: '/user/topic/notice'
-        }
-
-    },
-
-    /**
-     * 授权或的token
-     */
-    token: {}
-
+  /**
+   * 授权或的token
+   */
+  token: {}
 };
-
 
 /**
  * 申请权限范围
  */
 export const Scope = {
+  USER_INFO: "userInfo",
 
-    USER_INFO: 'userInfo',
+  MOBILE: "mobile",
 
-    MOBILE: 'mobile',
+  MESSAGE_NOTICE: "messageNotice",
 
-    MESSAGE_NOTICE: 'messageNotice',
-
-    MESSAGE_CHAT: 'messageChat',
-
+  MESSAGE_CHAT: "messageChat"
 };
