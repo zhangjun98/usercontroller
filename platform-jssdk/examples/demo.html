@@ -72,6 +72,7 @@
                     <div class="ui-btn-group">
                         <input class="ui-btn ui-btn" name='authorize' value='获取用户信息' onclick="userInfo()"/>
                         <input class="ui-btn ui-btn" name='message' value='获取用户手机号' onclick="mobile()"/>
+                        <input class="ui-btn ui-btn" name='message' value='登出' onclick="logout()"/>
                     </div>
                 </div>
             </section>
@@ -120,6 +121,17 @@
 
     function mobile(){
         jsSdk.call(JsSdk.scope.MOBILE, {
+            success:function (data) {
+                console.log(data)
+            },
+            error:function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+    function logout(){
+        jsSdk.oauth.lotout({
             success:function (data) {
                 console.log(data)
             },

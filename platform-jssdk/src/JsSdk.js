@@ -30,9 +30,9 @@ export default class JsSdk {
      * 消息
      */
     if (scope === Scope.MESSAGE_NOTICE || scope === Scope.MESSAGE_CHAT) {
-      if (!this.ws) this.ws = new WebSocket(options);
-      this.ws[scope](scope, options);
-      return;
+      // if (!this.ws) this.ws = new WebSocket(options);
+      // this.ws[scope](scope, options);
+      // return;
     }
 
     options.error({ code: "900002", message: "此功能正在开发中，敬请期待" });
