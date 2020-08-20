@@ -49,7 +49,6 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
 
     /**
      * 客户端配置  clientid clientSercrt
-     * @throws Exception
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {

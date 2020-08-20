@@ -2,6 +2,7 @@ package com.platform.uc.service.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.Date;
  * 平台用户
  */
 @Data
+@TableName("uc_member_client")
 public class MemberClient implements Serializable {
 
     private static final long serialVersionUID = -8159631955300767911L;
