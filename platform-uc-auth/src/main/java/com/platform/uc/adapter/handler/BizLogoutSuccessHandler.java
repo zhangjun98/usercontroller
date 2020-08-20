@@ -1,11 +1,17 @@
 package com.platform.uc.adapter.handler;
 
+import com.platform.uc.adapter.vo.LogoutResponse;
+import com.ztkj.framework.response.utils.BizResponseUtils;
+import com.ztkj.framework.response.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -19,19 +25,15 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-public class BizLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+public class BizLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Resource
     private TokenStore tokenStore;
 
+    @Value("${zt.default.logout.redirect.url:}")
+    private String redirectUrl;
 
     private final BearerTokenExtractor tokenExtractor = new BearerTokenExtractor();
-
-
-    public BizLogoutSuccessHandler() {
-        // 重定向到原地址
-        this.setUseReferer(true);
-    }
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -47,6 +49,18 @@ public class BizLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         }catch (Exception e){
             log.error("revokeToken error: ",e);
         }
-        super.onLogoutSuccess(request, response, authentication);
+
+        // 返回登录信息
+        LogoutResponse logoutResponse = new LogoutResponse(determineTargetUrl(request));
+        ResponseUtils.makeSuccessResponse(response, BizResponseUtils.success(logoutResponse));
     }
+
+    protected String determineTargetUrl(HttpServletRequest request) {
+        if (!StringUtils.isEmpty(redirectUrl)) {
+            return redirectUrl;
+        }
+
+        return request.getHeader("Referer");
+    }
+
 }
