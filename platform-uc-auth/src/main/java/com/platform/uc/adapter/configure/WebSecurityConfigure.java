@@ -33,22 +33,32 @@ import javax.annotation.Resource;
 @Configuration
 @EnableConfigurationProperties(value = {BizSecurityProperties.class})
 public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
-
+    /**
+     * 登出成功拦截器
+     */
     @Resource
     private BizLogoutSuccessHandler logoutSuccessHandler;
-
+    /**
+     * 授权处理
+     */
     @Resource
     private BizAuthenticationHandler authenticationHandler;
-
+    /**
+     * 自定义配置文件
+     */
     @Resource
     private BizSecurityProperties ignoreProperties;
 
     @Resource
     private SecurityAuthenticationProvider authenticationProvider;
-
+    /**
+     * 请求缓存
+     */
     @Resource
     private BizRequestCache requestCache;
-
+    /**
+     * 用户信息缓存
+     */
     @Resource
     private BizUserCache userCache;
 
@@ -57,9 +67,9 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    public static void main(String[] args) {
+  /*  public static void main(String[] args) {
         System.out.println(new BCryptPasswordEncoder().encode("123456"));
-    }
+    }*/
 
     @Bean
     @Override
@@ -72,6 +82,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         if (!CollectionUtils.isEmpty(ignoreProperties.getAnonUris())) {
             ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                     .authorizeRequests();
+            //配置允许访问的路径
             ignoreProperties.getAnonUris()
                     .forEach(url -> registry.antMatchers(url).permitAll());
         }
