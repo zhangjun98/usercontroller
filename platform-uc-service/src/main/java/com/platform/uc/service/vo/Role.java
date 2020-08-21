@@ -33,7 +33,7 @@ public class Role implements Serializable {
 	@TableField(value = "org_id")
 	private String orgId;
 
-	private int status;
+	private Integer status;
 
 	@TableField(value = "create_date")
 	private Date createDate;

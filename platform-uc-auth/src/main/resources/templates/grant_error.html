@@ -53,14 +53,16 @@
         <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
             <section class="ui-notice">
                 <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
-                    <div>
-                        <span class="ui-avatar-lg">
-                            <span style="background-image:url(http://placeholder.qiniudn.com/140x140)"></span>
-                        </span>
-                    </div>
-                    <div class="ui-title">
-                        <h4>广陵智慧水利 客户端</span></h4>
-                        <span>此第三方应用请求获取权限</span>
+                    <div class="ui-flex ui-flex-pack-start ui-flex-pack-center">
+                        <div>
+                             <span class="ui-avatar-lg">
+                                <span th:style="${'background-image:url(' + client.avatar + ')'}"></span>
+                            </span>
+                        </div>
+                        <div class="ui-title">
+                            <h4 th:utext="${client.name + ' 客户端'}"></span></h4>
+                            <span>此第三方应用请求获取权限</span>
+                        </div>
                     </div>
                 </div>
                 <div class="ui-flex  ui-flex-align-center ui-flex-pack-center">

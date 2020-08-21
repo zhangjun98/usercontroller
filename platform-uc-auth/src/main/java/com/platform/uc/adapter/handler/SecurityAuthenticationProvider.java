@@ -59,6 +59,12 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
     }
 
+//    public static void main(String[] args) {
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String password = passwordEncoder.encode("daab58ff78086669e8be1f400217c41e");
+//        System.out.println(password);
+//    }
+
     @Override
     public boolean supports(Class<?> authentication) {
         log.info("{}", authentication);
