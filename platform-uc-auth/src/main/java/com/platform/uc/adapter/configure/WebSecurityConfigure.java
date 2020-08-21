@@ -39,7 +39,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Resource
     private BizLogoutSuccessHandler logoutSuccessHandler;
     /**
-     * 授权处理
+     * 身份认证处理器 ，主要用于 认证 之后，成功失败与否的处理
      */
     @Resource
     private BizAuthenticationHandler authenticationHandler;
@@ -48,7 +48,9 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
      */
     @Resource
     private BizSecurityProperties ignoreProperties;
-
+    /**
+     * AuthenticationProvider   认证方式提供者
+     */
     @Resource
     private SecurityAuthenticationProvider authenticationProvider;
     /**

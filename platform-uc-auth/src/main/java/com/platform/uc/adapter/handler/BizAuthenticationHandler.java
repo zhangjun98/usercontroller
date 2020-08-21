@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * 授权处理
+ * 授权处理 （对授权结果 的处理 ，成功该如何，失败该如何）
  * @author hao.yan
  */
 @Slf4j

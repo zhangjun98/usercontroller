@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 授权
+ * 授权方式的提供方
  * @author hao.yan
  */
 @Slf4j

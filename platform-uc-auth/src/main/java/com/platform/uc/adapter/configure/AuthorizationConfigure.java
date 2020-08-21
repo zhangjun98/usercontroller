@@ -61,7 +61,7 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore)
+                endpoints.tokenStore(tokenStore)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 // 认证管理器
                 .authenticationManager(authenticationManager)
@@ -78,6 +78,10 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
         endpoints.pathMapping("/oauth/confirm_access", "/oauth/confirm/access");
     }
 
+    /**
+     * 在使用  TokenServices 时优先使用我们自定义的  DefaultTokenServices  而不使用 springBoot默认的RemoteTokenServices
+     * @return
+     */
     @Primary
     @Bean
     public DefaultTokenServices createDefaultTokenServices() {
@@ -111,6 +115,9 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
         security.authenticationEntryPoint(customOAuth2AuthenticationEntryPoint);
     }
 
+    /**
+     *AccessTokenConverter  用于将身份验证数据存储在token上 与 从token中剥离 身份验证数据的 转换器
+     */
     @Bean
     public FrameworkAccessTokenConverter accessTokenConverter() {
         return new FrameworkAccessTokenConverter();
