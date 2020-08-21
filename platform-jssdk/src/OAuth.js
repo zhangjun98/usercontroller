@@ -176,7 +176,7 @@ export default class OAuth {
       options.error({ code: "200106", message: "授权失败" });
       return;
     }
-    config.token = res.data;
+    Object.assign(config.token, res.data);
     Cookies.set("ztt", res.data.accessToken, {
       expires: res.data.accessExpire / 3600 / 24,
       path: ""
