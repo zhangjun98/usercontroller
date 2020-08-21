@@ -38,6 +38,7 @@ public class RoleService {
 
 	public void insert(RoleRequest request){
 		Role role = BeanUtils.toT(request, Role.class);
+		role.setStatus(1);
 		role.setCreateDate(new Date());
 		role.setCreatorId(request.getOperator());
 		int count = roleMapper.insert(role);

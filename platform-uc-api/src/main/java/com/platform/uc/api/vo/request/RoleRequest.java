@@ -21,8 +21,6 @@ public class RoleRequest implements Serializable {
 
 	private String orgId;
 
-	private int status;
-
 	private String operator;
 
 

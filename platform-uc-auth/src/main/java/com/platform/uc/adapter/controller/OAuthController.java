@@ -161,42 +161,13 @@ public class OAuthController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-//        AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
-//        String clientId = authorizationRequest.getClientId();
-//        // 获取客户端信息
-//        BizResponse<ClientResponse> clientResponse =  remoteClientService.selectClientById(clientId);
-//        if (!clientResponse.getCode().equals(CommonErrorCode.SUCCESS_CODE) || (clientResponse.getData() == null)){
-//            model.put("userOauthApproval", false);
-//            return "grant";
-//        }
-//        model.put("client", clientResponse.getData().getAdditionalInformation());
-//
-//        Map<String, String> scopes = (Map<String, String>) (model.containsKey("scopes") ?
-//                model.get("scopes") : request.getAttribute("scopes"));
-//        if (MapUtils.isEmpty(scopes)){
-//            model.put("userOauthApproval", false);
-//            return "grant";
-//        }
-//
-//        Map<String, String> searchScopes = scopes.entrySet()
-//                .stream()
-//                .collect(Collectors.toMap(item->item.getKey().substring(item.getKey().indexOf(".") + 1), Map.Entry::getValue));
-//        BizPageResponse<ScopeResponse> pageResponse = remtoeScopeService.searchByScopeNames(searchScopes.keySet());
-//        if (!pageResponse.getCode().equals(CommonErrorCode.SUCCESS_CODE)){
-//            model.put("userOauthApproval", false);
-//            return "grant";
-//        }
-//        Collection<ScopeResponse> _scopes = pageResponse.getDatas();
-//        if (CollectionUtils.isEmpty(_scopes)){
-//            model.put("userOauthApproval", false);
-//            return "grant_error";
-//        }
-//        List<Scope> scopeList = _scopes.stream().map(item->{
-//            Boolean checked = Boolean.parseBoolean(searchScopes.get(item.getName()));
-//            return this.toScope(item, checked);
-//        }).collect(toList());
-//        model.put("userOauthApproval", true);
-//        model.put("userScopes", scopeList);
+        String clientId = request.getParameter("client_id");
+        // 获取客户端信息
+        BizResponse<ClientResponse> clientResponse =  remoteClientService.selectClientById(clientId);
+        if (!clientResponse.getCode().equals(CommonErrorCode.SUCCESS_CODE) || (clientResponse.getData() == null)){
+            return "grant_error";
+        }
+        model.put("client", clientResponse.getData().getAdditionalInformation());
         return "grant_error";
     }
 
