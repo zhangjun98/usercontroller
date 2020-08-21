@@ -7,7 +7,7 @@
 #### 第一步请求授权码
 
 ```
-http://**.**.**/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}/&scope={scope}
+http://localhost:4000/sso/oauth/authorize?response_type=code&client_id=098f6bcd4621d373cade4e832627b4f6&redirect_uri=http://localhost:8080/oauth/zt/code&scope=userInfo
 ```
 ##### 提交方式
 [GET]
