@@ -62,14 +62,14 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Resource
     private BizUserCache userCache;
 
+    /**
+     * 密码编码器
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-  /*  public static void main(String[] args) {
-        System.out.println(new BCryptPasswordEncoder().encode("123456"));
-    }*/
 
     @Bean
     @Override
@@ -77,6 +77,11 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * 安全拦截机制
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         if (!CollectionUtils.isEmpty(ignoreProperties.getAnonUris())) {
@@ -113,6 +118,7 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/").loginProcessingUrl("/login")
                 .failureUrl("/?code=")
+                //登录成功与否之后进行权限处理
                 .successHandler(authenticationHandler)
                 .failureHandler(authenticationHandler)
             .and()

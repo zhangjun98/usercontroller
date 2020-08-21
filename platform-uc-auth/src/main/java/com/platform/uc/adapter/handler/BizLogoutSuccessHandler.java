@@ -32,7 +32,9 @@ public class BizLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Value("${zt.default.logout.redirect.url:}")
     private String redirectUrl;
-
+    /**
+     * 分离出请求中包含的token的一个分离器
+     */
     private final BearerTokenExtractor tokenExtractor = new BearerTokenExtractor();
 
     @Override

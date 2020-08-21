@@ -44,7 +44,7 @@ public class BizUserDetailsService implements UserDetailsService {
      * 验证用户密码登录
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BoundValueOperations<String, UserResponse> boundValueOps = redisTemplate.boundValueOps(USER_KEY + username);
         Boolean hasKey = redisTemplate.hasKey(USER_KEY + username);
         if (hasKey == null || !hasKey){

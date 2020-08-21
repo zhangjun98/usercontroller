@@ -28,10 +28,14 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
     @Value("${zt.sso.private-key:}")
     private String privateKey;
-
+    /**
+     * 用户信息服务
+     */
     @Resource
     private BizUserDetailsService userDetailsService;
-
+    /**
+     * 密码编码器
+     */
     @Resource
     private PasswordEncoder passwordEncoder;
 

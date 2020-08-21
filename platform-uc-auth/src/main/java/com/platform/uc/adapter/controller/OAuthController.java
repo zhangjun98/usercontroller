@@ -40,7 +40,9 @@ import static java.util.stream.Collectors.toList;
 @SessionAttributes("authorizationRequest")
 @RequestMapping("/oauth")
 public class OAuthController {
-
+    /**
+     * 调用 spring的认证方式
+     */
     @Resource
     private TokenEndpoint tokenEndpoint;
 
