@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 /**
  * 配置参数
  */
@@ -46,7 +48,16 @@ export const config = {
   /**
    * 授权或的token
    */
-  token: {}
+  token: {
+    get accessToken() {
+      return Cookies.get("ztt");
+    },
+    set accessToken(val) {},
+    get refreshToken() {
+      return Cookies.get("ztr");
+    },
+    set refreshToken(val) {}
+  }
 };
 
 /**
