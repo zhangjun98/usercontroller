@@ -18,4 +18,6 @@ public class QueryRoleUserRequest extends Page {
 
     private String roleId;
 
+    private String clientId;
+
 }

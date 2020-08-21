@@ -18,11 +18,14 @@ import java.util.List;
 public interface MemberRoleMapper extends BaseMapper<RoleMember> {
 
 	@Select({"<script>" +
-			"select m.*, u.id as uid, u.username as username, u.email as email, u.mobile as mobile, mr.create_date as create_date, mr.update_date as update_date \n" +
-			"from uc_members as m \n" +
-			"LEFT JOIN uc_users as u on u.mid = m.id \n" +
-			"LEFT JOIN uc_member_role as mr on mr.mid = m.id \n" +
-			"where 1=1 \n" +
+			"select m.*, u.id as uid, u.username as username, u.email as email, u.mobile as mobile, mr.create_date as create_date, mr.update_date as update_date from uc_member_client as mc ",
+			"LEFT JOIN uc_members as m on m.id = mc.mid ",
+			"LEFT JOIN uc_member_role as mr on mr.mid = m.id ",
+			"LEFT JOIN uc_users as u on u.mid = m.id ",
+			"where 1=1 ",
+			"<if test='params.roleId!=null'>",
+				"AND mc.client_id = #{params.clientId}",
+			"</if>",
 			"<if test='params.roleId!=null'>",
 				"AND mr.role_id = #{params.roleId}",
 			"</if>",
