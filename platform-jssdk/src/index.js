@@ -10,10 +10,10 @@ export default {
     config.appId = options.appId;
     config.appSecret = options.appSecret;
     config.logoutRedirect = options.logoutRedirect || config.logoutRedirect;
-    config.token = {
+    Object.assign(config.token, {
       accessToken: Cookies.get("ztt"),
       refreshToken: Cookies.get("ztr")
-    };
+    });
     config.scopes = options.scopes;
     return new JsSdk();
   },
