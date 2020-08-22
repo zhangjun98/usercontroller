@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 
+import com.platform.uc.api.vo.response.ClientMemberResponse;
 import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.service.vo.RoleMember;
 import org.apache.ibatis.annotations.*;
@@ -30,7 +31,7 @@ public interface MemberRoleMapper extends BaseMapper<RoleMember> {
 				"AND mr.role_id = #{params.roleId}",
 			"</if>",
 	"</script>"})
-	List<MemberRoleResponse> selectUsersByRole(Page<MemberRoleResponse> page, @Param("params") QueryRoleUserRequest params);
+	List<ClientMemberResponse> selectUsersByRole(Page<MemberRoleResponse> page, @Param("params") QueryRoleUserRequest params);
 
 
 	@Insert({

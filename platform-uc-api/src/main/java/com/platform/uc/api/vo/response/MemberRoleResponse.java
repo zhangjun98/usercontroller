@@ -12,6 +12,8 @@ import java.util.Date;
 @Data
 public class MemberRoleResponse implements Serializable {
 
+    private static final long serialVersionUID = 1421639444550882452L;
+
     /**
      * 关系ID
      */
@@ -33,7 +35,7 @@ public class MemberRoleResponse implements Serializable {
     private Date updateDate;
 
 
-    private String userName;
+    private String username;
 
     private Date createTime;
 
