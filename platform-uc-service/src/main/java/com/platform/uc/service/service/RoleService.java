@@ -16,19 +16,20 @@ import com.ztkj.framework.response.core.BizPageResponse;
 import com.ztkj.framework.response.exception.BizException;
 import com.ztkj.framework.response.utils.BeanUtils;
 import com.ztkj.framework.response.utils.BizPageResponseUtils;
+import com.ztkj.framework.response.utils.SnowflakeIdUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.bouncycastle.math.ec.custom.sec.SecT113Field;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class RoleService {
+
+	private final SnowflakeIdUtils snowflakeIdUtils = new SnowflakeIdUtils(0, 0);
 
 	@Resource
 	private RoleMapper roleMapper;
@@ -112,10 +113,22 @@ public class RoleService {
 		if (CollectionUtils.isEmpty(requests)){
 			throw new BizException(UserErrorCode.ROLE_MENU_BIND_FAIL);
 		}
+
+		Set<String> roleIds = requests.stream().map(BindMenuRequest::getRoleId).collect(Collectors.toSet());
+		UpdateWrapper<RoleMenu> updateWrapper = new UpdateWrapper<>();
+		updateWrapper.in("role_id", roleIds);
+		roleMenuMapper.delete(updateWrapper);
+
 		List<RoleMenu> roleMenus = requests.stream()
-				.map(item->BeanUtils.toT(item, RoleMenu.class))
+				.map(this::toRoleMenu)
 				.collect(Collectors.toList());
 		roleMenuMapper.insertBatch(roleMenus);
+	}
+
+	private RoleMenu toRoleMenu(BindMenuRequest request){
+		RoleMenu roleMenu = BeanUtils.toT(request, RoleMenu.class);
+		roleMenu.setId(snowflakeIdUtils.nextId());
+		return roleMenu;
 	}
 
 	/**

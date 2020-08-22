@@ -8,6 +8,7 @@
 
 ```
 http://localhost:4000/sso/oauth/authorize?response_type=code&client_id=098f6bcd4621d373cade4e832627b4f6&redirect_uri=http://localhost:8080/oauth/zt/code&scope=userInfo
+http://58.220.249.165:21501/sso/oauth/authorize?response_type=code&client_id=5d4fcf929019b6d49c71a31a90694a67&redirect_uri=http://localhost:8083/zt/code&scope=userInfo
 ```
 ##### 提交方式
 [GET]
