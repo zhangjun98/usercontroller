@@ -130,7 +130,7 @@ public class UserService {
 		User user = new User();
 		user.setEnabled(isEnable);
 		UpdateWrapper<User> wrapper = new UpdateWrapper<>();
-		wrapper.in("id", ids);
+		wrapper.in("mid", ids);
 		userMapper.update(user, wrapper);
 	}
 

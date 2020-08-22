@@ -6,6 +6,7 @@ import com.platform.uc.api.error.UserErrorCode;
 import com.platform.uc.api.vo.request.BatchRequest;
 import com.platform.uc.api.vo.request.QueryRoleUserRequest;
 import com.platform.uc.api.vo.request.RoleMemberRequest;
+import com.platform.uc.api.vo.response.ClientMemberResponse;
 import com.platform.uc.api.vo.response.MemberRoleResponse;
 import com.platform.uc.service.mapper.MemberRoleMapper;
 import com.platform.uc.service.vo.RoleMember;
@@ -40,11 +41,11 @@ public class MemberRoleService {
     /**
      * 查询角色下的用户
      */
-    public BizPageResponse<MemberRoleResponse> selectUsersByConditions(QueryRoleUserRequest request){
+    public BizPageResponse<ClientMemberResponse> selectUsersByConditions(QueryRoleUserRequest request){
         Page<MemberRoleResponse> page = new Page<>();
         page.setCurrent(request.getPageNo());
         page.setSize(request.getPageSize());
-        List<MemberRoleResponse> members = memberRoleMapper.selectUsersByRole(page, request);
+        List<ClientMemberResponse> members = memberRoleMapper.selectUsersByRole(page, request);
         return BizPageResponseUtils.success((int)page.getSize(), (int)page.getCurrent(), page.getTotal(), members);
     }
 
