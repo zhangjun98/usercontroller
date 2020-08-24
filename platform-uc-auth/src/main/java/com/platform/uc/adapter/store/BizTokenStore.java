@@ -29,9 +29,11 @@ public class BizTokenStore implements TokenStore {
 
     private static final String ACCESS_TOKEN = "uwo:oauth:access:token:";
 
+    private static final String AUTHENTICATION_ACCESS_TOKEN = "uwo:oauth:access:token:authentication:";
+
     private static final String REFRESH_TOKEN = "uwo:oauth:refresh:token:";
 
-    private static final String AUTHENTICATION_TOKEN = "uwo:oauth:authentication:";
+    private static final String AUTHENTICATION_REFRESH_TOKEN = "uwo:oauth:refresh:token:authentication:";
 
     private static final String CLIENT_TOKEN = "uwo:oauth:client:";
 
@@ -62,7 +64,7 @@ public class BizTokenStore implements TokenStore {
         if (authKey == null){
             return null;
         }
-        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_TOKEN + authKey);
+        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_ACCESS_TOKEN + authKey);
         return (OAuth2Authentication) hashOperations1.get("authentication");
     }
 
@@ -85,7 +87,7 @@ public class BizTokenStore implements TokenStore {
         String authKey = authenticationKeyGenerator.extractKey(authentication);
         hashOperations.put("authentication", authKey);
 
-        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_TOKEN + authKey);
+        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_ACCESS_TOKEN + authKey);
         hashOperations1.put("accessToken", accessToken.getValue());
         hashOperations1.put("authentication", authentication);
 
@@ -106,7 +108,7 @@ public class BizTokenStore implements TokenStore {
         if (accessToken.getExpiration() != null) {
             int seconds = accessToken.getExpiresIn();
             redisTemplate.expire(token, seconds, TimeUnit.SECONDS) ;
-            redisTemplate.expire(AUTHENTICATION_TOKEN + authKey, seconds, TimeUnit.SECONDS);
+            redisTemplate.expire(AUTHENTICATION_ACCESS_TOKEN + authKey, seconds, TimeUnit.SECONDS);
             redisTemplate.expire(CLIENT_TOKEN + clientId, seconds, TimeUnit.SECONDS);
         }
     }
@@ -170,7 +172,7 @@ public class BizTokenStore implements TokenStore {
             Date expiration = ((DefaultExpiringOAuth2RefreshToken) refreshToken).getExpiration();
             long expire = (expiration.getTime() - System.currentTimeMillis())/1000;
             hashOperations.expire(expire, TimeUnit.SECONDS);
-            this.redisTemplate.expire(AUTHENTICATION_TOKEN + authKey, expire, TimeUnit.SECONDS);
+            this.redisTemplate.expire(AUTHENTICATION_REFRESH_TOKEN + authKey, expire, TimeUnit.SECONDS);
         }
     }
 
@@ -192,7 +194,7 @@ public class BizTokenStore implements TokenStore {
         if (authKey == null){
             return null;
         }
-        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_TOKEN + authKey);
+        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_REFRESH_TOKEN + authKey);
         return (OAuth2Authentication) hashOperations1.get("authentication");
     }
 
@@ -216,7 +218,7 @@ public class BizTokenStore implements TokenStore {
         if (authKey == null){
             return;
         }
-        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_TOKEN + authKey);
+        BoundHashOperations<String, String, Object> hashOperations1 = this.redisTemplate.boundHashOps(AUTHENTICATION_REFRESH_TOKEN + authKey);
         String accessToken = (String) hashOperations1.get("accessToken");
         this.redisTemplate.delete(ACCESS_TOKEN + accessToken);
     }
@@ -229,7 +231,7 @@ public class BizTokenStore implements TokenStore {
     @Override
     public OAuth2AccessToken getAccessToken(OAuth2Authentication authentication) {
         String authKey = authenticationKeyGenerator.extractKey(authentication);
-        BoundHashOperations<String, String, Object> hashOperations = this.redisTemplate.boundHashOps(AUTHENTICATION_TOKEN + authKey);
+        BoundHashOperations<String, String, Object> hashOperations = this.redisTemplate.boundHashOps(AUTHENTICATION_ACCESS_TOKEN + authKey);
         Boolean hasKey = hashOperations.hasKey("accessToken");
         if (hasKey == null || !hasKey){
             return null;
