@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import static java.util.stream.Collectors.toSet;
 
 /**
- * client service
+ * 第三方应用服务 这里的代码和 BizUserDetailsService 很像，但是一个是自己用户的认证，一个是第三方用户认证
  * @author hao.yan
  */
 @Slf4j
@@ -105,7 +105,7 @@ public class BizClientDetailsService implements ClientDetailsService {
     }
 
     /**
-     * 保存client信息
+     * 保存client信息  保存 客户端暂时还没有进行实现
      */
     public void saveClientDetails(){
         ClientRequest client = new ClientRequest();

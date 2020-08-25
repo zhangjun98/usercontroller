@@ -47,6 +47,7 @@ public class BizUserDetailsService implements UserDetailsService {
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BoundValueOperations<String, UserResponse> boundValueOps = redisTemplate.boundValueOps(USER_KEY + username);
         Boolean hasKey = redisTemplate.hasKey(USER_KEY + username);
+        //如果缓存中没有 KEY 就 通过服务间调用去 数据库中查询  这里只通过用户名来进行验证，
         if (hasKey == null || !hasKey){
             // 把user添加缓存
             BizResponse<UserResponse> response = remoteUserService.selectUserByLogin(username);

@@ -74,8 +74,9 @@ public class AuthorizationConfigure extends AuthorizationServerConfigurerAdapter
                 .redirectResolver(new BizRedirectResolver());
         // 自定义异常转换类
         endpoints.exceptionTranslator(new CustomWebResponseExceptionTranslator());
-        // 重定义确认授权地址
+        // 重定义确认授权地址（/oauth/confirm_access 是spring的，路径位于“OAuth2ApprovalController”，/oauth/confirm/access 路径位于com.platform.uc.adapter.controller）
         endpoints.pathMapping("/oauth/confirm_access", "/oauth/confirm/access");
+
     }
 
     /**

@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Set;
 
 /**
- * 安全配置
+ * 安全配置  在 配置文件里面
  * @author hao.yan
  */
 @Data

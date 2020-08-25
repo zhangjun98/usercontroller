@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 授权方式的提供方
+ * 用户认证的 提供器 ，提供了用户认证的方式
  * @author hao.yan
  */
 @Slf4j
@@ -42,7 +42,9 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
+        //通过 数据库或者redis 查询到用户名与密码 与 用户的一些信息
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        //这一步其实可以不用要 ，因为找不到 userdetails的话 ，方法里面就抛了异常了，不会走到这里的
         if (null == userDetails){
             throw new UsernameNotFoundException("用户名不存在");
         }

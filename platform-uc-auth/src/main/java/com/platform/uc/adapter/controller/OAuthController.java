@@ -94,7 +94,7 @@ public class OAuthController {
 
     /**
      * 确认授权页
-     * 只有authorization_code授权才有
+     * 只有authorization_code授权才有（授权码模式）
      */
     @RequestMapping("/confirm/access")
     public String confirm_access(
@@ -104,7 +104,7 @@ public class OAuthController {
     ) {
         AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.get("authorizationRequest");
         String clientId = authorizationRequest.getClientId();
-        // 获取客户端信息
+        // 获取客户端信息  这个客户端信息 存在数据库中 在另一个服务 每次授权都会 记录下来的
         BizResponse<ClientResponse> clientResponse =  remoteClientService.selectClientById(clientId);
         if (!clientResponse.getCode().equals(CommonErrorCode.SUCCESS_CODE) || (clientResponse.getData() == null)){
             model.put("userOauthApproval", false);
