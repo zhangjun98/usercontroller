@@ -1,6 +1,6 @@
 {
   "name": "platform-jssdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "lib/jssdk.es.js",
   "publishConfig": {
     "registry": "http://58.220.249.165:4873/"

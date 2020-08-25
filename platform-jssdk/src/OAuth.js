@@ -179,11 +179,11 @@ export default class OAuth {
     Object.assign(config.token, res.data);
     Cookies.set("ztt", res.data.accessToken, {
       expires: res.data.accessExpire / 3600 / 24,
-      path: ""
+      path: "/"
     });
     Cookies.set("ztr", res.data.refreshToken, {
       expires: res.data.refreshExpire / 3600 / 24,
-      path: ""
+      path: "/"
     });
     options.success(config.token);
   }

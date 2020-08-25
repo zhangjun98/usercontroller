@@ -18,9 +18,9 @@ public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 
     @Insert({
             "<script>",
-            "insert into uc_role_menu(role_id, menu_id) values ",
+            "insert into uc_role_menu(id, role_id, menu_id) values ",
             "<foreach collection='items' item='item' index='index' separator=','>",
-                "(#{item.roleId}, #{item.menuId})",
+                "(#{item.id}, #{item.roleId}, #{item.menuId})",
             "</foreach>",
             "</script>"
     })
